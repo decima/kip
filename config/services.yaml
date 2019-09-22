@@ -5,6 +5,10 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
   storage: "%env(FILE_STORAGE)%"
+  elasticsearch:
+    url: "%env(ELASTICSEARCH_URL)%"
+    index: "%env(ELASTICSEARCH_INDEX)%"
+    enabled: "%env(bool:ELASTICSEARCH_INDEX)%"
 
 services:
   # default configuration for services in *this* file
@@ -27,5 +31,8 @@ services:
   App\Services\StorageManager:
     arguments:
       $storagePath: "%storage%"
+  App\Services\Elasticsearch:
+    arguments:
+      $elasticConfig: "%elasticsearch%"
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones

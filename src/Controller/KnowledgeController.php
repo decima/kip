@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\PageLink;
+use App\Entity\Page;
 use App\Services\ParseDownImproved;
 use App\Services\StorageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

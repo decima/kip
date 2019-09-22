@@ -14,7 +14,8 @@ body {
 
 .sidebar {
     position: fixed;
-    top: 0;
+    top: -60px;
+
     bottom: 0;
     left: 0;
     z-index: 100; /* Behind the navbar */
@@ -25,8 +26,8 @@ body {
 .sidebar-sticky {
     position: relative;
     top: 0;
-    height: calc(100vh - 60px);
-    padding-top: 0px;
+    height: calc(100vh - 48px);
+    padding-top: 60px;
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }

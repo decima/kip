@@ -1,7 +1,7 @@
 {% macro menuItem(nav,par,dept) %}
     {% import _self as macros %}
 
-    <a href="{{ path("knowledge_read",{"path":nav.path}) }}">
+    <a style="display: inline-block;" href="{{ path("knowledge_read",{"path":nav.path}) }}">
         {% if nav.hasReadme %}
             <i class="fas fa-folder"></i>
 
@@ -26,7 +26,14 @@
 {% endmacro %}
 {% import _self as macros %}
 
-{% set dept=0 %}
-{% set at=0 %}
-{{ macros.menuItem(nav,at,dept) }}
+<ul class="flex-column nav">
+
+    {% for item in nav.subLinks %}
+        {% set dept=0 %}
+        {% set at=loop.index0 %}
+        <li>
+            {{ macros.menuItem(item,at,dept) }}
+        </li>
+    {% endfor %}
+</ul>
 

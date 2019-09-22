@@ -4,7 +4,7 @@
 namespace App\Services;
 
 
-use App\Entity\PageLink;
+use App\Entity\Page;
 
 class StorageManager
 {
@@ -20,7 +20,7 @@ class StorageManager
         $this->makeDir();
     }
 
-    public function listAllFiles($path = "", PageLink &$parent)
+    public function listAllFiles($path = "", Page &$parent)
     {
         $fullPath         = $this->storagePath . $path;
         $files            = scandir($fullPath);
@@ -29,11 +29,9 @@ class StorageManager
         foreach ($files as $key => $value) {
             $fullFolderPath = realpath($fullPath . DIRECTORY_SEPARATOR . $value);
             $newPath        = str_replace($this->storagePath, "", $fullFolderPath);
-            $item           = new PageLink();
+            $item           = new Page();
             $item->path     = $newPath;
             $item->name     = $value;
-
-
             if (!is_dir($fullFolderPath)) {
                 if ($this->pathIsMd($newPath)) {
 
@@ -49,12 +47,19 @@ class StorageManager
                 $this->listAllFiles($newPath, $item);
                 $parent->subLinks[] = $item;
 
+            }
+        }
+        usort($parent->subLinks, function (Page $page, Page $page2) {
+            if ($page->isFolder && !$page2->isFolder) {
+                return true;
+            } elseif ($page2->isFolder && !$page->isFolder) {
+                return false;
+
             } else {
-                continue;
+                return $page->name > $page2->name;
             }
 
-
-        }
+        });
 
 
         return $parent;
