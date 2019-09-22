@@ -10,37 +10,15 @@
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-light fixed-top " style="background-color: #e3f2fd;">
-    <!-- Navbar content -->
-    {% block pageTitle %}
-        {{ filename }}
-    {% endblock %}
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link active" href="#">Active</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
-    </ul>
-</nav>
-<div style="margin-top: 60px;" class="container-fluid">
+
+<div class="container-fluid">
 
 
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                {{ render(controller('App\\Controller\\System\\EmbeddedController::leftMenu')) }}
+        {{ render(controller('App\\Controller\\System\\EmbeddedController::leftMenu')) }}
 
-            </div>
-        </nav>
-        <main role="main" class="col-md-7 ml-sm-auto col-lg-8 px-4">
+
+        <main role="main" class="col-md-7 ml-sm-auto col-lg-7 px-4">
 
             {% block body %}{% endblock %}
         </main>

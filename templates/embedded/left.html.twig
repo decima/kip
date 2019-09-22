@@ -19,21 +19,28 @@
         <ul class="flex-column nav pl-4">
             {% for sublink in nav.subLinks %}
                 {% set at=par ~ loop.index0 %}
-                <li class="nav-item">{{ macros.menuItem(sublink,at,dept+1) }}</li>
+                <li class="nav-item">
+                    {{ macros.menuItem(sublink,at,dept+1) }}
+                </li>
             {% endfor %}
         </ul>
     {% endif %}
 {% endmacro %}
 {% import _self as macros %}
+<nav class="col-md-3 d-none d-md-block sidebar fixed-top">
+    <div class="sidebar-scroller">
 
-<ul class="flex-column nav">
-
-    {% for item in nav.subLinks %}
-        {% set dept=0 %}
-        {% set at=loop.index0 %}
-        <li>
-            {{ macros.menuItem(item,at,dept) }}
-        </li>
-    {% endfor %}
-</ul>
+        <ul class="flex-column nav">
+            {% for item in nav.subLinks %}
+                {% set dept=0 %}
+                {% set at=loop.index0 %}
+                <li class="nav-item">
+                    {{ macros.menuItem(item,at,dept) }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <br/>
+    <a class="btn btn-primary btn-block" href="">Logout</a>
+</nav>
 

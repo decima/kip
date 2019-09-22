@@ -4,10 +4,14 @@
     {% block right %}
         <ul class="nav flex-column">
             <li class="nav-link">
+                {{ filename }}
+            </li>
+            <li class="nav-link">
                 <a href="#top">scroll to top</a>
+                <a href="#" onclick="openEditor()">Edit <i class="fad fa-editD  "></i></a>
             </li>
             {% for item in table %}
-                <li class="nav-link" style="font-weight: {{ 7-item.level }}00;">
+                <li class="nav-link" style="font-size: {{ 5+(7-item.level)*2 }}px;">
                     {% for i in range(1, item.level) %}#{% endfor %}
 
                     <a href="#{{ item.id }}">
@@ -17,13 +21,9 @@
             {% endfor %}
         </ul>
     {% endblock %}
-{% block pageTitle %}
-    {{ filename }}
-{% endblock %}
+
 {% block body %}
-    {% if content|length >0 %}
-        <a href="#" onclick="openEditor()">Edit <i class="fad fa-editD  "></i></a>
-    {% else %}
+    {% if content|length ==0 %}
         <h1>404 - File Empty or not found!</h1>
         <p>This file seems empty/inexistant, but don't worry and start <a href="#" onclick="openEditor()">Edit it</a>
         </p>

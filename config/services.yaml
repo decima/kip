@@ -8,7 +8,7 @@ parameters:
   elasticsearch:
     url: "%env(ELASTICSEARCH_URL)%"
     index: "%env(ELASTICSEARCH_INDEX)%"
-    enabled: "%env(bool:ELASTICSEARCH_INDEX)%"
+  elasticsearch_enabled: "%env(bool:ELASTICSEARCH_ENABLED)%"
 
 services:
   # default configuration for services in *this* file
@@ -34,5 +34,8 @@ services:
   App\Services\Elasticsearch:
     arguments:
       $elasticConfig: "%elasticsearch%"
+  App\Services\Search:
+    arguments:
+      $enableElasticsearch: "%elasticsearch_enabled%"
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones

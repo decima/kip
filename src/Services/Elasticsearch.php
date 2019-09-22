@@ -20,21 +20,13 @@ class Elasticsearch
     private $index;
 
     /**
-     * @var bool set false to disable elasticsearch indexation
-     */
-    private $enabled = true;
-
-    /**
      * Elasticsearch constructor.
-     * @param string $url
-     * @param string $index
-     * @param bool $enabled
+     * @param $elasticConfig
      */
     public function __construct($elasticConfig)
     {
         $this->url     = $elasticConfig["url"];
         $this->index   = $elasticConfig["index"];
-        $this->enabled = $elasticConfig["enabled"];
     }
 
 
