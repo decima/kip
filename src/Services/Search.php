@@ -48,7 +48,9 @@ class Search
     private function searchFromFilename($keyword, Page $page, &$result = [])
     {
         if (stripos($page->path, $keyword) !== false) {
-            $result[] = $page;
+            if ($page->hasReadme || !$page->isFolder) {
+                $result[] = $page;
+            }
         }
         foreach ($page->subLinks as $subpage) {
             $this->searchFromFilename($keyword, $subpage, $result);

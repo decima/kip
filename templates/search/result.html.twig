@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <h1>Results</h1>
+    <div class="list-group">
+        {% for result in results %}
+
+            <a href="{{ path('knowledge_read',{path: result.path}) }}" class="list-group-item">{{ result.name }} <span
+                        class="badge badge-pill badge-primary">{{ result.path }}</span></a>
+        {% endfor %}
+
+    </div>
+{% endblock %}

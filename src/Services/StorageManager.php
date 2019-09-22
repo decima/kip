@@ -43,7 +43,7 @@ class StorageManager
                         $parent->hasReadme = true;
                     }
                 }
-            } else if ($value != "." && $value != "..") {
+            } else if ($value != "." && $value != ".." && strpos($value, ".") !== 0) {
                 $this->listAllFiles($newPath, $item);
                 $parent->subLinks[] = $item;
 

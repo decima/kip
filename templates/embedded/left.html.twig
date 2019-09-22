@@ -28,6 +28,15 @@
 {% endmacro %}
 {% import _self as macros %}
 <nav class="col-md-3 d-none d-md-block sidebar fixed-top">
+    <form method="get" action="{{ path("search_action") }}">
+        <div class="input-group flex-nowrap">
+            <div class="input-group-prepend">
+                <button class="input-group-text" id="addon-wrapping"><i class="fad fa-search"></i></button>
+            </div>
+            <input type="text" class="form-control" placeholder="search" name="q" aria-label="Username"
+                   aria-describedby="addon-wrapping">
+        </div>
+    </form>
     <div class="sidebar-scroller">
 
         <ul class="flex-column nav">
@@ -40,7 +49,9 @@
             {% endfor %}
         </ul>
     </div>
-    <br/>
+
+
+
     <a class="btn btn-primary btn-block" href="">Logout</a>
 </nav>
 
