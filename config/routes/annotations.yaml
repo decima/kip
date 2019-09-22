@@ -1,0 +1,7 @@
+controllers:
+    resource: ../../src/Controller/
+    type: annotation
+api:
+    resource: ../../src/Controller/System
+    type: annotation
+    prefix: /_
