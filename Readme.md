@@ -15,12 +15,31 @@ It must have the following features:
 - An easy way to import / export data from it
 - A reliable way  way to store data by using a database and not just files
 
-## Todo
+## Getting started
 
-//To fill by d3cima
+This project is a symfony project and requires PHP >7.2 to develop with.
+
+To run the project in dev environment, just run ```php bin/console server:run 0.0.0.0:8000```
+It will directly serve a `storage` folder at the root of the project.
+
+Fill free to change the folder by creating your own .env.local and set the env variable to `FILE_STORAGE=$PWD/../storage`
+
+This is all what the project needs to work.
+
+
+## Todo
+First version
+- Search
+    - Simple indexation with elasticsearch
+- Image storage
+    - Link to s3 compliant storage to upload files
+    - Integrate an upload button to stackeditJS lib
+- Authentication
+    - Ldap
+    - Global permissions for reading (public vs authentication required)
+- Docker image php/nginx
 
 ## How to contribute
+Every contributions, even small are welcome, feel free to make this project awesome
 
-## How to install
-
-//To fill by d3cima
+## Deploy

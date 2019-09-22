@@ -95,12 +95,31 @@ class StorageManager
 
     public function storeFileContent($fileName, $content)
     {
-        if($this->isFolder($fileName)){
-            $fileName.="/readme.md";
+        if ($this->isFolder($fileName)) {
+            $fileName .= "/readme.md";
         }
         $folder = dirname($this->storagePath . $fileName);
         @mkdir($folder, 0777, true);
         return file_put_contents($this->storagePath . $fileName, $content);
+    }
+
+    private static function delTree($dir)
+    {
+        $files = array_diff(scandir($dir), ['.', '..']);
+        foreach ($files as $file) {
+            (is_dir("$dir/$file")) ? self::delTree("$dir/$file") : unlink("$dir/$file");
+        }
+        return rmdir($dir);
+    }
+
+    public function dropFile($fileName)
+    {
+        if ($this->isFolder($fileName)) {
+            self::delTree($this->storagePath . $fileName);
+        } else {
+            unlink($this->storagePath . $fileName);
+        }
+
     }
 
 

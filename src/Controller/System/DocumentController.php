@@ -26,4 +26,14 @@ class DocumentController extends AbstractController
         $storage->storeFileContent($path, $request->getContent());
         return $this->json("ok", 200);
     }
+
+    /**
+     *
+     * @Route("/{path}",requirements={"path"=".+"}, methods={"DELETE"},name="_delete")
+     */
+    public function delete($path, Request $request, StorageManager $storage)
+    {
+        $storage->dropFile($path);
+        return $this->json(null, 204);
+    }
 }
