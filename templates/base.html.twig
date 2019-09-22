@@ -6,11 +6,33 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <script src="https://kit.fontawesome.com/63a539fbd1.js" crossorigin="anonymous"></script>
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
-<div class="container-fluid">
+<nav class="navbar navbar-light fixed-top " style="background-color: #e3f2fd;">
+    <!-- Navbar content -->
+    {% block pageTitle %}
+        {{ filename }}
+    {% endblock %}
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">Active</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+    </ul>
+</nav>
+<div style="margin-top: 60px;" class="container-fluid">
+
+
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
@@ -22,7 +44,9 @@
 
             {% block body %}{% endblock %}
         </main>
-        <nav class="col-md-2"><div style="position: fixed; ">{% block right %}{% endblock %}</div></nav>
+        <nav class="col-md-2">
+            <div style="position: fixed; ">{% block right %}{% endblock %}</div>
+        </nav>
     </div>
 </div>
 
