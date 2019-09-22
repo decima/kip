@@ -1,0 +1,21 @@
+{% macro menuItem(nav,par,dept) %}
+    {% import _self as macros %}
+
+    <a href="{{ path("knowledge_read",{"path":nav.path}) }}">
+       {{ nav.name }}
+    </a>
+    {% if nav.isFolder %}
+        <ul class="flex-column nav pl-4">
+            {% for sublink in nav.subLinks %}
+                {% set at=par ~ loop.index0  %}
+                <li class="nav-item">{{ macros.menuItem(sublink,at,dept+1) }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
+{% import _self as macros %}
+
+{% set dept=0 %}
+{% set at=0 %}
+{{ macros.menuItem(nav,at,dept) }}
+

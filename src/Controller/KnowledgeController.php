@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\PageLink;
 use App\Services\ParseDownImproved;
 use App\Services\StorageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,20 +16,18 @@ class KnowledgeController extends AbstractController
 {
 
     /**
-     * @Route("/{path}",requirements={"path"="[^_].+"}, methods={"GET"},name="_read")
-     * @Route("", methods={"GET"},name="_homepage")
+     * @Route("/{path}",requirements={"path"="[^_].*"}, methods={"GET"},name="_read")
+     * @Route("", methods={"GET"},name="_read_home")
      */
     public function index($path = "readme", StorageManager $manager)
     {
-
         if ($manager->isFile($path) && !$manager->pathIsMd($path)) {
             return new BinaryFileResponse($manager->getFilePath($path));
         } elseif ($manager->isFolder($path . "/")) {
-            $path .= "readme.md";
+            $path .= "/readme.md";
         } elseif (!$manager->pathIsMd($path)) {
             $path = $path . ".md";
         }
-
 
 
         $file           = $manager->getFileContent($path);
@@ -38,8 +37,10 @@ class KnowledgeController extends AbstractController
 
         return $this->render('knowledge/index.html.twig', [
 
-            'content' => $body,
-            'table'   => $tableOfContent,
+            'content'  => $body,
+            'table'    => $tableOfContent,
+            'raw'      => $file,
+            'filename' => $path,
         ]);
     }
 }

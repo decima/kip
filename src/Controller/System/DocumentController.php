@@ -2,7 +2,9 @@
 
 namespace App\Controller\System;
 
+use App\Services\StorageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,22 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DocumentController extends AbstractController
 {
-    /**
-     * @Route("", name="document")
-     */
-    public function index()
-    {
-        return $this->render('document/index.html.twig', [
-            'controller_name' => 'DocumentController',
-        ]);
-    }
+
 
     /**
      *
      * @Route("/{path}",requirements={"path"=".+"}, methods={"PUT"},name="_store")
      */
-    public function store($path, Request $request)
+    public function store($path, Request $request, StorageManager $storage)
     {
-        dd($path);
+        $storage->storeFileContent($path, $request->getContent());
+        return $this->json("ok", 200);
     }
 }

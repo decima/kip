@@ -151,32 +151,32 @@ class ParseDownImproved extends \Parsedown
             return $Block;
         }
     }
+
     protected function inlineImage($Excerpt)
     {
-        if ( ! isset($Excerpt['text'][1]) or $Excerpt['text'][1] !== '[')
-        {
+        if (!isset($Excerpt['text'][1]) or $Excerpt['text'][1] !== '[') {
             return;
         }
 
-        $Excerpt['text']= substr($Excerpt['text'], 1);
+        $Excerpt['text'] = substr($Excerpt['text'], 1);
 
         $Link = $this->inlineLink($Excerpt);
 
-        if ($Link === null)
-        {
+        if ($Link === null) {
             return;
         }
 
-        $Inline = array(
-            'extent' => $Link['extent'] + 1,
-            'element' => array(
-                'name' => 'img',
-                'attributes' => array(
-                    'src' => $Link['element']['attributes']['href'],
-                    'alt' => $Link['element']['text'],
-                ),
-            ),
-        );
+        $Inline = [
+            'extent'  => $Link['extent'] + 1,
+            'element' => [
+                'name'       => 'img',
+                'attributes' => [
+                    'class' => "img-fluid",
+                    'src'   => $Link['element']['attributes']['href'],
+                    'alt'   => $Link['element']['text'],
+                ],
+            ],
+        ];
 
         $Inline['element']['attributes'] += $Link['element']['attributes'];
 

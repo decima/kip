@@ -1,18 +1,80 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello KnowledgeController!{% endblock %}
+    {% block right %}
+        <ul class="nav flex-column">
+            <li class="nav-link">
+                <a href="#top">scroll to top</a>
+            </li>
+            {% for item in table %}
+                <li class="nav-link" style="font-weight: {{ 7-item.level }}00;">
+                    {% for i in range(1, item.level) %}#{% endfor %}
+
+                    <a href="#{{ item.id }}">
+                        {{ item.text }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endblock %}
 
 {% block body %}
-    <ul>
-        {% for item in table %}
-            <li>
-                <a href="#{{ item.id }}">
-                    {% for i in range(1, item.level) %}#{% endfor %}
-                    {{ item.text }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+    <a href="#" onclick="openEditor()">Edit</a>
     {{ content|raw }}
 
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://unpkg.com/stackedit-js@1.0.7/docs/lib/stackedit.min.js"></script>
+    <textarea style="display: none;">{{ raw }}</textarea>
+    <script>
+        const stackedit = new Stackedit();
+        const el = document.querySelector('textarea');
+
+        function openEditor() {
+            // Open the iframe
+            stackedit.openFile({
+                name: '{{ filename }}', // with an optional filename
+                content: {
+                    text: el.value // and the Markdown content.
+                }
+            });
+            setInterval(function () {
+                save(el.value, function (ok) {
+                    if (!ok) {
+
+                        alert("auto save failed!");
+                    }
+
+                })
+            }, 20000);
+        }
+
+
+        stackedit.on('fileChange', (file) => {
+            el.value = file.content.text
+        });
+        stackedit.on('close', () => {
+            save(el.value, function (ok) {
+                if (ok) {
+                    location.reload()
+                } else {
+                    alert("an error occured, reopen the editor to save again.");
+                }
+
+            })
+
+        });
+
+        function save(content, callback) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("PUT", "{{ path('documents_store',{path: filename}) }}");
+            xhr.send(content);
+            xhr.onload = function () {
+                callback(xhr.status < 300 && xhr.status > 199);
+            };
+        }
+
+
+    </script>
 {% endblock %}
