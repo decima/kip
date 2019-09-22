@@ -7,8 +7,9 @@
                 {{ filename }}
             </li>
             <li class="nav-link">
-                <a href="#top">scroll to top</a>
-                <a href="#" onclick="openEditor()">Edit <i class="fad fa-editD  "></i></a>
+                <a href="#top"><i class="fad fa-arrow-up"></i> Scroll to top</a>
+                <a class="btn btn-primary" href="#" onclick="openEditor()"><i class="fad fa-edit"></i> Edit</a>
+                <a class="btn btn-danger" href="{{ path('documents_delete',{path:filename}) }}" onclick="confirm('are you sure?')"><i class="fad fa-trash"></i> Delete</a>
             </li>
             {% for item in table %}
                 <li class="nav-link" style="font-size: {{ 5+(7-item.level)*2 }}px;">

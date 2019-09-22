@@ -108,21 +108,28 @@ class StorageManager
         return file_put_contents($this->storagePath . $fileName, $content);
     }
 
-    private static function delTree($dir)
+    private static function delTree($dir, $dept = 5)
     {
         $files = array_diff(scandir($dir), ['.', '..']);
         foreach ($files as $file) {
-            (is_dir("$dir/$file")) ? self::delTree("$dir/$file") : unlink("$dir/$file");
+            if ($dept > 0) {
+                (is_dir("$dir/$file")) ? self::delTree("$dir/$file", $dept - 1) : unlink("$dir/$file");
+            }
         }
         return rmdir($dir);
     }
 
-    public function dropFile($fileName)
+    public function dropFile($fileName, $uncount = 3)
     {
+
         if ($this->isFolder($fileName)) {
             self::delTree($this->storagePath . $fileName);
-        } else {
+        } elseif ($this->fileExists($fileName)) {
             unlink($this->storagePath . $fileName);
+        } else {
+            if ($uncount > 0) {
+                $this->dropFile(dirname($this->storagePath . $fileName));
+            }
         }
 
     }

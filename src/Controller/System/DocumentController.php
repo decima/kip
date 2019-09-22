@@ -19,7 +19,7 @@ class DocumentController extends AbstractController
 
     /**
      *
-     * @Route("/{path}",requirements={"path"=".+"}, methods={"PUT"},name="_store")
+     * @Route("/save/{path}",requirements={"path"=".+"}, methods={"PUT"},name="_store")
      */
     public function store($path, Request $request, StorageManager $storage)
     {
@@ -29,11 +29,11 @@ class DocumentController extends AbstractController
 
     /**
      *
-     * @Route("/{path}",requirements={"path"=".+"}, methods={"DELETE"},name="_delete")
+     * @Route("/delete/{path}",requirements={"path"=".+"}, methods={"GET"},name="_delete")
      */
     public function delete($path, Request $request, StorageManager $storage)
     {
         $storage->dropFile($path);
-        return $this->json(null, 204);
+        return $this->redirectToRoute("knowledge_read_home");
     }
 }
