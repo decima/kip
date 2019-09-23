@@ -17,6 +17,7 @@
         "symfony/framework-bundle": "4.3.*",
         "symfony/http-client": "4.3.*",
         "symfony/intl": "4.3.*",
+        "symfony/ldap": "4.3.*",
         "symfony/monolog-bundle": "^3.1",
         "symfony/orm-pack": "*",
         "symfony/process": "4.3.*",

@@ -24,7 +24,7 @@ class KnowledgeController extends AbstractController
         if ($manager->isFile($path) && !$manager->pathIsMd($path)) {
             return new BinaryFileResponse($manager->getFilePath($path));
         } elseif ($manager->isFolder($path . "/")) {
-            $path .= "/readme.md";
+            $path .= "/" . StorageManager::INDEX_FILE_NAME;
         } elseif (!$manager->pathIsMd($path)) {
             $path = $path . ".md";
         }

@@ -5,9 +5,11 @@ namespace App\Services;
 
 
 use App\Entity\Page;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 class StorageManager
 {
+    const INDEX_FILE_NAME="readme.md";
     private $storagePath;
 
     /**
@@ -101,7 +103,7 @@ class StorageManager
     public function storeFileContent($fileName, $content)
     {
         if ($this->isFolder($fileName)) {
-            $fileName .= "/readme.md";
+            $fileName .= "/".self::INDEX_FILE_NAME;
         }
         $folder = dirname($this->storagePath . $fileName);
         @mkdir($folder, 0777, true);
@@ -119,18 +121,26 @@ class StorageManager
         return rmdir($dir);
     }
 
-    public function dropFile($fileName, $uncount = 3)
+    public function dropFile($fileName, $uncount = 1)
     {
+        dump($fileName);
 
         if ($this->isFolder($fileName)) {
             self::delTree($this->storagePath . $fileName);
         } elseif ($this->fileExists($fileName)) {
             unlink($this->storagePath . $fileName);
         } else {
-            if ($uncount > 0) {
-                $this->dropFile(dirname($this->storagePath . $fileName));
+            if ($uncount >= 0) {
+
+                $dirname = dirname($fileName);
+                if (basename($fileName) === self::INDEX_FILE_NAME) {
+                    $this->dropFile($dirname, 0);
+                } else {
+                    throw new FileNotFoundException("cannot find path $fileName");
+                }
             }
         }
+        dd("done");
 
     }
 

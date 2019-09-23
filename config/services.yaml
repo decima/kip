@@ -4,11 +4,28 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-  storage: "%env(FILE_STORAGE)%"
+  storage: "%env(resolve:FILE_STORAGE)%"
+  elasticsearch_enabled: "%env(bool:ELASTICSEARCH_ENABLED)%"
+  auth_ldap_enabled: "%env(LDAP_AUTH_ENABLED)%"
+  auth_database_enabled: "%env(DATABASE_AUTH_ENABLED)%"
+  auth_registration_enabled: "%env(DATABASE_AUTH_REGISTER)%"
+
+
+
   elasticsearch:
     url: "%env(ELASTICSEARCH_URL)%"
     index: "%env(ELASTICSEARCH_INDEX)%"
-  elasticsearch_enabled: "%env(bool:ELASTICSEARCH_ENABLED)%"
+
+
+
+
+
+  ldap_connection_string: "%env(LDAP_CONNECTION_STRING)%"
+  ldap_bind_dn: "%env(LDAP_BIND_DN)%"
+  ldap_bind_password: "%env(LDAP_BIND_PASSWORD)%"
+  ldap_base_dn: "%env(LDAP_BASE_DN)%"
+  ldap_user_key: "%env(LDAP_USER_KEY)%"
+  ldap_auth_dn: "%env(LDAP_AUTH_DN)%"
 
 services:
   # default configuration for services in *this* file
@@ -37,5 +54,13 @@ services:
   App\Services\Search:
     arguments:
       $enableElasticsearch: "%elasticsearch_enabled%"
+  App\Security\LdapClient:
+    arguments:
+      $connectionString: "%ldap_connection_string%"
+      $bindDn: "%ldap_bind_dn%"
+      $bindPassword: "%ldap_bind_password%"
+      $baseDn: "%ldap_base_dn%"
+      $userKey: "%ldap_user_key%"
+      $authDn: "%ldap_auth_dn%"
   # add more service definitions when explicit configuration is needed
-  # please note that last definitions always *replace* previous ones
+# please note that last definitions always *replace* previous ones

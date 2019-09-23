@@ -110,6 +110,7 @@
       <path value="$PROJECT_DIR$/vendor/erusev/parsedown" />
       <path value="$PROJECT_DIR$/vendor/twig/markdown-extension" />
       <path value="$PROJECT_DIR$/vendor/keinos/parsedown-toc" />
+      <path value="$PROJECT_DIR$/vendor/symfony/ldap" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />

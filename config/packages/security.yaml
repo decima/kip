@@ -1,22 +1,42 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    providers:
-        in_memory: { memory: null }
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main:
-            anonymous: true
+  encoders:
+    App\Entity\User:
+      algorithm: auto
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
+  providers:
+    # used to reload user from session & other features (e.g. switch_user)
+    auth_provider:
+      chain:
+        providers: [database_user_provider]
+    database_user_provider:
+      entity:
+        class: App\Entity\User
+        property: username
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      anonymous: true
+      provider: auth_provider
+      guard:
+          authenticators:
+              - App\Security\UserAuthenticator
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+      logout:
+          path: app_logout
+          # where to redirect after logout
+          # target: app_any_route
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
-    access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+      # activate different ways to authenticate
+      # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+      # https://symfony.com/doc/current/security/impersonating_user.html
+      # switch_user: true
+
+  # Easy way to control access for large sections of your site
+  # Note: Only the *first* access control that matches will be used
+  access_control:
+    # - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/_, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/, roles: ROLE_USER }
