@@ -123,7 +123,6 @@ class StorageManager
 
     public function dropFile($fileName, $uncount = 1)
     {
-        dump($fileName);
 
         if ($this->isFolder($fileName)) {
             self::delTree($this->storagePath . $fileName);
@@ -140,7 +139,6 @@ class StorageManager
                 }
             }
         }
-        dd("done");
 
     }
 

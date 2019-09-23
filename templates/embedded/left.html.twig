@@ -27,31 +27,36 @@
     {% endif %}
 {% endmacro %}
 {% import _self as macros %}
-<nav class="col-md-3 d-none d-md-block sidebar fixed-top">
-    <form method="get" action="{{ path("search_action") }}">
-        <div class="input-group flex-nowrap">
-            <div class="input-group-prepend">
-                <button class="input-group-text" id="addon-wrapping"><i class="fad fa-search"></i></button>
+
+    {% if is_granted("ROLE_USER") %}
+
+        <nav class="col-md-3 d-none d-md-block sidebar fixed-top">
+
+            <form method="get" action="{{ path("search_action") }}">
+                <div class="input-group flex-nowrap">
+                    <div class="input-group-prepend">
+                        <button class="input-group-text" id="addon-wrapping"><i class="fad fa-search"></i></button>
+                    </div>
+                    <input type="text" class="form-control" placeholder="search" name="q" aria-label="Username"
+                           aria-describedby="addon-wrapping">
+                </div>
+            </form>
+            <div class="sidebar-scroller">
+                <a href="{{ path('knowledge_read_home') }}"><i class="fad fa-home"></i> Home</a>
+                <ul class="flex-column nav">
+                    {% for item in nav.subLinks %}
+                        {% set dept=0 %}
+                        {% set at=loop.index0 %}
+                        <li class="nav-item">
+                            {{ macros.menuItem(item,at,dept) }}
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
-            <input type="text" class="form-control" placeholder="search" name="q" aria-label="Username"
-                   aria-describedby="addon-wrapping">
-        </div>
-    </form>
-    <div class="sidebar-scroller">
+            {% if is_granted("ROLE_USER") %}
+                <a class="btn btn-primary btn-block" href="{{ path("user_logout") }}">Logout</a>
+            {% endif %}
+        </nav>
+    {% endif %}
 
-        <ul class="flex-column nav">
-            {% for item in nav.subLinks %}
-                {% set dept=0 %}
-                {% set at=loop.index0 %}
-                <li class="nav-item">
-                    {{ macros.menuItem(item,at,dept) }}
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-
-
-
-    <a class="btn btn-primary btn-block" href="">Logout</a>
-</nav>
 

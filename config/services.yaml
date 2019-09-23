@@ -6,9 +6,9 @@
 parameters:
   storage: "%env(resolve:FILE_STORAGE)%"
   elasticsearch_enabled: "%env(bool:ELASTICSEARCH_ENABLED)%"
-  auth_ldap_enabled: "%env(LDAP_AUTH_ENABLED)%"
-  auth_database_enabled: "%env(DATABASE_AUTH_ENABLED)%"
-  auth_registration_enabled: "%env(DATABASE_AUTH_REGISTER)%"
+  auth_ldap_enabled: "%env(bool:LDAP_AUTH_ENABLED)%"
+  auth_database_enabled: "%env(bool:DATABASE_AUTH_ENABLED)%"
+  auth_registration_enabled: "%env(bool:DATABASE_AUTH_REGISTER)%"
 
 
 
@@ -62,5 +62,9 @@ services:
       $baseDn: "%ldap_base_dn%"
       $userKey: "%ldap_user_key%"
       $authDn: "%ldap_auth_dn%"
+  App\Security\UserAuthenticator:
+    arguments:
+      $ldapEnabled: "%auth_ldap_enabled%"
+      $dbEnabled: "%auth_database_enabled%"
   # add more service definitions when explicit configuration is needed
 # please note that last definitions always *replace* previous ones

@@ -4,7 +4,10 @@
 namespace App\Security;
 
 
+use App\Entity\User;
+use Symfony\Component\Ldap\Exception\ConnectionException;
 use Symfony\Component\Ldap\Ldap;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 class LdapClient
 {
@@ -50,21 +53,34 @@ class LdapClient
         return $connection;
     }
 
-    public function findUser($key)
+    public function findUser($key): ?User
     {
         $key        = str_replace("*", "\*", $key);
         $connection = $this->connect($this->bindDn, $this->bindPassword);
         $connection->escape($key);
         $res     = $connection->query($this->baseDn, "(&(objectclass=*)(" . $this->userKey . "=$key))");
         $entries = $res->execute();
-        dd($entries->toArray());
+
+        $items = $entries->toArray();
+        if (count($items) !== 1) {
+            $exception = new UsernameNotFoundException();
+            $exception->setUsername($key);
+            throw $exception;
+        }
+        $userEntry = $items[0];
+        $user      = new User();
+        $user->setUsername($userEntry->getAttribute($this->userKey)[0]);
+        $user->setUserDn($userEntry->getDn());
+        return $user;
     }
 
-    public function authenticateUser($username, $password)
+    public function authenticateUser($username, $password): bool
     {
-        $connectionString = str_replace("{username}", $username, $this->authDn);
-        $this->connect($connectionString, $password);
+        try {
+            $this->connect($username, $password);
+            return true;
+        } catch (ConnectionException $connectionException) {
+            return false;
+        }
     }
-
-
 }

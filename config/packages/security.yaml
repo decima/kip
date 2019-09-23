@@ -7,11 +7,14 @@ security:
     # used to reload user from session & other features (e.g. switch_user)
     auth_provider:
       chain:
-        providers: [database_user_provider]
+        providers: [ldap_user_provider, database_user_provider]
     database_user_provider:
       entity:
         class: App\Entity\User
         property: username
+    ldap_user_provider:
+      id: App\Security\LdapProvider
+
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -20,13 +23,13 @@ security:
       anonymous: true
       provider: auth_provider
       guard:
-          authenticators:
-              - App\Security\UserAuthenticator
+        authenticators:
+          - App\Security\UserAuthenticator
 
       logout:
-          path: app_logout
-          # where to redirect after logout
-          # target: app_any_route
+        path: user_logout
+        # where to redirect after logout
+        # target: app_any_route
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#firewalls-authentication

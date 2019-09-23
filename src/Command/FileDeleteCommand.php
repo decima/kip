@@ -40,7 +40,6 @@ class FileDeleteCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        $io   = new SymfonyStyle($input, $output);
         $path = $input->getArgument('path');
 
         $this->storageManager->dropFile($path);

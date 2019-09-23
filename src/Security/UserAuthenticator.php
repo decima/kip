@@ -28,26 +28,32 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
     private $urlGenerator;
     private $csrfTokenManager;
     private $passwordEncoder;
-    private $ldapClient;
+    private $ldapProvider;
+    private $dbEnabled = true;
+    private $ldapEnabled = false;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         UrlGeneratorInterface $urlGenerator,
         CsrfTokenManagerInterface $csrfTokenManager,
         UserPasswordEncoderInterface $passwordEncoder,
-        LdapClient $ldapClient
+        LdapProvider $ldapProvider,
+        $ldapEnabled,
+        $dbEnabled
     )
     {
         $this->entityManager    = $entityManager;
         $this->urlGenerator     = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder  = $passwordEncoder;
-        $this->ldapClient       = $ldapClient;
+        $this->ldapProvider     = $ldapProvider;
+        $this->ldapEnabled      = $ldapEnabled;
+        $this->dbEnabled        = $dbEnabled;
     }
 
     public function supports(Request $request)
     {
-        return 'app_login' === $request->attributes->get('_route')
+        return 'user_login' === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
 
@@ -72,10 +78,13 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
-        $this->ldapClient->findUser($credentials["username"]);
-
-
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
+        $user = null;
+        if ($this->ldapEnabled) {
+            $user = $this->ldapProvider->loadUserByUsername($credentials["username"]);
+        }
+        if ($this->dbEnabled && null === $user) {
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
+        }
 
         if (!$user) {
             // fail authentication with a custom error
@@ -87,6 +96,14 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
+        if ($user instanceof User) {
+
+            if ($user->getUserDn() !== null) {
+                return $this->ldapProvider->checkPassword($user, $credentials["password"]);
+
+            }
+        }
+
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
@@ -96,12 +113,11 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside ' . __FILE__);
+        return new RedirectResponse($this->urlGenerator->generate('knowledge_read_home'));
     }
 
     protected function getLoginUrl()
     {
-        return $this->urlGenerator->generate('app_login');
+        return $this->urlGenerator->generate('user_login');
     }
 }
