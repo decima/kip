@@ -17,7 +17,6 @@ class LdapClient
     private $bindPassword;
     private $baseDn;
     private $userKey;
-    private $authDn;
 
     /**
      * LdapClient constructor.
@@ -28,14 +27,13 @@ class LdapClient
      * @param string $userKey
      * @param string $authDn
      */
-    public function __construct(string $connectionString, string $bindDn, string $bindPassword, string $baseDn, string $userKey, string $authDn)
+    public function __construct(string $connectionString, string $bindDn, string $bindPassword, string $baseDn, string $userKey)
     {
         $this->connectionString = $connectionString;
         $this->bindDn           = $bindDn;
         $this->bindPassword     = $bindPassword;
         $this->baseDn           = $baseDn;
         $this->userKey          = $userKey;
-        $this->authDn           = $authDn;
     }
 
 

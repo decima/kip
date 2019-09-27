@@ -61,7 +61,6 @@ services:
       $bindPassword: "%ldap_bind_password%"
       $baseDn: "%ldap_base_dn%"
       $userKey: "%ldap_user_key%"
-      $authDn: "%ldap_auth_dn%"
   App\Security\UserAuthenticator:
     arguments:
       $ldapEnabled: "%auth_ldap_enabled%"
