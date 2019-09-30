@@ -30,4 +30,7 @@ security:
         path: user_logout
   access_control:
     - { path: ^/_/user/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/, roles: ROLE_USER }
+    - { path: ^/_/user/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - path: ^/
+      roles: ROLE_USER
+      allow_if: "isSecurityDisabled()"

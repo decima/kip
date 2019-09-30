@@ -171,9 +171,9 @@ class ParseDownImproved extends \Parsedown
             'element' => [
                 'name'       => 'img',
                 'attributes' => [
-                    'class' => "img-fluid",
-                    'src'   => $Link['element']['attributes']['href'],
-                    'alt'   => $Link['element']['text'],
+                    'uk-img' => "",
+                    'src'    => $Link['element']['attributes']['href'],
+                    'alt'    => $Link['element']['text'],
                 ],
             ],
         ];

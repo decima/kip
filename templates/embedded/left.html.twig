@@ -1,7 +1,7 @@
 {% macro menuItem(nav,par,dept) %}
     {% import _self as macros %}
 
-    <a style="display: inline-block;" href="{{ path("knowledge_read",{"path":nav.path}) }}">
+    <a href="{{ path("knowledge_read",{"path":nav.path}) }}{% if nav.isFolder %}/{% endif %}">
         {% if nav.hasReadme %}
             <i class="fas fa-folder"></i>
 
@@ -16,10 +16,10 @@
         {{ nav.name }}
     </a>
     {% if nav.isFolder %}
-        <ul class="flex-column nav pl-4">
+        <ul class="uk-nav-sub">
             {% for sublink in nav.subLinks %}
                 {% set at=par ~ loop.index0 %}
-                <li class="nav-item">
+                <li class="uk-parent">
                     {{ macros.menuItem(sublink,at,dept+1) }}
                 </li>
             {% endfor %}
@@ -27,36 +27,35 @@
     {% endif %}
 {% endmacro %}
 {% import _self as macros %}
-
+<div uk-sticky style="height:100vh;overflow:auto;">
     {% if is_granted("ROLE_USER") %}
 
-        <nav class="col-md-3 d-none d-md-block sidebar fixed-top">
 
-            <form method="get" action="{{ path("search_action") }}">
-                <div class="input-group flex-nowrap">
-                    <div class="input-group-prepend">
-                        <button class="input-group-text" id="addon-wrapping"><i class="fad fa-search"></i></button>
-                    </div>
-                    <input type="text" class="form-control" placeholder="search" name="q" aria-label="Username"
-                           aria-describedby="addon-wrapping">
+        <ul class="uk-nav">
+
+            <li>
+                <a href="#search-form-uikit" uk-toggle class="uk-button uk-button-default">Search</a>
+            </li>
+            <li>
+                <a class="uk-button uk-button-default" href="{{ path('knowledge_read_home') }}"><i class="fad fa-home"></i> Home</a>
+            </li>
+
+
+            <li class="uk-parent">
+                <div class="">
+                    <ul class="uk-nav-sub">
+                        {% for item in nav.subLinks %}
+                            {% set dept=0 %}
+                            {% set at=loop.index0 %}
+                            <li class="uk-parent">
+                                {{ macros.menuItem(item,at,dept) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
-            </form>
-            <div class="sidebar-scroller">
-                <a href="{{ path('knowledge_read_home') }}"><i class="fad fa-home"></i> Home</a>
-                <ul class="flex-column nav">
-                    {% for item in nav.subLinks %}
-                        {% set dept=0 %}
-                        {% set at=loop.index0 %}
-                        <li class="nav-item">
-                            {{ macros.menuItem(item,at,dept) }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% if is_granted("ROLE_USER") %}
-                <a class="btn btn-primary btn-block" href="{{ path("user_logout") }}">Logout</a>
-            {% endif %}
-        </nav>
+            </li>
+
+        </ul>
     {% endif %}
 
-
+</div>

@@ -2,25 +2,31 @@
 
 {% block title %}Kip - {{ filename }}{% endblock %}
     {% block right %}
-        <ul class="nav flex-column">
-            <li class="nav-link">
-                {{ filename }}
-            </li>
-            <li class="nav-link">
-                <a href="#top"><i class="fad fa-arrow-up"></i> Scroll to top</a>
-                <a class="btn btn-primary" href="#" onclick="openEditor()"><i class="fad fa-edit"></i> Edit</a>
-                <a class="btn btn-danger" href="{{ path('documents_delete',{path:filename}) }}" onclick="confirm('are you sure?')"><i class="fad fa-trash"></i> Delete</a>
-            </li>
-            {% for item in table %}
-                <li class="nav-link" style="font-size: {{ 5+(7-item.level)*2 }}px;">
-                    {% for i in range(1, item.level) %}#{% endfor %}
 
-                    <a href="#{{ item.id }}">
-                        {{ item.text }}
-                    </a>
+
+            <ul class="uk-nav">
+                <li class=" uk-nav-header">
+                    {{ filename }}
                 </li>
-            {% endfor %}
-        </ul>
+                <li>
+                    <a href="#top"><i class="fad fa-arrow-up"></i> Scroll to top</a>
+                    <a class="btn btn-primary" href="#" onclick="openEditor()"><i class="fad fa-edit"></i> Edit</a>
+                    <a class="btn btn-danger" href="{{ path('documents_delete',{path:filename}) }}"
+                       onclick="confirm('are you sure?')"><i class="fad fa-trash"></i> Delete</a>
+                </li>
+                <li class=" uk-nav-header">
+                    Table Of Content
+                </li>
+                {% for item in table %}
+                    <li class="nav-link" style="font-size: {{ 5+(7-item.level)*2 }}px;">
+
+                        <a href="#{{ item.id }}">
+                            {% for i in range(1, item.level) %}#{% endfor %} {{ item.text }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+
     {% endblock %}
 
 {% block body %}
@@ -30,7 +36,7 @@
         </p>
     {% endif %}
     <div class="page-content">
-    {{ content|raw }}
+        {{ content|raw }}
     </div>
 
 

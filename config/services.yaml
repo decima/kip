@@ -8,6 +8,7 @@ parameters:
   elasticsearch_enabled: "%env(bool:ELASTICSEARCH_ENABLED)%"
   auth_ldap_enabled: "%env(bool:LDAP_AUTH_ENABLED)%"
   auth_database_enabled: "%env(bool:DATABASE_AUTH_ENABLED)%"
+
   auth_registration_enabled: "%env(bool:DATABASE_AUTH_REGISTER)%"
 
 
@@ -65,5 +66,13 @@ services:
     arguments:
       $ldapEnabled: "%auth_ldap_enabled%"
       $dbEnabled: "%auth_database_enabled%"
+  App\Security\SecurityDisabledChecker:
+    arguments:
+      $ldapAuth: "%auth_ldap_enabled%"
+      $dbAuth: "%auth_database_enabled%"
+  App\Security\RegistrationEnabledChecker:
+    arguments:
+      $isEnabled: "%auth_registration_enabled%"
+      $dbAuth: "%auth_database_enabled%"
   # add more service definitions when explicit configuration is needed
 # please note that last definitions always *replace* previous ones
