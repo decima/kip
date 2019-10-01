@@ -28,7 +28,6 @@
 {% endmacro %}
 {% import _self as macros %}
 <div uk-sticky style="height:100vh;overflow:auto;">
-    {% if is_granted("ROLE_USER") %}
 
 
         <ul class="uk-nav">
@@ -56,6 +55,4 @@
             </li>
 
         </ul>
-    {% endif %}
-
 </div>
