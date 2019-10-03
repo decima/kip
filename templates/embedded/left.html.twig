@@ -9,8 +9,14 @@
 
             <i class="fad fa-folder"></i>
         {% else %}
-            <i class="fas fa-file"></i>
+            {% if nav.type=="image" %}
+                <i class="fas fa-image"></i>
+            {% elseif nav.type=="video" %}
+                <i class="fas fa-video"></i>
+            {% else %}
+                <i class="fas fa-file"></i>
 
+            {% endif %}
         {% endif %}
 
         {{ nav.name }}
@@ -30,29 +36,30 @@
 <div uk-sticky style="height:100vh;overflow:auto;">
 
 
-        <ul class="uk-nav">
+    <ul class="uk-nav">
 
-            <li>
-                <a href="#search-form-uikit" uk-toggle class="uk-button uk-button-default">Search</a>
-            </li>
-            <li>
-                <a class="uk-button uk-button-default" href="{{ path('knowledge_read_home') }}"><i class="fad fa-home"></i> Home</a>
-            </li>
+        <li>
+            <a href="#search-form-uikit" uk-toggle class="uk-button uk-button-default">Search</a>
+        </li>
+        <li>
+            <a class="uk-button uk-button-default" href="{{ path('knowledge_read_home') }}"><i class="fad fa-home"></i>
+                Home</a>
+        </li>
 
 
-            <li class="uk-parent">
-                <div class="">
-                    <ul class="uk-nav-sub">
-                        {% for item in nav.subLinks %}
-                            {% set dept=0 %}
-                            {% set at=loop.index0 %}
-                            <li class="uk-parent">
-                                {{ macros.menuItem(item,at,dept) }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </li>
+        <li class="uk-parent">
+            <div class="">
+                <ul class="uk-nav-sub">
+                    {% for item in nav.subLinks %}
+                        {% set dept=0 %}
+                        {% set at=loop.index0 %}
+                        <li class="uk-parent">
+                            {{ macros.menuItem(item,at,dept) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </li>
 
-        </ul>
+    </ul>
 </div>

@@ -6,10 +6,11 @@ namespace App\Services;
 
 use App\Entity\Page;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+use Symfony\Component\Filesystem\Filesystem;
 
 class StorageManager
 {
-    const INDEX_FILE_NAME="readme.md";
+    const INDEX_FILE_NAME = "readme.md";
     private $storagePath;
 
     /**
@@ -36,7 +37,7 @@ class StorageManager
             $item->name     = $value;
             if (!is_dir($fullFolderPath)) {
                 if ($this->pathIsMd($newPath)) {
-
+                    $item->mime = "text/markdown";
                     $item->name = str_replace(".md", "", $item->name);
                     if ($item->name !== "readme") {
                         $item->isFolder     = false;
@@ -44,6 +45,10 @@ class StorageManager
                     } else {
                         $parent->hasReadme = true;
                     }
+                } else {
+                    $item->mime         = mime_content_type($fullFolderPath);
+                    $parent->subLinks[] = $item;
+
                 }
             } else if ($value != "." && $value != ".." && strpos($value, ".") !== 0) {
                 $this->listAllFiles($newPath, $item);
@@ -103,7 +108,7 @@ class StorageManager
     public function storeFileContent($fileName, $content)
     {
         if ($this->isFolder($fileName)) {
-            $fileName .= "/".self::INDEX_FILE_NAME;
+            $fileName .= "/" . self::INDEX_FILE_NAME;
         }
         $folder = dirname($this->storagePath . $fileName);
         @mkdir($folder, 0777, true);
