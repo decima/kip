@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html class="has-navbar-fixed-top">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Kip!{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/css/uikit.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"/>
 
     <script src="https://kit.fontawesome.com/63a539fbd1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism.min.css">
@@ -12,55 +12,12 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/line-numbers/prism-line-numbers.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/line-highlight/prism-line-highlight.min.css">
-    
+    <link rel="stylesheet" href="{{ path("custom_style") }}">
     {% block stylesheets %}{% endblock %}
 </head>
-<body>
-<div id="search-form-uikit" uk-offcanvas>
-    <div class="uk-offcanvas-bar">
-        <form method="get" action="{{ path("search_action") }}">
-            <div>
-                <input type="text" class="uk-input" placeholder="search" name="q" aria-label="Username"
-                       aria-describedby="addon-wrapping">
-
-            </div>
-            <hr/>
-            <div>
-                <button type="submit" class="uk-button uk-button-default" id="addon-wrapping"><i
-                            class="fad fa-search"></i> Search
-                </button>
-            </div>
-        </form>
-        <button class="uk-offcanvas-close" type="button" uk-close></button>
-
-
-    </div>
-</div>
-<div class="uk-container uk-container-expand">
-    <div uk-grid class="uk-grid-match uk-flex-center uk-child-width-expand">
-        <div class="">        {{ render(controller('App\\Controller\\System\\EmbeddedController::leftMenu')) }}
-        </div>
-        <div class="uk-width-3-5@m">
-            {% block body %}{% endblock %}
-        </div>
-        <div class="">
-            <div uk-sticky>
-                <div class="uk-card uk-card-default uk-card-body">
-                    {% block right %}{% endblock %}
-                </div>
-                <ul class="uk-nav">
-
-
-                    {% if is_granted("ROLE_USER") %}
-                        <li>
-                            <a class="uk-button" href="{{ path("user_logout") }}">Logout</a>
-                        </li>
-                    {% endif %}
-
-                </ul>
-            </div>
-        </div>
-    </div>
+<body style="margin-top: 10px;">
+{{ render(controller('App\\Controller\\System\\EmbeddedController::navbar')) }}
+{% block body %}{% endblock %}
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -69,7 +26,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/js/uikit.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-kotlin.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-php.min.js"></script>

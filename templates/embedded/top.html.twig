@@ -1,0 +1,47 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="{{ path('knowledge_read_home') }}">
+            <img src="{{ asset('campfire-duotone.svg') }}" width="32">
+            Kip
+        </a>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+           data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+
+        </div>
+        {% if security_enabled %}
+            <div class="navbar-end">
+                {% if is_granted("ROLE_USER") %}
+                    <form class="navbar-item" method="get" action="{{ path("search_action") }}">
+                        <input class="input" type="text" placeholder="Search" name="q">
+                        <button type="submit" class="button is-link"><i class="fal fa-search"></i></button>
+                    </form>
+                {% endif %}
+                <div class="navbar-item">
+
+                    <div class="buttons">
+                        {% if is_granted("ROLE_USER") %}
+                            <a class="button is-light" href="{{ path("user_logout") }}">Logout</a>
+                        {% else %}
+                            {% if registration_enabled %}
+                                <a class="button is-primary" href="{{ path('userapp_register') }}">
+                                    <strong>Sign up</strong>
+                                </a>
+                            {% endif %}
+
+                            <a class="button is-light" href="{{ path("user_login") }}">Log in</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</nav>

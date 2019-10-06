@@ -21,8 +21,12 @@ class KnowledgeController extends AbstractController
      */
     public function index($path = "readme", StorageManager $manager)
     {
+        $path    =
+            trim($path, "/");
+        $rawPath = $path;
+
         if ($manager->isFile($path) && !$manager->pathIsMd($path)) {
-            return new BinaryFileResponse($manager->getFilePath($path));
+            return new BinaryFileResponse($manager->getFilePath($path), 200, ["Content-Type" => mime_content_type($manager->getFilePath($path))]);
         } elseif ($manager->isFolder($path . "/")) {
             $path .= "/" . StorageManager::INDEX_FILE_NAME;
         } elseif (!$manager->pathIsMd($path)) {
@@ -41,6 +45,7 @@ class KnowledgeController extends AbstractController
             'table'    => $tableOfContent,
             'raw'      => $file,
             'filename' => $path,
+            'rawPath'  => $rawPath,
         ]);
     }
 }

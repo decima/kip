@@ -43,3 +43,7 @@ First version
 Every contributions, even small are welcome, feel free to make this project awesome
 
 ## Deploy
+
+## customize
+in your storage folder, add a folder named .custom and if you want to integrate your own css on the page, 
+just add a file named style.css in this folder.

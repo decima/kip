@@ -1,8 +1,13 @@
-{% macro menuItem(nav,par,dept) %}
+{% macro menuItem(nav,par,dept,path) %}
     {% import _self as macros %}
 
-    <a href="{{ path("knowledge_read",{"path":nav.path}) }}{% if nav.isFolder %}/{% endif %}">
-        {% if nav.hasReadme %}
+    <a {% if nav.path==path %}class="is-active"{% endif %}
+
+            {% if nav.isFolder and nav.path~"/" ==path %}class="is-active"{% endif %}
+            {% if nav.hasReadme and nav.path~"/readme.md" ==path %}class="is-active"{% endif %}
+
+       href="{{ path("knowledge_read",{"path":nav.path}) }}{% if nav.isFolder %}/{% endif %}">
+            {% if nav.hasReadme %}
             <i class="fas fa-folder"></i>
 
         {% elseif nav.isFolder %}
@@ -22,44 +27,33 @@
         {{ nav.name }}
     </a>
     {% if nav.isFolder %}
-        <ul class="uk-nav-sub">
+        <ul>
             {% for sublink in nav.subLinks %}
                 {% set at=par ~ loop.index0 %}
-                <li class="uk-parent">
-                    {{ macros.menuItem(sublink,at,dept+1) }}
+                <li>
+                    {{ macros.menuItem(sublink,at,dept+1,path) }}
                 </li>
             {% endfor %}
         </ul>
     {% endif %}
 {% endmacro %}
 {% import _self as macros %}
-<div uk-sticky style="height:100vh;overflow:auto;">
 
-
-    <ul class="uk-nav">
-
+<aside class="menu">
+    <ul class="menu-list">
         <li>
-            <a href="#search-form-uikit" uk-toggle class="uk-button uk-button-default">Search</a>
-        </li>
-        <li>
-            <a class="uk-button uk-button-default" href="{{ path('knowledge_read_home') }}"><i class="fad fa-home"></i>
-                Home</a>
-        </li>
+            <a {% if path =="readme" %} class="is-active"{% endif %}
 
-
-        <li class="uk-parent">
-            <div class="">
-                <ul class="uk-nav-sub">
-                    {% for item in nav.subLinks %}
-                        {% set dept=0 %}
-                        {% set at=loop.index0 %}
-                        <li class="uk-parent">
-                            {{ macros.menuItem(item,at,dept) }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
+                    href="{{ path('knowledge_read_home') }}">
+                <i class="fad fa-home"></i> Home
+            </a>
         </li>
-
+        {% for item in nav.subLinks %}
+            {% set dept=0 %}
+            {% set at=loop.index0 %}
+            <li>
+                {{ macros.menuItem(item,at,dept,path) }}
+            </li>
+        {% endfor %}
     </ul>
-</div>
+</aside>

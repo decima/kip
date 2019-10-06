@@ -1,42 +1,83 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Kip - {{ filename }}{% endblock %}
-    {% block right %}
 
-
-            <ul class="uk-nav">
-                <li class=" uk-nav-header">
-                    {{ filename }}
-                </li>
-                <li>
-                    <a href="#top"><i class="fad fa-arrow-up"></i> Scroll to top</a>
-                    <a class="btn btn-primary" href="#" onclick="openEditor()"><i class="fad fa-edit"></i> Edit</a>
-                    <a class="btn btn-danger" href="{{ path('documents_delete',{path:filename}) }}"
-                       onclick="confirm('are you sure?')"><i class="fad fa-trash"></i> Delete</a>
-                </li>
-                <li class=" uk-nav-header">
-                    Table Of Content
-                </li>
-                {% for item in table %}
-                    <li class="nav-link" style="font-size: {{ 5+(7-item.level)*2 }}px;">
-
-                        <a href="#{{ item.id }}">
-                            {% for i in range(1, item.level) %}#{% endfor %} {{ item.text }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-
-    {% endblock %}
 
 {% block body %}
-    {% if content|length ==0 %}
-        <h1>404 - File Empty or not found!</h1>
-        <p>This file seems empty/inexistant, but don't worry and start <a href="#" onclick="openEditor()">Edit it</a>
-        </p>
-    {% endif %}
-    <div class="page-content">
-        {{ content|raw }}
+
+    <div class="columns">
+        <div class="column is-3">  {{ render(controller('App\\Controller\\System\\EmbeddedController::leftMenu',{"path":rawPath})) }}  </div>
+        <div class="column  is-6">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    {% set items = rawPath | split("/") %}
+                    {% for item in items %}
+                        {% set uri= items|slice(0, loop.index)|join("/") %}
+                        {% if(uri==rawPath) %}
+                            <li class="is-active">
+
+                                <a>{{ item }}</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{{ path( "knowledge_read",{path:  uri }) }}">{{ item }}</a>
+
+                            </li>
+                        {% endif %}
+
+                    {% endfor %}
+                </ul>
+            </nav>
+            {% if content|length ==0 %}
+                <h1>404 - File Empty or not found!</h1>
+                <p>This file seems empty/inexistant, but don't worry and start <a href="#" onclick="openEditor()">Edit
+                        it</a>
+                </p>
+            {% endif %}
+            {{ content|raw }}
+        </div>
+        <div class="column is-3">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        {{ rawPath }}
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="menu">
+                        <ul class="menu-list">
+                            <li class=" uk-nav-header">
+                            </li>
+                            <li>
+                                <a href="#top"><i class="fad fa-arrow-up"></i> Scroll to top</a>
+                                <a class="btn btn-primary" href="#" onclick="openEditor()"><i class="fad fa-edit"></i>
+                                    Edit</a>
+                                <a class="btn btn-danger" href="{{ path('documents_delete',{path:filename}) }}"
+                                   onclick="confirm('are you sure?')"><i class="fad fa-trash"></i> Delete</a>
+                            </li>
+                            <li class=" uk-nav-header">
+                                Table of content
+                            </li>
+                            {% for item in table %}
+                                <li class="nav-link">
+
+                                    <a href="#{{ item.id }}">
+                                        {% for i in range(1, item.level) %}#{% endfor %} {{ item.text }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <a href="#top" class="card-footer-item"><i class="fad fa-arrow-up"></i> Scroll to top</a>
+                    <a class="card-footer-item" href="#" onclick="openEditor()"><i class="fad fa-edit"></i>
+                        Edit</a>
+                    <a class="card-footer-item" href="{{ path('documents_delete',{path:filename}) }}"
+                       onclick="confirm('are you sure?')"><i class="fad fa-trash"></i> Delete</a>
+                </footer>
+            </div>
+        </div>
     </div>
 
 
