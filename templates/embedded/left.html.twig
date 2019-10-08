@@ -7,21 +7,26 @@
             {% if nav.hasReadme and nav.path~"/readme.md" ==path %}class="is-active"{% endif %}
 
        href="{{ path("knowledge_read",{"path":nav.path}) }}{% if nav.isFolder %}/{% endif %}">
-            {% if nav.hasReadme %}
+        {% if nav.hasReadme %}
+            <span class="icon  has-text-link">
             <i class="fas fa-folder"></i>
-
+</span>
         {% elseif nav.isFolder %}
-
+            <span class="icon has-text-primary">
             <i class="fad fa-folder"></i>
+                </span>
         {% else %}
-            {% if nav.type=="image" %}
-                <i class="fas fa-image"></i>
-            {% elseif nav.type=="video" %}
-                <i class="fas fa-video"></i>
-            {% else %}
-                <i class="fas fa-file"></i>
+            <span class="icon has-text-info">
 
-            {% endif %}
+                {% if nav.type=="image" %}
+                    <i class="fas fa-image"></i>
+                {% elseif nav.type=="video" %}
+                    <i class="fas fa-video"></i>
+                {% else %}
+                    <i class="fas fa-file"></i>
+
+                {% endif %}
+            </span>
         {% endif %}
 
         {{ nav.name }}

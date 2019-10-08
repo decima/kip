@@ -46,8 +46,10 @@ class StorageManager
                         $parent->hasReadme = true;
                     }
                 } else {
-                    $item->mime         = mime_content_type($fullFolderPath);
-                    $parent->subLinks[] = $item;
+                    if(strpos($item->name, ".")!==0) {
+                        $item->mime         = mime_content_type($fullFolderPath);
+                        $parent->subLinks[] = $item;
+                    }
 
                 }
             } else if ($value != "." && $value != ".." && strpos($value, ".") !== 0) {

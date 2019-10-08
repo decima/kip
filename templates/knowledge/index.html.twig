@@ -46,15 +46,6 @@
                 <div class="card-content">
                     <div class="menu">
                         <ul class="menu-list">
-                            <li class=" uk-nav-header">
-                            </li>
-                            <li>
-                                <a href="#top"><i class="fad fa-arrow-up"></i> Scroll to top</a>
-                                <a class="btn btn-primary" href="#" onclick="openEditor()"><i class="fad fa-edit"></i>
-                                    Edit</a>
-                                <a class="btn btn-danger" href="{{ path('documents_delete',{path:filename}) }}"
-                                   onclick="confirm('are you sure?')"><i class="fad fa-trash"></i> Delete</a>
-                            </li>
                             <li class="">
                                 <p class="menu-label"> Table of content </p>
 
@@ -64,11 +55,20 @@
                     </div>
                 </div>
                 <footer class="card-footer">
-                    <a href="#top" class="card-footer-item"><i class="fad fa-arrow-up"></i> Scroll to top</a>
-                    <a class="card-footer-item" href="#" onclick="openEditor()"><i class="fad fa-edit"></i>
-                        Edit</a>
+                    <a href="#top" class="card-footer-item">
+                        <span class="icon has-text-dark">
+                        <i class="fad fa-arrow-up"></i>
+                        </span>
+                        Scroll to top
+                    </a>
+                    <a class="card-footer-item" href="#" onclick="openEditor()">
+                        <span class="icon has-text-primary"><i class="fad fa-edit"></i></span>
+                        Edit
+                    </a>
                     <a class="card-footer-item" href="{{ path('documents_delete',{path:filename}) }}"
-                       onclick="confirm('are you sure?')"><i class="fad fa-trash"></i> Delete</a>
+                       onclick="confirm('are you sure?')">
+                        <span class="icon has-text-danger"><i class="fas fa-trash"></i></span> Delete
+                    </a>
                 </footer>
             </div>
         </div>
