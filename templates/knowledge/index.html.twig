@@ -6,8 +6,8 @@
 {% block body %}
 
     <div class="columns">
-        <div class="column is-3">  {{ render(controller('App\\Controller\\System\\EmbeddedController::leftMenu',{"path":rawPath})) }}  </div>
-        <div class="column  is-6">
+        <div class="column is-2 left-column">  {{ render(controller('App\\Controller\\System\\EmbeddedController::leftMenu',{"path":rawPath})) }}  </div>
+        <div class="column  is-8 middle-column">
             <nav class="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     {% set items = rawPath | split("/") %}
@@ -36,7 +36,7 @@
             {% endif %}
             {{ content|raw }}
         </div>
-        <div class="column is-3">
+        <div class="column is-2  right-column">
             <div class="card">
                 <div class="card-header">
                     <div class="card-header-title">
