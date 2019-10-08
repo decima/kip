@@ -37,15 +37,64 @@ class KnowledgeController extends AbstractController
         $file           = $manager->getFileContent($path);
         $parseDown      = new ParseDownImproved();
         $body           = $parseDown->text($file);
-        $tableOfContent = $parseDown->contentsList("array");
-
+        $tableOfContent = $parseDown->contentsList();
+        $tableOfContent = $this->buildTree($tableOfContent);
         return $this->render('knowledge/index.html.twig', [
 
             'content'  => $body,
-            'table'    => $tableOfContent,
+            'tableOfContent'    => $tableOfContent,
             'raw'      => $file,
             'filename' => $path,
             'rawPath'  => $rawPath,
         ]);
+    }
+
+    private function buildTree($cs)
+    {
+        $tree        = [];
+        $lastOfLevel = [];
+        foreach ($cs as &$c) {
+            if (!isset($lastOfLevel[$c["level"]])) {
+                if (count($lastOfLevel) > 0) {
+                    if (min(array_keys($lastOfLevel)) > $c["level"]) {
+                        $lastOfLevel = [];
+                    }
+                }
+
+                if (count($lastOfLevel) < 1) {
+                    $tree[] = &$c;
+                }
+                $lastOfLevel[$c["level"]] = &$c;
+                for ($i = $c["level"] - 1; $i > 0; $i--) {
+                    if (isset($lastOfLevel[$i])) {
+                        if (!isset($lastOfLevel[$i]["children"])) {
+                            $lastOfLevel[$i]["children"] = [];
+                        }
+                        $lastOfLevel[$i]["children"][] = &$c;
+                        $lastOfLevel[$c["level"]]      = &$c;
+                        break;
+                    }
+                }
+
+            } else {
+
+                for ($i = $c["level"] - 1; $i > 0; $i--) {
+                    if (isset($lastOfLevel[$i])) {
+                        $lastOfLevel[$i]["children"][] = &$c;
+                        break;
+                    }
+                }
+                for ($i = $c["level"]; $i < 6; $i++) {
+                    unset($lastOfLevel[$i]);
+                }
+                if (count($lastOfLevel) < 1) {
+                    $tree[] = &$c;
+                }
+                $lastOfLevel[$c["level"]] = &$c;
+
+            }
+        }
+        return $tree;
+
     }
 }

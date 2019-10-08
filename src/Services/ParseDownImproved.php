@@ -59,19 +59,10 @@ class ParseDownImproved extends \Parsedown
     #
     # contents list
     #
-    public function contentsList($Return_as = 'string')
+    public function contentsList()
     {
-        if ('string' === strtolower($Return_as)) {
-            $result = '';
-            if (!empty($this->contentsListString)) {
-                $result = $this->text($this->contentsListString);
-            }
-            return $result;
-        } elseif ('json' === strtolower($Return_as)) {
-            return json_encode($this->contentsListArray);
-        } else {
-            return $this->contentsListArray;
-        }
+         return $this->contentsListArray;
+
     }
 
     #
@@ -133,19 +124,22 @@ class ParseDownImproved extends \Parsedown
             }
 
             $level = $Block['element']['name'];    //levels are h1, h2, ..., h6
-            $id    = $this->createAnchorID($text);
+            $level = ltrim($level, "h");
+
+
+            $id = $this->createAnchorID($text);
 
             //Set attributes to head tags
             $Block['element']['attributes'] = [
-                'id'   => $id,
-                'name' => $id,
+                'id'    => $id,
+                'name'  => $id,
+                "class" => "title is-" . $level,
             ];
-
 
             $this->setContentsList([
                 'text'  => $text,
                 'id'    => $id,
-                'level' => ltrim($level, "h"),
+                'level' => $level,
             ]);
 
             return $Block;

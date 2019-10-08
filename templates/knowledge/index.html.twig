@@ -55,17 +55,11 @@
                                 <a class="btn btn-danger" href="{{ path('documents_delete',{path:filename}) }}"
                                    onclick="confirm('are you sure?')"><i class="fad fa-trash"></i> Delete</a>
                             </li>
-                            <li class=" uk-nav-header">
-                                Table of content
-                            </li>
-                            {% for item in table %}
-                                <li class="nav-link">
+                            <li class="">
+                                <p class="menu-label"> Table of content </p>
 
-                                    <a href="#{{ item.id }}">
-                                        {% for i in range(1, item.level) %}#{% endfor %} {{ item.text }}
-                                    </a>
-                                </li>
-                            {% endfor %}
+                                {% include "knowledge/rightMenu.html.twig" %}
+                            </li>
                         </ul>
                     </div>
                 </div>
