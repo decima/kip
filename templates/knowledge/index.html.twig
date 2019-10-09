@@ -116,19 +116,8 @@
                 };
             }
 
-            setInterval(function () {
-                var content = document.getElementById("text-content").value;
-                save(content, function () {
-                });
-            }, 10000);
 
-            function saveOnQuit() {
-                var content = document.getElementById("text-content").value;
-                save(content, function () {
-                    window.location.href = "{{ path("knowledge_read",{ path:rawPath}) }}"
 
-                });
-            }
 
             var simplemde = new SimpleMDE({
                 autosave: {
@@ -152,7 +141,6 @@
                             fileUploader = document.getElementById("fileUploader")
                             fileUploader.onchange = function () {
                                 var file = this.files[0];
-                                console.log(file)
                                 var request = new XMLHttpRequest();
                                 var data = new FormData();
                                 data.append('media', fileUploader.files[0]);
@@ -200,26 +188,21 @@
             simplemde.codemirror.on("change", function () {
                 console.log(simplemde.value());
             });
+            setInterval(function () {
+                var content = simplemde.value();
+                save(content, function () {
+                });
+            }, 10000);
+            function saveOnQuit() {
+                var content = simplemde.value();
+                save(content, function () {
+                    window.location.href = "{{ path("knowledge_read",{ path:rawPath}) }}"
+
+                });
+            }
+
             const el = document.querySelector('textarea');
 
-            function openEditor() {
-                // Open the iframe
-                stackedit.openFile({
-                    name: '{{ filename }}', // with an optional filename
-                    content: {
-                        text: el.value // and the Markdown content.
-                    }
-                });
-                setInterval(function () {
-                    save(el.value, function (ok) {
-                        if (!ok) {
-
-                            alert("auto save failed!");
-                        }
-
-                    })
-                }, 20000);
-            }
 
 
             function _replaceSelection(cm, active, startEnd, url) {
