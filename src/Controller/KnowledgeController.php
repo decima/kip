@@ -7,6 +7,7 @@ use App\Services\ParseDownImproved;
 use App\Services\StorageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -19,7 +20,7 @@ class KnowledgeController extends AbstractController
      * @Route("/{path}",requirements={"path"="[^_].*"}, methods={"GET"},name="_read")
      * @Route("", methods={"GET"},name="_read_home")
      */
-    public function index($path = "readme", StorageManager $manager)
+    public function index($path = "readme", StorageManager $manager, Request $request)
     {
         $path    =
             trim($path, "/");
@@ -41,11 +42,12 @@ class KnowledgeController extends AbstractController
         $tableOfContent = $this->buildTree($tableOfContent);
         return $this->render('knowledge/index.html.twig', [
 
-            'content'  => $body,
-            'tableOfContent'    => $tableOfContent,
-            'raw'      => $file,
-            'filename' => $path,
-            'rawPath'  => $rawPath,
+            'content'        => $body,
+            'tableOfContent' => $tableOfContent,
+            'raw'            => $file,
+            'filename'       => $path,
+            'rawPath'        => $rawPath,
+            'edition'        => $request->query->has("_edit"),
         ]);
     }
 

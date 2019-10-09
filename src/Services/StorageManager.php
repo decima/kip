@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Entity\Page;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class StorageManager
 {
@@ -46,7 +47,7 @@ class StorageManager
                         $parent->hasReadme = true;
                     }
                 } else {
-                    if(strpos($item->name, ".")!==0) {
+                    if (strpos($item->name, ".") !== 0) {
                         $item->mime         = mime_content_type($fullFolderPath);
                         $parent->subLinks[] = $item;
                     }
@@ -159,5 +160,15 @@ class StorageManager
     public function GetStoragePath()
     {
         return $this->storagePath;
+    }
+
+    public function addUploadedFile(UploadedFile $uploadedFile, $path)
+    {
+        $fullPath = $this->storagePath . "/" . $path;
+        if (!$this->isFolder($path)) {
+            $path = dirname($fullPath);
+        }
+        $uploadedFile->move($path,$uploadedFile->getClientOriginalName());
+        return "./".$uploadedFile->getClientOriginalName();
     }
 }
