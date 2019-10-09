@@ -1,98 +1,259 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Kip - {{ filename }}{% endblock %}
-    {% block right %}
 
-
-            <ul class="uk-nav">
-                <li class=" uk-nav-header">
-                    {{ filename }}
-                </li>
-                <li>
-                    <a href="#top"><i class="fad fa-arrow-up"></i> Scroll to top</a>
-                    <a class="btn btn-primary" href="#" onclick="openEditor()"><i class="fad fa-edit"></i> Edit</a>
-                    <a class="btn btn-danger" href="{{ path('documents_delete',{path:filename}) }}"
-                       onclick="confirm('are you sure?')"><i class="fad fa-trash"></i> Delete</a>
-                </li>
-                <li class=" uk-nav-header">
-                    Table Of Content
-                </li>
-                {% for item in table %}
-                    <li class="nav-link" style="font-size: {{ 5+(7-item.level)*2 }}px;">
-
-                        <a href="#{{ item.id }}">
-                            {% for i in range(1, item.level) %}#{% endfor %} {{ item.text }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-
-    {% endblock %}
 
 {% block body %}
-    {% if content|length ==0 %}
-        <h1>404 - File Empty or not found!</h1>
-        <p>This file seems empty/inexistant, but don't worry and start <a href="#" onclick="openEditor()">Edit it</a>
-        </p>
+    {% if not edition %}
+        <div class="columns">
+            <div class="column is-2 left-column">  {{ render(controller('App\\Controller\\System\\EmbeddedController::leftMenu',{"path":rawPath})) }}  </div>
+            <div class="column  is-8 middle-column">
+                <nav class="breadcrumb" aria-label="breadcrumbs">
+                    <ul>
+                        {% set items = rawPath | split("/") %}
+                        {% for item in items %}
+                            {% set uri= items|slice(0, loop.index)|join("/") %}
+                            {% if(uri==rawPath) %}
+                                <li class="is-active">
+
+                                    <a>{{ item }}</a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ path( "knowledge_read",{path:  uri }) }}">{{ item }}</a>
+
+                                </li>
+                            {% endif %}
+
+                        {% endfor %}
+                    </ul>
+                </nav>
+                {% if content|length ==0 %}
+                    <h1>404 - File Empty or not found!</h1>
+                    <p>This file seems empty/inexistant, but don't worry and start <a href="#" onclick="openEditor()">Edit
+                            it</a>
+                    </p>
+                {% endif %}
+                {{ content|raw }}
+            </div>
+            <div class="column is-2  right-column">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-title">
+                            {{ rawPath }}
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="menu">
+                            <ul class="menu-list">
+                                <li class="">
+                                    <p class="menu-label"> Table of content </p>
+
+                                    {% include "knowledge/rightMenu.html.twig" %}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="#top" class="card-footer-item">
+                        <span class="icon has-text-dark">
+                        <i class="fad fa-arrow-up"></i>
+                        </span>
+                            Scroll to top
+                        </a>
+                        <a class="card-footer-item" href="{{ path("knowledge_read",{path:rawPath, _edit:true}) }}">
+                            <span class="icon has-text-primary"><i class="fad fa-edit"></i></span>
+                            Edit
+                        </a>
+                        <a class="card-footer-item" href="{{ path('documents_delete',{path:filename}) }}"
+                           onclick="confirm('are you sure?')">
+                            <span class="icon has-text-danger"><i class="fas fa-trash"></i></span> Delete
+                        </a>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+                    <progress style="display:none;" id="progress-upload" class="progress is-success" max="100"></progress>
+
+                    <textarea id="text-content">{{ raw }}</textarea>
+                    <form style="display: none;" method="post" action="{{ path('media_store') }}"
+                          enctype="multipart/form-data">
+                        <input id="fileUploader" type="file" name="media"/>
+                        <button>send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     {% endif %}
-    <div class="page-content">
-        {{ content|raw }}
-    </div>
 
 
 {% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <style>
+        .CodeMirror {
+            height: calc(100vh - 220px);
+            overflow-x: auto;
+        }
+    </style>
+{% endblock %}
 
 {% block javascripts %}
-    <script src="https://unpkg.com/stackedit-js@1.0.7/docs/lib/stackedit.min.js"></script>
-    <textarea style="display: none;">{{ raw }}</textarea>
-    <script>
-        const stackedit = new Stackedit();
-        const el = document.querySelector('textarea');
+    {% if(edition) %}
+        <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+        <script>
+            function save(content, callback) {
+                let xhr = new XMLHttpRequest();
+                xhr.open("PUT", "{{ path('documents_store',{path: filename}) }}");
+                xhr.send(content);
+                xhr.onload = function () {
+                    callback(xhr.status < 300 && xhr.status > 199);
+                };
+            }
 
-        function openEditor() {
-            // Open the iframe
-            stackedit.openFile({
-                name: '{{ filename }}', // with an optional filename
-                content: {
-                    text: el.value // and the Markdown content.
-                }
-            });
             setInterval(function () {
-                save(el.value, function (ok) {
-                    if (!ok) {
+                var content = document.getElementById("text-content").value;
+                save(content, function () {
+                });
+            }, 10000);
 
-                        alert("auto save failed!");
+            function saveOnQuit() {
+                var content = document.getElementById("text-content").value;
+                save(content, function () {
+                    window.location.href = "{{ path("knowledge_read",{ path:rawPath}) }}"
+
+                });
+            }
+
+            var simplemde = new SimpleMDE({
+                autosave: {
+                    enabled: true,
+                    uniqueId: "{{ rawPath }}",
+                    delay: 1000,
+                },
+                toolbar: [
+                    {
+                        name: "close",
+                        action: function (editor) {
+                            saveOnQuit()
+                        },
+                        className: "fa fa-close",
+                        title: "Save and Close"
+                    },
+                    "bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link",
+                    {
+                        name: "image",
+                        action: function (editor) {
+                            fileUploader = document.getElementById("fileUploader")
+                            fileUploader.onchange = function () {
+                                var file = this.files[0];
+                                console.log(file)
+                                var request = new XMLHttpRequest();
+                                var data = new FormData();
+                                data.append('media', fileUploader.files[0]);
+                                data.append("path", "{{ rawPath }}");
+                                document.getElementById("progress-upload").style.display="block";
+                                request.upload.addEventListener('progress', function (e) {
+                                    var percent_complete = (e.loaded / e.total) * 100;
+
+
+                                    document.getElementById("progress-upload").value = percent_complete;
+                                });
+                                request.addEventListener('load', function (e) {
+                                    setTimeout(function () {
+                                        document.getElementById("progress-upload").style.display="none";
+
+                                    }, 1000);
+                                    if (request.status != 200) {
+                                        alert("something wrong happened");
+                                        return;
+                                    }
+                                    // request.response will hold the response from the server
+                                    fileUploader.value = null
+                                    var options = editor.options;
+
+                                    var cm = editor.codemirror;
+                                    var stat = editor.getState(cm);
+
+
+                                    var url = JSON.parse(request.response).filename;
+                                    _replaceSelection(cm, stat.image, options.insertTexts.image, url);
+                                });
+                                request.open('post', '{{ path("media_store") }}');
+                                request.send(data);
+
+                            };
+                            fileUploader.click()
+
+
+                        },
+                        className: "fa fa-image",
+                        title: "Upload Image"
                     }
+                ],
+            });
+            simplemde.codemirror.on("change", function () {
+                console.log(simplemde.value());
+            });
+            const el = document.querySelector('textarea');
 
-                })
-            }, 20000);
-        }
+            function openEditor() {
+                // Open the iframe
+                stackedit.openFile({
+                    name: '{{ filename }}', // with an optional filename
+                    content: {
+                        text: el.value // and the Markdown content.
+                    }
+                });
+                setInterval(function () {
+                    save(el.value, function (ok) {
+                        if (!ok) {
+
+                            alert("auto save failed!");
+                        }
+
+                    })
+                }, 20000);
+            }
 
 
-        stackedit.on('fileChange', (file) => {
-            el.value = file.content.text
-        });
-        stackedit.on('close', () => {
-            save(el.value, function (ok) {
-                if (ok) {
-                    location.reload()
-                } else {
-                    alert("an error occured, reopen the editor to save again.");
+            function _replaceSelection(cm, active, startEnd, url) {
+                if (/editor-preview-active/.test(cm.getWrapperElement().lastChild.className))
+                    return;
+
+                var text;
+                var start = startEnd[0];
+                var end = startEnd[1];
+                var startPoint = cm.getCursor("start");
+                var endPoint = cm.getCursor("end");
+                if (url) {
+                    end = end.replace("#url#", url);
                 }
+                if (active) {
+                    text = cm.getLine(startPoint.line);
+                    start = text.slice(0, startPoint.ch);
+                    end = text.slice(startPoint.ch);
+                    cm.replaceRange(start + end, {
+                        line: startPoint.line,
+                        ch: 0
+                    });
+                } else {
+                    text = cm.getSelection();
+                    cm.replaceSelection(start + text + end);
 
-            })
-
-        });
-
-        function save(content, callback) {
-            let xhr = new XMLHttpRequest();
-            xhr.open("PUT", "{{ path('documents_store',{path: filename}) }}");
-            xhr.send(content);
-            xhr.onload = function () {
-                callback(xhr.status < 300 && xhr.status > 199);
-            };
-        }
-
-
-    </script>
+                    startPoint.ch += start.length;
+                    if (startPoint !== endPoint) {
+                        endPoint.ch += start.length;
+                    }
+                }
+                cm.setSelection(startPoint, endPoint);
+                cm.focus();
+            }
+        </script>
+    {% endif %}
 {% endblock %}

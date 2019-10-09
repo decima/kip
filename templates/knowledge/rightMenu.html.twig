@@ -1,0 +1,24 @@
+{% macro menuRight(item) %}
+    {% import _self as macros %}
+
+    <a href="#{{ item.id }}">
+        <span class="icon has-text-info">        <i class="fad fa-h{{ item.level }}"></i></span>
+        {{ item.text }}
+    </a>
+    <ul>
+        {% if item.children is defined %}
+            {% for child in item.children %}
+                <li>
+                    {{ macros.menuRight(child) }}
+                </li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+{% endmacro %}
+{% import _self as macros %}
+
+{% for item in tableOfContent %}
+    <li>
+        {{ macros.menuRight(item) }}
+    </li>
+{% endfor %}
