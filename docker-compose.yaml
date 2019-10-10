@@ -1,0 +1,13 @@
+version: "3.0"
+services:
+  kip:
+    image: decima/kip:alpha
+    build: .
+    volumes:
+      - ./storage:/storage
+    environment:
+      - DATABASE_AUTH_ENABLED="false"
+      - LDAP_AUTH_ENABLED="false"
+      - DATABASE_AUTH_REGISTER="false"
+    ports:
+      - 18000:8000
