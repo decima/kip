@@ -4,89 +4,90 @@
 
 {% block body %}
     {% if not edition %}
-        <div class="columns">
-            <div class="column  has-background-dark is-paddingless has-text-white">  {{ render(controller('App\\Controller\\System\\EmbeddedController::leftMenu',{"path":rawPath})) }}  </div>
-            <div class="column is-three-fifths content">
-                <div class="breadcrumb" aria-label="breadcrumbs">
-                    <ul>
-                        <li></li>
-                        {% set items = rawPath | split("/") %}
-                        {% for item in items %}
-                            {% set uri= items|slice(0, loop.index)|join("/") %}
-                            {% if(uri==rawPath) %}
-                                <li class="is-active">
+        <div class="container">
+            <div class="left-opener"></div>
+            <div class="left-column">  {{ render(controller('App\\Controller\\System\\EmbeddedController::leftMenu',{"path":rawPath})) }}  </div>
+            <div class="center-column">
 
-                                    <a>{{ item }}</a>
-                                </li>
-                            {% else %}
-                                <li>
-                                    <a href="{{ path( "knowledge_read",{path:  uri }) }}">{{ item }}</a>
+                <div class="page-content" id="top">
+                    <div class="breadcrumb" aria-label="breadcrumbs">
+                        <ul>
+                            {% set items = rawPath | split("/") %}
+                            {% for item in items %}
+                                {% set uri= items|slice(0, loop.index)|join("/") %}
+                                {% if(uri==rawPath) %}
+                                    <li class="is-active">
 
-                                </li>
-                            {% endif %}
+                                        <a>{{ item }}</a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a href="{{ path( "knowledge_read",{path:  uri }) }}">{{ item }}</a>
 
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="full-content">
+                                    </li>
+                                {% endif %}
 
-                {% if content|length ==0 %}
-                    <h1>404 - File Empty or not found!</h1>
-                    <p>This file seems empty/inexistant, but don't worry and start <a href="#" onclick="openEditor()">Edit
-                            it</a>
-                    </p>
-                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% if content|length ==0 %}
+                        <h1>404 - File Empty or not found!</h1>
+                        <p>This file seems empty/inexistant, but don't worry and start <a
+                                    href="{{ path("knowledge_read",{path:rawPath, _edit:true}) }}">
+                                <span><i class="fad fa-edit"></i></span>
+                                Edit it
+                            </a>.
+                        </p>
+                    {% endif %}
                     {{ content|raw }}
                 </div>
-            </div>
-            <div class="column">
-                <div class="panel sticky">
-                    <nav class="navbar">
-                        <a class="navbar-item" href="#top">
+
+
+                <div class="aside-right">
+                    <div>
+                        <nav>
+                            <a class="navbar-item" href="#top">
                         <span class="icon has-text-dark">
                         <i class="fad fa-arrow-up"></i>
                         </span>
-                            Scroll to top
-                        </a>
-                        <a class="navbar-item" href="{{ path("knowledge_read",{path:rawPath, _edit:true}) }}">
-                            <span class="icon has-text-primary"><i class="fad fa-edit"></i></span>
-                            Edit
-                        </a>
-                        <a class="navbar-item" href="{{ path('documents_delete',{path:filename}) }}"
-                           onclick="confirm('are you sure?')">
-                            <span class="icon has-text-danger"><i class="fas fa-trash"></i></span>
-                            Delete
-                        </a>
-                    </nav>
-                    <ul class="menu-list">
-                        <li class="">
-                            <p class="menu-label"> Table of content </p>
+                            </a>
+                            <a href="{{ path("knowledge_read",{path:rawPath, _edit:true}) }}">
+                                <andpan><i class="fad fa-edit"></i></andpan>
+                            </a>
+                            <a href="{{ path('documents_delete',{path:filename}) }}"
+                               onclick="confirm('are you sure?')">
+                                <span><i class="fas fa-trash"></i></span>
+                            </a>
+                        </nav>
+                        <ul>
+                            <li class="">
+                                <p> Table of content </p>
 
-                            {% include "knowledge/rightMenu.html.twig" %}
-                        </li>
-                    </ul>
+                                {% include "knowledge/rightMenu.html.twig" %}
+                            </li>
+                        </ul>
+
+                    </div>
+
 
                 </div>
-
-
             </div>
+
         </div>
     {% else %}
-        <div class="container">
-            <div class="columns">
-                <div class="column ">
-                    <progress style="display:none;" id="progress-upload" class="progress is-success"
-                              max="100"></progress>
 
-                    <textarea id="text-content">{{ raw }}</textarea>
-                    <form style="display: none;" method="post" action="{{ path('media_store') }}"
-                          enctype="multipart/form-data">
-                        <input id="fileUploader" type="file" name="media"/>
-                        <button>send</button>
-                    </form>
-                </div>
-            </div>
+        <div class="editor">
+            <progress style="display:none;" id="progress-upload" class="progress is-success"
+                      max="100"></progress>
+
+            <textarea id="text-content">{{ raw }}</textarea>
+            <form style="display: none;" method="post" action="{{ path('media_store') }}"
+                  enctype="multipart/form-data">
+                <input id="fileUploader" type="file" name="media"/>
+                <button>send</button>
+            </form>
         </div>
+
 
     {% endif %}
 
@@ -97,7 +98,38 @@
 {% endblock %}
 
 {% block javascripts %}
-    {% if(edition) %}
+    {% if not edition %}
+
+        <script>
+            function hideLeft() {
+                $(".left-column").addClass("hidden");
+
+            }
+
+            function showLeft() {
+                $(".left-column").removeClass("hidden");
+
+            }
+
+            $(document).ready(function () {
+                var currentHash = window.location.hash;
+                $(".center-column").scroll(function () {
+
+                    $('.title').each(function () {
+                        var top = window.pageYOffset;
+                        var distance = top - $(this).offset().top;
+                        var hash = $(this).attr('id');
+
+                        if (distance < 30 && distance > -30 && currentHash != hash) {
+                            $('a').removeClass('active');
+
+                            $('.aside-right a[href="#' + hash + '"]').addClass('active');
+                            currentHash = hash;
+                        }
+                    });
+                });
+            });</script>
+    {% else %}
         <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
         <script>
             function save(content, callback) {

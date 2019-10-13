@@ -167,8 +167,14 @@ class StorageManager
         $fullPath = $this->storagePath . "/" . $path;
         if (!$this->isFolder($path)) {
             $path = dirname($fullPath);
+        } else {
+            $path = $fullPath;
         }
-        $uploadedFile->move($path,$uploadedFile->getClientOriginalName());
-        return "./".$uploadedFile->getClientOriginalName();
+
+        $fileNameExploded = explode(".", $uploadedFile->getClientOriginalName());
+        array_pop($fileNameExploded);
+        $newName = implode(".", $fileNameExploded) . "-" . time() . "." . $uploadedFile->getClientOriginalExtension();
+        $file    = $uploadedFile->move($path, $newName);
+        return "./" . $newName;
     }
 }

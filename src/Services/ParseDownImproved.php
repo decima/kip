@@ -53,7 +53,7 @@ class ParseDownImproved extends \Parsedown
 
     protected function createAnchorID($Text)
     {
-        return urlencode($this->fetchText($Text));
+        return urlencode($this->fetchText($Text)) . "+" . substr(md5(uniqid()), 0, 8);
     }
 
     #
@@ -61,7 +61,7 @@ class ParseDownImproved extends \Parsedown
     #
     public function contentsList()
     {
-         return $this->contentsListArray;
+        return $this->contentsListArray;
 
     }
 
@@ -133,7 +133,7 @@ class ParseDownImproved extends \Parsedown
             $Block['element']['attributes'] = [
                 'id'    => $id,
                 'name'  => $id,
-                "class" => "title is-" . $level,
+                "class" => "title",
             ];
 
             $this->setContentsList([

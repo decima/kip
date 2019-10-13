@@ -15,12 +15,15 @@ class ToSentenceCaseExtension extends \Twig_Extension
 
     public function convertSpacesFilter($str)
     {
-        $pattern = '/(([A-Z]{1}))/';
+        $pattern = '/([a-z0-9])([A-Z])|([A-Z])([A-Z][a-z])/';
         $str     = str_replace("_", " ", $str);
         $str     = preg_replace_callback(
             $pattern,
             function ($matches) {
-                return " " . $matches[0];
+                $matches = array_values(array_filter($matches));
+
+                dump($matches);
+                return $matches[1] . " " . $matches[2];
             },
             $str
         );

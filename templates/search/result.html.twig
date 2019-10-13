@@ -1,29 +1,37 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <h1>Results</h1>
-    <table class="table is-fullwidth">
-        <thead>
-        <tr>
-            <th>File</th>
-            <th>Path</th>
-            <th>preview</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div class="container">
+        <div class="center-column">
+            <div class="page-content">
+                <a href="{{ path('knowledge_read_home') }}">Back to files</a>
+                <h1>Results</h1>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>File</th>
+                        <th>Path</th>
+                        <th>preview</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-        {% for result in results %}
+                    {% for result in results %}
 
-            <tr>
-                <td>
-                    <a href="{{ path('knowledge_read',{path: result.path}) }}"
-                       class="list-group-item">{{ result.name }}</a>
-                </td>
-                <td>
-                    {{ result.path }}
-                </td>
-            </tr>
-        {% endfor %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('knowledge_read',{path: result.path}) }}"
+                                   class="list-group-item">{{ result.name }}</a>
+                            </td>
+                            <td>
+                                {{ result.path }}
+                            </td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
 
-        </tbody>
-    </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}
