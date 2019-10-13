@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <table>
+        <tr>
+            <td>
+                <i class="fad fa-folder"></i>
+            </td>
+            <td><a href="{{ path("media_index",{path:parent}) }}">../</a></td>
+        </tr>
+        {% for file in files %}
+            <tr>
+                <td>
+                    {% if file.extension in ["png","jpg","jpeg"] %}
+                        <i class="fad fa-image"></i>
+
+                    {% else %}
+                        <i class="fad fa-file"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    {{ file.filename }}
+                </td>
+                <td>
+                    <a target="_blank" href="{{ path("knowledge_read",{path: path ~"/"~file.filename}) }}">
+                        preview
+                    </a>
+                </td>
+                <td>
+                    <a onclick="makeHttpRequest('{{ path("documents_delete",{path: path ~"/"~file.filename, json: true}) }}', ()=>window.location.reload())">
+                        <i class="fad fa-trash"></i>
+                    </a>
+
+                </td>
+            </tr>
+        {% endfor %}
+        {% for directory in directories %}
+            <tr>
+                <td>
+                    <i class="fad fa-folder"></i>
+                </td>
+                <td>
+                    <a href="{{ path("media_index",{path:path ~"/" ~ directory.filename}) }}">
+                        {{ directory.filename }}/
+                    </a>
+                </td>
+                <td></td>
+                <td>
+
+                    <a onclick="makeHttpRequest('{{ path("documents_delete",{path: path ~"/"~directory.filename, json: true}) }}', ()=>window.location.reload())">
+                        <i class="fad fa-trash"></i>
+                    </a>
+
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        tr .preview {
+            display: none;
+        }
+
+        tr:hover .preview {
+            display: block;
+            width: 150px;
+            position: absolute;
+        }
+    </style>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        function makeHttpRequest(path, callback) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", path);
+            xhr.send();
+            xhr.onload = function () {
+                if (xhr.status < 300 && xhr.status > 199) {
+                    callback();
+                }
+            };
+        }
+    </script>
+{% endblock %}
