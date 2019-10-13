@@ -44,8 +44,10 @@
 {% endmacro %}
 {% import _self as macros %}
 
-<form action="{{ path("search_action") }}"> <input type="text" name="q"><button>Search</button>
-    <a href="#" onclick="hideLeft()">hide</a>
+<form class="top-left" action="{{ path("search_action") }}">
+    <input type="text" placeholder="search" name="q"/>
+    <button><i class="fad fa-search"></i></button>
+    <a href="#" onclick="hideLeft()" class="pull-right"><i class="fad fa-angle-double-left"></i></a>
 
 </form>
 <aside class="left-menu">
@@ -66,3 +68,5 @@
         {% endfor %}
     </ul>
 </aside>
+<a class="login-button" href="{{ path('user_login') }}"> <i class="fad fa-user"></i> Login</a><br/>
+

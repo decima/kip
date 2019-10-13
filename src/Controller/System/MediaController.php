@@ -4,8 +4,10 @@
 namespace App\Controller\System;
 
 
+use App\Entity\Page;
 use App\Services\StorageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Controller\System
  * @Route("/media", name="media")
  */
-class MediaUploadController extends AbstractController
+class MediaController extends AbstractController
 {
     /**
      * @param Request $request
@@ -31,5 +33,29 @@ class MediaUploadController extends AbstractController
         $filename = $storageManager->addUploadedFile($file, $path);
         return $this->json(["filename" => $filename]);
     }
+
+    /**
+     * @Route("",name="_index")
+     */
+    public function index(Request $request, StorageManager $manager)
+    {
+        $path = $request->query->get("path", "/");
+        $path = str_replace("..", "./", $path);
+        return $this->render("media/index.html.twig", [
+            "path"        => $path,
+            "parent"      => $manager->getParentDir($path),
+            "files"       => $manager->getFiles($path),
+            "directories" => $manager->getDirectories($path),
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function browse()
+    {
+
+    }
+
 
 }

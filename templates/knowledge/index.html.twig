@@ -5,7 +5,11 @@
 {% block body %}
     {% if not edition %}
         <div class="container">
-            <div class="left-opener"></div>
+            <div class="left-opener">
+                <a href="#" onclick="showLeft()"> <i class="fad fa-angle-double-right"></i></a><br/>
+                <a href="{{ path('user_login') }}"> <i class="fad fa-user"></i></a><br/>
+
+            </div>
             <div class="left-column">  {{ render(controller('App\\Controller\\System\\EmbeddedController::leftMenu',{"path":rawPath})) }}  </div>
             <div class="center-column">
 
@@ -103,11 +107,13 @@
         <script>
             function hideLeft() {
                 $(".left-column").addClass("hidden");
+                $(".left-opener").addClass("show");
 
             }
 
             function showLeft() {
                 $(".left-column").removeClass("hidden");
+                $(".left-opener").removeClass("show");
 
             }
 

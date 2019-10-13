@@ -6,6 +6,7 @@ use App\Services\StorageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -34,6 +35,10 @@ class DocumentController extends AbstractController
     public function delete($path, Request $request, StorageManager $storage)
     {
         $storage->dropFile($path);
+
+        if ($request->query->has("json")) {
+            return $this->json("deleted", Response::HTTP_NO_CONTENT);
+        }
         return $this->redirectToRoute("knowledge_read_home");
     }
 }

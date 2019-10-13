@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Entity\Page;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class StorageManager
@@ -24,7 +25,7 @@ class StorageManager
         $this->makeDir();
     }
 
-    public function listAllFiles($path = "", Page &$parent)
+    public function listAllFiles($path = "", Page &$parent = null)
     {
         $fullPath         = $this->storagePath . $path;
         $files            = scandir($fullPath);
@@ -176,5 +177,35 @@ class StorageManager
         $newName = implode(".", $fileNameExploded) . "-" . time() . "." . $uploadedFile->getClientOriginalExtension();
         $file    = $uploadedFile->move($path, $newName);
         return "./" . $newName;
+    }
+
+    public function getParentDir($directory)
+    {
+        return dirname($directory);
+    }
+
+    public function getRelativeFromAbsolutePath($absolutePath)
+    {
+        return "/" . str_replace(realpath($this->storagePath), "", realpath($absolutePath));
+    }
+
+    public function getFiles($path)
+    {
+        $finder = new Finder();
+        $finder->files()->in(realpath($this->storagePath . "/" . $path));
+        if ($finder->hasResults()) {
+            return $finder->depth(0);
+        }
+        return false;
+    }
+
+    public function getDirectories($path)
+    {
+        $finder = new Finder();
+        $finder->directories()->in(realpath($this->storagePath . "/" . $path));
+        if ($finder->hasResults()) {
+            return $finder->depth(0);
+        }
+        return false;
     }
 }
