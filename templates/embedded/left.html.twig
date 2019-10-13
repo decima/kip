@@ -1,12 +1,12 @@
 {% macro menuItem(nav,par,dept,path) %}
     {% import _self as macros %}
 
-    <a {% if nav.path==path %}class="is-active"{% endif %}
+    <a id="file-{{ nav.path }}" {% if nav.path==path %}class="is-active"{% endif %}
 
             {% if nav.isFolder and nav.path~"/" ==path %}class="is-active"{% endif %}
             {% if nav.hasReadme and nav.path~"/readme.md" ==path %}class="is-active"{% endif %}
 
-       href="{{ path("knowledge_read",{"path":nav.path}) }}{% if nav.isFolder %}/{% endif %}">
+       href="{{ path("knowledge_read",{"path":nav.path}) }}{% if nav.isFolder %}/{% endif %}#file-{{ nav.path }}">
         {% if nav.hasReadme %}
             <span class="icon  has-text-link">
             <i class="fas fa-folder"></i>
@@ -44,7 +44,12 @@
 {% endmacro %}
 {% import _self as macros %}
 
-<aside class="menu sticky">
+<form action="{{ path("search_action") }}"> <input type="text" name="q"><button>Search</button>
+    <a href="#" onclick="hideLeft()">hide</a>
+
+</form>
+<aside class="left-menu">
+
     <ul class="menu-list">
         <li>
             <a {% if path =="readme" %} class="is-active"{% endif %}
