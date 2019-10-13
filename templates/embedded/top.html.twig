@@ -1,4 +1,4 @@
-<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+<nav class="navbar is-fixed-top is-dark" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="{{ path('knowledge_read_home') }}">
             <img src="{{ asset('campfire-duotone.svg') }}" width="32">
@@ -13,18 +13,20 @@
         </a>
     </div>
 
+
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-
+{% block doctitle %}{% endblock %}
         </div>
-        {% if security_enabled %}
-            <div class="navbar-end">
-                {% if is_granted("ROLE_USER") %}
-                    <form class="navbar-item" method="get" action="{{ path("search_action") }}">
-                        <input class="input" type="text" placeholder="Search" name="q">
-                        <button type="submit" class="button is-link"><i class="fal fa-search"></i></button>
-                    </form>
-                {% endif %}
+        <div class="navbar-end">
+            {% if is_granted("ROLE_USER") or not security_enabled %}
+                <form class="navbar-item" method="get" action="{{ path("search_action") }}">
+                    <input class="input" type="text" placeholder="Search" name="q">
+                    <button type="submit" class="button is-link"><i class="fal fa-search"></i></button>
+                </form>
+            {% endif %}
+            {% if security_enabled %}
+
                 <div class="navbar-item">
 
                     <div class="buttons">
@@ -41,7 +43,35 @@
                         {% endif %}
                     </div>
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
+
+        </div>
     </div>
 </nav>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+
+            // Add a click event on each of them
+            $navbarBurgers.forEach( el => {
+                el.addEventListener('click', () => {
+
+                    // Get the target from the "data-target" attribute
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+
+                });
+            });
+        }
+
+    });
+</script>

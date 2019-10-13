@@ -2,14 +2,14 @@
 
 {% block title %}Kip - {{ filename }}{% endblock %}
 
-
 {% block body %}
     {% if not edition %}
         <div class="columns">
-            <div class="column is-2 left-column">  {{ render(controller('App\\Controller\\System\\EmbeddedController::leftMenu',{"path":rawPath})) }}  </div>
-            <div class="column  is-8 middle-column">
-                <nav class="breadcrumb" aria-label="breadcrumbs">
+            <div class="column  has-background-dark is-paddingless has-text-white">  {{ render(controller('App\\Controller\\System\\EmbeddedController::leftMenu',{"path":rawPath})) }}  </div>
+            <div class="column is-three-fifths content">
+                <div class="breadcrumb" aria-label="breadcrumbs">
                     <ul>
+                        <li></li>
                         {% set items = rawPath | split("/") %}
                         {% for item in items %}
                             {% set uri= items|slice(0, loop.index)|join("/") %}
@@ -27,57 +27,56 @@
 
                         {% endfor %}
                     </ul>
-                </nav>
+                </div>
+                <div class="full-content">
+
                 {% if content|length ==0 %}
                     <h1>404 - File Empty or not found!</h1>
                     <p>This file seems empty/inexistant, but don't worry and start <a href="#" onclick="openEditor()">Edit
                             it</a>
                     </p>
                 {% endif %}
-                {{ content|raw }}
+                    {{ content|raw }}
+                </div>
             </div>
-            <div class="column is-2  right-column">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-header-title">
-                            {{ rawPath }}
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <div class="menu">
-                            <ul class="menu-list">
-                                <li class="">
-                                    <p class="menu-label"> Table of content </p>
-
-                                    {% include "knowledge/rightMenu.html.twig" %}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <footer class="card-footer">
-                        <a href="#top" class="card-footer-item">
+            <div class="column">
+                <div class="panel sticky">
+                    <nav class="navbar">
+                        <a class="navbar-item" href="#top">
                         <span class="icon has-text-dark">
                         <i class="fad fa-arrow-up"></i>
                         </span>
                             Scroll to top
                         </a>
-                        <a class="card-footer-item" href="{{ path("knowledge_read",{path:rawPath, _edit:true}) }}">
+                        <a class="navbar-item" href="{{ path("knowledge_read",{path:rawPath, _edit:true}) }}">
                             <span class="icon has-text-primary"><i class="fad fa-edit"></i></span>
                             Edit
                         </a>
-                        <a class="card-footer-item" href="{{ path('documents_delete',{path:filename}) }}"
+                        <a class="navbar-item" href="{{ path('documents_delete',{path:filename}) }}"
                            onclick="confirm('are you sure?')">
-                            <span class="icon has-text-danger"><i class="fas fa-trash"></i></span> Delete
+                            <span class="icon has-text-danger"><i class="fas fa-trash"></i></span>
+                            Delete
                         </a>
-                    </footer>
+                    </nav>
+                    <ul class="menu-list">
+                        <li class="">
+                            <p class="menu-label"> Table of content </p>
+
+                            {% include "knowledge/rightMenu.html.twig" %}
+                        </li>
+                    </ul>
+
                 </div>
+
+
             </div>
         </div>
     {% else %}
         <div class="container">
             <div class="columns">
-                <div class="column">
-                    <progress style="display:none;" id="progress-upload" class="progress is-success" max="100"></progress>
+                <div class="column ">
+                    <progress style="display:none;" id="progress-upload" class="progress is-success"
+                              max="100"></progress>
 
                     <textarea id="text-content">{{ raw }}</textarea>
                     <form style="display: none;" method="post" action="{{ path('media_store') }}"
@@ -95,12 +94,6 @@
 {% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-    <style>
-        .CodeMirror {
-            height: calc(100vh - 220px);
-            overflow-x: auto;
-        }
-    </style>
 {% endblock %}
 
 {% block javascripts %}
@@ -115,8 +108,6 @@
                     callback(xhr.status < 300 && xhr.status > 199);
                 };
             }
-
-
 
 
             var simplemde = new SimpleMDE({
@@ -145,7 +136,7 @@
                                 var data = new FormData();
                                 data.append('media', fileUploader.files[0]);
                                 data.append("path", "{{ rawPath }}");
-                                document.getElementById("progress-upload").style.display="block";
+                                document.getElementById("progress-upload").style.display = "block";
                                 request.upload.addEventListener('progress', function (e) {
                                     var percent_complete = (e.loaded / e.total) * 100;
 
@@ -154,7 +145,7 @@
                                 });
                                 request.addEventListener('load', function (e) {
                                     setTimeout(function () {
-                                        document.getElementById("progress-upload").style.display="none";
+                                        document.getElementById("progress-upload").style.display = "none";
 
                                     }, 1000);
                                     if (request.status != 200) {
@@ -193,6 +184,7 @@
                 save(content, function () {
                 });
             }, 10000);
+
             function saveOnQuit() {
                 var content = simplemde.value();
                 save(content, function () {
@@ -202,7 +194,6 @@
             }
 
             const el = document.querySelector('textarea');
-
 
 
             function _replaceSelection(cm, active, startEnd, url) {

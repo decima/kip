@@ -1,0 +1,57 @@
+html {
+    scroll-behavior: smooth
+}
+
+.sidebar {
+
+    z-index: 2000;
+}
+
+
+.sticky {
+    top: 70px;
+    position: sticky;
+
+    height: calc(100vh - 100px);
+    overflow: auto;
+
+}
+
+
+.columns {
+    margin: 0 !important;
+}
+
+.CodeMirror {
+    height: calc(100vh - 220px);
+    overflow-x: auto;
+}
+
+
+.full-content p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+h1{
+    text-align: center;
+}
