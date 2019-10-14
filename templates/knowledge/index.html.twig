@@ -92,29 +92,22 @@
             </form>
         </div>
 
+        <div id="fileBrowser" class="modal">
 
+            <!-- Modal content -->
+            <div class="modal-content">
+                <iframe src="{{ path("media_index",{ path:directory, action:"media" }) }}"></iframe>
+            </div>
+
+        </div>
     {% endif %}
 
-    <iframe src="{{ path("media_index") }}"></iframe>
 {% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 {% endblock %}
 
 {% block javascripts %}
-    <script>
-        // Create IE + others compatible event handler
-        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-        var eventer = window[eventMethod];
-        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-
-        // Listen to message from child window
-        eventer(messageEvent,function(e) {
-            console.log('parent received message!:  ',e.data);
-        },false);
-
-    </script>
-
     {% if not edition %}
 
         <script>
@@ -149,136 +142,12 @@
                 });
             });</script>
     {% else %}
-        <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
         <script>
-            function save(content, callback) {
-                let xhr = new XMLHttpRequest();
-                xhr.open("PUT", "{{ path('documents_store',{path: filename}) }}");
-                xhr.send(content);
-                xhr.onload = function () {
-                    callback(xhr.status < 300 && xhr.status > 199);
-                };
-            }
-
-
-            var simplemde = new SimpleMDE({
-                autosave: {
-                    enabled: true,
-                    uniqueId: "{{ rawPath }}",
-                    delay: 1000,
-                },
-                toolbar: [
-                    {
-                        name: "close",
-                        action: function (editor) {
-                            saveOnQuit()
-                        },
-                        className: "fa fa-close",
-                        title: "Save and Close"
-                    },
-                    "bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link",
-                    {
-                        name: "image",
-                        action: function (editor) {
-                            fileUploader = document.getElementById("fileUploader")
-                            fileUploader.onchange = function () {
-                                var file = this.files[0];
-                                var request = new XMLHttpRequest();
-                                var data = new FormData();
-                                data.append('media', fileUploader.files[0]);
-                                data.append("path", "{{ rawPath }}");
-                                document.getElementById("progress-upload").style.display = "block";
-                                request.upload.addEventListener('progress', function (e) {
-                                    var percent_complete = (e.loaded / e.total) * 100;
-
-
-                                    document.getElementById("progress-upload").value = percent_complete;
-                                });
-                                request.addEventListener('load', function (e) {
-                                    setTimeout(function () {
-                                        document.getElementById("progress-upload").style.display = "none";
-
-                                    }, 1000);
-                                    if (request.status != 200) {
-                                        alert("something wrong happened");
-                                        return;
-                                    }
-                                    // request.response will hold the response from the server
-                                    fileUploader.value = null
-                                    var options = editor.options;
-
-                                    var cm = editor.codemirror;
-                                    var stat = editor.getState(cm);
-
-
-                                    var url = JSON.parse(request.response).filename;
-                                    _replaceSelection(cm, stat.image, options.insertTexts.image, url);
-                                });
-                                request.open('post', '{{ path("media_store") }}');
-                                request.send(data);
-
-                            };
-                            fileUploader.click()
-
-
-                        },
-                        className: "fa fa-image",
-                        title: "Upload Image"
-                    }
-                ],
-            });
-            simplemde.codemirror.on("change", function () {
-                console.log(simplemde.value());
-            });
-            setInterval(function () {
-                var content = simplemde.value();
-                save(content, function () {
-                });
-            }, 10000);
-
-            function saveOnQuit() {
-                var content = simplemde.value();
-                save(content, function () {
-                    window.location.href = "{{ path("knowledge_read",{ path:rawPath}) }}"
-
-                });
-            }
-
-            const el = document.querySelector('textarea');
-
-
-            function _replaceSelection(cm, active, startEnd, url) {
-                if (/editor-preview-active/.test(cm.getWrapperElement().lastChild.className))
-                    return;
-
-                var text;
-                var start = startEnd[0];
-                var end = startEnd[1];
-                var startPoint = cm.getCursor("start");
-                var endPoint = cm.getCursor("end");
-                if (url) {
-                    end = end.replace("#url#", url);
-                }
-                if (active) {
-                    text = cm.getLine(startPoint.line);
-                    start = text.slice(0, startPoint.ch);
-                    end = text.slice(startPoint.ch);
-                    cm.replaceRange(start + end, {
-                        line: startPoint.line,
-                        ch: 0
-                    });
-                } else {
-                    text = cm.getSelection();
-                    cm.replaceSelection(start + text + end);
-
-                    startPoint.ch += start.length;
-                    if (startPoint !== endPoint) {
-                        endPoint.ch += start.length;
-                    }
-                }
-                cm.setSelection(startPoint, endPoint);
-                cm.focus();
-            }
+            var readLocation = "{{ path("knowledge_read",{ path:rawPath}) }}";
+            var saveDocument="{{ path('documents_store',{path: filename}) }}";
+            var rawPath = "{{ rawPath }}";
         </script>
+        <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+        <script src="{{ asset('js/knowledge-editor.js') }}"></script>
     {% endif %}
 {% endblock %}

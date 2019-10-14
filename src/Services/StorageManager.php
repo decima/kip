@@ -26,22 +26,22 @@ class StorageManager
 
     public function listAllFiles($path = "", Page &$parent = null)
     {
-        $fullPath = $this->storagePath . $path;
-        $files = scandir($fullPath);
+        $fullPath         = $this->storagePath . $path;
+        $files            = scandir($fullPath);
         $parent->isFolder = true;
-        $parent->path = $path;
+        $parent->path     = $path;
         foreach ($files as $key => $value) {
             $fullFolderPath = realpath($fullPath . DIRECTORY_SEPARATOR . $value);
-            $newPath = str_replace($this->storagePath, "", $fullFolderPath);
-            $item = new Page();
-            $item->path = $newPath;
-            $item->name = $value;
+            $newPath        = str_replace($this->storagePath, "", $fullFolderPath);
+            $item           = new Page();
+            $item->path     = $newPath;
+            $item->name     = $value;
             if (!is_dir($fullFolderPath)) {
                 if ($this->pathIsMd($newPath)) {
                     $item->mime = "text/markdown";
                     $item->name = str_replace(".md", "", $item->name);
                     if ($item->name !== "readme") {
-                        $item->isFolder = false;
+                        $item->isFolder     = false;
                         $parent->subLinks[] = $item;
                     } else {
                         $parent->hasReadme = true;
@@ -164,6 +164,7 @@ class StorageManager
 
     public function addUploadedFile(UploadedFile $uploadedFile, $path)
     {
+        $basePath=$path;
         $fullPath = $this->storagePath . "/" . $path;
         if (!$this->isFolder($path)) {
             $path = dirname($fullPath);
@@ -176,8 +177,8 @@ class StorageManager
         array_pop($fileNameExploded);
 
         $newName = implode(".", $fileNameExploded) . "-" . time() . "." . $uploadedFile->getClientOriginalExtension();
-        $file = $uploadedFile->move($path, $newName);
-        return "./" . $newName;
+        $file    = $uploadedFile->move($path, $newName);
+        return "$basePath/$newName";
     }
 
     public function getParentDir($directory)

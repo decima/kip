@@ -34,6 +34,7 @@ class KnowledgeController extends AbstractController
         } elseif (!$manager->pathIsMd($path)) {
             $path = $path . ".md";
         }
+        $dirName = $manager->getParentDir($path);
 
 
         $file           = $manager->getFileContent($path);
@@ -46,6 +47,7 @@ class KnowledgeController extends AbstractController
 
             'content'        => $body,
             'tableOfContent' => $tableOfContent,
+            "directory"      => $dirName,
             'raw'            => $file,
             'filename'       => $path,
             'rawPath'        => $rawPath,

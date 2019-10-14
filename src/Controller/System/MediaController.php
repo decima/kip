@@ -31,7 +31,7 @@ class MediaController extends AbstractController
          * @var $file UploadedFile
          */
         $filename = $storageManager->addUploadedFile($file, $path);
-        return $this->json(["filename" => $filename]);
+        return $this->json(["filename" => "/".$filename]);
     }
 
     /**
@@ -39,17 +39,17 @@ class MediaController extends AbstractController
      */
     public function index(Request $request, StorageManager $manager)
     {
-        $path = $request->query->get("path", "");
-        $path = str_replace("..", "./", $path);
+        $path   = $request->query->get("path", "");
+        $action = $request->query->get("action", "embedded");
+        $path   = str_replace("..", "./", $path);
         return $this->render("media/index.html.twig", [
             "path"        => $path,
+            "action"      => $action,
             "parent"      => $manager->getParentDir($path),
             "files"       => $manager->getFiles($path),
             "directories" => $manager->getDirectories($path),
         ]);
     }
-
-
 
 
 }
