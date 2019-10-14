@@ -119,7 +119,7 @@ ul {
 }
 
 .left-column .menu-list {
-    height: calc(100vh - 90px);
+    height: calc(100vh - 115px);
     overflow: auto;
 }
 
@@ -283,7 +283,7 @@ ul {
 }
 
 
-li p {
+.aside-right li p {
     text-transform: uppercase;
     font-weight: 700;
 }
