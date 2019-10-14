@@ -288,13 +288,14 @@ ul {
     font-weight: 700;
 }
 
-input[type=text] {
+form input[type=text] {
     height: 20px;
 }
 
-button {
+form button {
     border: 0px;
-    background-color: var(--color-white-ter);
+    background-color: var(--color-grey-dark);
+    color: var(--color-grey-lighter);
     height: 26px;
 }
 

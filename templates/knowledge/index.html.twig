@@ -95,13 +95,26 @@
 
     {% endif %}
 
-
+    <iframe src="{{ path("media_index") }}"></iframe>
 {% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 {% endblock %}
 
 {% block javascripts %}
+    <script>
+        // Create IE + others compatible event handler
+        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+        var eventer = window[eventMethod];
+        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+
+        // Listen to message from child window
+        eventer(messageEvent,function(e) {
+            console.log('parent received message!:  ',e.data);
+        },false);
+
+    </script>
+
     {% if not edition %}
 
         <script>
