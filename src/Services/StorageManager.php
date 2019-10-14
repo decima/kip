@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Entity\Page;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -27,30 +26,30 @@ class StorageManager
 
     public function listAllFiles($path = "", Page &$parent = null)
     {
-        $fullPath         = $this->storagePath . $path;
-        $files            = scandir($fullPath);
+        $fullPath = $this->storagePath . $path;
+        $files = scandir($fullPath);
         $parent->isFolder = true;
-        $parent->path     = $path;
+        $parent->path = $path;
         foreach ($files as $key => $value) {
             $fullFolderPath = realpath($fullPath . DIRECTORY_SEPARATOR . $value);
-            $newPath        = str_replace($this->storagePath, "", $fullFolderPath);
-            $item           = new Page();
-            $item->path     = $newPath;
-            $item->name     = $value;
+            $newPath = str_replace($this->storagePath, "", $fullFolderPath);
+            $item = new Page();
+            $item->path = $newPath;
+            $item->name = $value;
             if (!is_dir($fullFolderPath)) {
                 if ($this->pathIsMd($newPath)) {
                     $item->mime = "text/markdown";
                     $item->name = str_replace(".md", "", $item->name);
                     if ($item->name !== "readme") {
-                        $item->isFolder     = false;
+                        $item->isFolder = false;
                         $parent->subLinks[] = $item;
                     } else {
                         $parent->hasReadme = true;
                     }
                 } else {
                     if (strpos($item->name, ".") !== 0) {
-                        $item->mime         = mime_content_type($fullFolderPath);
-                        $parent->subLinks[] = $item;
+                        $item->mime = mime_content_type($fullFolderPath);
+                        // $parent->subLinks[] = $item;
                     }
 
                 }
@@ -63,7 +62,7 @@ class StorageManager
         usort($parent->subLinks, function (Page $page, Page $page2) {
             if ($page->isFolder && !$page2->isFolder) {
                 return true;
-            } elseif ($page2->isFolder && !$page->isFolder) {
+            } else if ($page2->isFolder && !$page->isFolder) {
                 return false;
 
             } else {
@@ -135,7 +134,7 @@ class StorageManager
 
         if ($this->isFolder($fileName)) {
             self::delTree($this->storagePath . $fileName);
-        } elseif ($this->fileExists($fileName)) {
+        } else if ($this->fileExists($fileName)) {
             unlink($this->storagePath . $fileName);
         } else {
             if ($uncount >= 0) {
@@ -172,16 +171,18 @@ class StorageManager
             $path = $fullPath;
         }
 
+
         $fileNameExploded = explode(".", $uploadedFile->getClientOriginalName());
         array_pop($fileNameExploded);
+
         $newName = implode(".", $fileNameExploded) . "-" . time() . "." . $uploadedFile->getClientOriginalExtension();
-        $file    = $uploadedFile->move($path, $newName);
+        $file = $uploadedFile->move($path, $newName);
         return "./" . $newName;
     }
 
     public function getParentDir($directory)
     {
-        return dirname($directory);
+        return rtrim(dirname($directory), "/");
     }
 
     public function getRelativeFromAbsolutePath($absolutePath)

@@ -39,7 +39,7 @@ class MediaController extends AbstractController
      */
     public function index(Request $request, StorageManager $manager)
     {
-        $path = $request->query->get("path", "/");
+        $path = $request->query->get("path", "");
         $path = str_replace("..", "./", $path);
         return $this->render("media/index.html.twig", [
             "path"        => $path,
@@ -49,13 +49,7 @@ class MediaController extends AbstractController
         ]);
     }
 
-    /**
-     *
-     */
-    public function browse()
-    {
 
-    }
 
 
 }
