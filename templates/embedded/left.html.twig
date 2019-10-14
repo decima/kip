@@ -29,7 +29,7 @@
             </span>
         {% endif %}
 
-        {{ nav.name }}
+        {{ nav.name|titling }}
     </a>
     {% if nav.isFolder %}
         <ul>
@@ -44,11 +44,10 @@
 {% endmacro %}
 {% import _self as macros %}
 
-<aside class="menu">
+<aside class="menu sticky">
     <ul class="menu-list">
         <li>
             <a {% if path =="readme" %} class="is-active"{% endif %}
-
                     href="{{ path('knowledge_read_home') }}">
                 <i class="fad fa-home"></i> Home
             </a>

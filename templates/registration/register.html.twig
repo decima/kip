@@ -3,12 +3,38 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-half is-offset-one-quarter">
+                <p class="title is-1">Register</p>
+                {{ form_start(registrationForm) }}
+                <div class="field">
+                    <div class="control">
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.plainPassword) }}
 
-        <button class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+                        {{ form_widget(registrationForm.username, {'attr': {'class': 'input'}}) }}
+
+                    </div>
+                    <div class="help is_danger">
+                        {{ form_errors(registrationForm.username, {'attr':{'class':'help is-danger'}}) }}
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'input'}}) }}
+                    </div>
+                    <div class="help is_danger">
+                        {{ form_errors(registrationForm.plainPassword) }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <button class="button">Register</button>
+                    </div>
+                </div>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

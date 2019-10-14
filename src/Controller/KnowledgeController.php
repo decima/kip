@@ -22,10 +22,11 @@ class KnowledgeController extends AbstractController
      */
     public function index($path = "readme", StorageManager $manager, Request $request)
     {
-        $path    =
-            trim($path, "/");
-        $rawPath = $path;
 
+        $path          = trim($path, "/");
+        $rawPath       = $path;
+        $splittedNames = explode("/", $rawPath);
+        $filename      = $splittedNames[count($splittedNames) - 1];
         if ($manager->isFile($path) && !$manager->pathIsMd($path)) {
             return new BinaryFileResponse($manager->getFilePath($path), 200, ["Content-Type" => mime_content_type($manager->getFilePath($path))]);
         } elseif ($manager->isFolder($path . "/")) {
@@ -40,6 +41,7 @@ class KnowledgeController extends AbstractController
         $body           = $parseDown->text($file);
         $tableOfContent = $parseDown->contentsList();
         $tableOfContent = $this->buildTree($tableOfContent);
+
         return $this->render('knowledge/index.html.twig', [
 
             'content'        => $body,
@@ -48,6 +50,7 @@ class KnowledgeController extends AbstractController
             'filename'       => $path,
             'rawPath'        => $rawPath,
             'edition'        => $request->query->has("_edit"),
+            'title'          => $filename,
         ]);
     }
 
