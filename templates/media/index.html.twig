@@ -1,19 +1,23 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+    <div class="progress">
+        <div class="value" style="width:0%"></div>
+    </div>
     <nav>
-        <form method="get" action="#">
-            <input type="text" name="path" value="{{ path }}"/>
-            <button>goto</button>
-            <a onclick="browseAndUpload()"> <i class="fad fa-upload"></i></a>
+        <form class="nav-url" method="get" action="#">
+            <input class="nav-url-field" type="text" name="path" value="{{ path }}"/>
+            <button><i class="fad fa-arrow-alt-right"></i></button>
+
         </form>
+        <a onclick="browseAndUpload()"> <i class="fad fa-upload"></i></a>
         <form method="post" action="{{ path('media_store',{path:path}) }}"
               enctype="multipart/form-data">
-            <input id="fileUploader" type="file" name="media"/>
+            <input style="display: none;" id="fileUploader" type="file" name="media"/>
         </form>
     </nav>
     <table>
         <tr>
-            <th colspan="2">
+            <th>
                 Name
             </th>
             <th>
@@ -25,19 +29,14 @@
             </th>
         </tr>
         <tr>
-            <td>
-                <i class="fad fa-folder"></i>
-            </td>
-            <td colspan="3"><a href="{{ path("media_index",{path:parent}) }}">../</a></td>
+            <td colspan="3">
+                <a href="{{ path("media_index",{path:parent}) }}"><i class="fad fa-folder"></i> ../</a></td>
         </tr>
         {% for directory in directories %}
             <tr>
                 <td>
-                    <i class="fad fa-folder"></i>
-                </td>
-                <td>
                     <a href="{{ path("media_index",{path:path ~"/" ~ directory.filename}) }}">
-                        {{ directory.filename }}/
+                        <i class="fad fa-folder"></i> {{ directory.filename }}/
                     </a>
                 </td>
                 <td></td>
@@ -58,10 +57,7 @@
 
                     {% else %}
                         <i class="fad fa-file"></i>
-                    {% endif %}
-                </td>
-                <td>
-                    {{ file.filename }}
+                    {% endif %} {{ file.filename }}
                 </td>
                 <td>{{ file.size }}</td>
 
@@ -83,6 +79,9 @@
 
 {% block stylesheets %}
     <style>
+        td, th {
+            text-align: left;
+        }
 
         tr:hover .preview {
             display: block;
@@ -99,9 +98,37 @@
             border-collapse: collapse;
         }
 
-        td.action-col {
-            text-align: right;
+        .progress {
+            width: 100%;
+            height: 6px;
         }
+
+        .progress > .value {
+            background-color: var(--color-primary);
+            height: 100%;
+            transition: width 1s;
+
+        }
+
+        .nav-url {
+            display: inline;
+        }
+
+        .nav-url-field {
+            width: calc(100vw - 80px);
+            float: left;
+
+        }
+
+        .nav-url button {
+            cursor: pointer;
+        }
+
+        .nav-url button:hover {
+            background-color: var(--color-link);
+        }
+
+
     </style>
 {% endblock %}
 {% block javascripts %}
@@ -117,23 +144,25 @@
                 data.append("path", "{{ path }}");
                 request.upload.addEventListener('progress', function (e) {
                     var percent_complete = (e.loaded / e.total) * 100;
-                    console.log(percent_complete)
+                    document.querySelector(".progress .value").style.width = percent_complete + "%";
 
                 });
                 request.addEventListener('load', function (e) {
 
-                    if (request.status != 200) {
+                    if (request.status > 299) {
                         alert("something wrong happened");
                         return;
                     }
                     // request.response will hold the response from the server
                     fileUploader.value = null
                     var url = JSON.parse(request.response).filename;
-                    console.log(url)
                     // IN CASE OF IFRAME TRIGGER PARENT
                     // https://davidwalsh.name/window-iframe
+                    //todo
+                    parent.postMessage(JSON.stringify({"filename": url}), "{{ url('knowledge_read_home') }}");
+
                     // https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
-                    window.location.reload()
+                    setTimeout(() => window.location.reload(), 1000)
                 });
                 request.open('post', '{{ path("media_store") }}');
                 request.send(data);
