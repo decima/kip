@@ -7,7 +7,12 @@
         <div class="container">
             <div class="left-opener">
                 <a href="#" onclick="showLeft()"> <i class="fad fa-angle-double-right"></i></a><br/>
-                <a href="{{ path('user_login') }}"> <i class="fad fa-user"></i></a><br/>
+                {% if not is_granted("ROLE_USER") %}
+                    <a href="{{ path('user_login') }}"> <i class="fad fa-user"></i></a><br/>
+                {% else %}
+                    <a href="{{ path('user_logout') }}"> <i class="fad fa-power-off"></i></a><br/>
+                {% endif %}
+
 
             </div>
             <div class="left-column">  {{ render(controller('App\\Controller\\System\\EmbeddedController::leftMenu',{"path":rawPath})) }}  </div>
@@ -100,6 +105,15 @@
             </div>
 
         </div>
+        <div id="linkBrowser" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <iframe src="{{ path("media_index",{ path:directory, action:"link" }) }}"></iframe>
+            </div>
+
+        </div>
+
     {% endif %}
 
 {% endblock %}
@@ -144,7 +158,7 @@
     {% else %}
         <script>
             var readLocation = "{{ path("knowledge_read",{ path:rawPath}) }}";
-            var saveDocument="{{ path('documents_store',{path: filename}) }}";
+            var saveDocument = "{{ path('documents_store',{path: filename}) }}";
             var rawPath = "{{ rawPath }}";
         </script>
         <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>

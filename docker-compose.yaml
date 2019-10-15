@@ -6,8 +6,8 @@ services:
     volumes:
       - ./storage:/storage
     environment:
-      - DATABASE_AUTH_ENABLED="false"
+      - DATABASE_AUTH_ENABLED="true"
       - LDAP_AUTH_ENABLED="false"
-      - DATABASE_AUTH_REGISTER="false"
+      - DATABASE_AUTH_REGISTER="true"
     ports:
       - 18000:8000

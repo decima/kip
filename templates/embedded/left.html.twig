@@ -68,5 +68,9 @@
         {% endfor %}
     </ul>
 </aside>
-<a class="login-button" href="{{ path('user_login') }}"> <i class="fad fa-user"></i> Login</a><br/>
+{% if not is_granted("ROLE_USER") %}
+    <a class="login-button" href="{{ path('user_login') }}"> <i class="fad fa-user"></i> Login</a><br/>
+{% else %}
+    <a class="login-button" href="{{ path('user_logout') }}"> <i class="fad fa-power-off"></i> Logout</a><br/>
+{% endif %}
 

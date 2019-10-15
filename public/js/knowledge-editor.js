@@ -1,11 +1,15 @@
 // Get the modal
-var modal = document.getElementById("fileBrowser");
+var modalFileBrowser = document.getElementById("fileBrowser");
+var modalLinkBrowser = document.getElementById("linkBrowser");
 
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
+    if (event.target == modalFileBrowser) {
+        modalFileBrowser.style.display = "none";
+    }
+    if (event.target == modalLinkBrowser) {
+        modalLinkBrowser.style.display = "none";
     }
 }
 
@@ -26,10 +30,16 @@ var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
 // Listen to message from child window
 eventer(messageEvent, function (e) {
     console.log('parent received message!:  ', e.data);
-    modal.style.display = "none";
     result = JSON.parse(e.data);
-    if(result.action=="media") {
+    if (result.action == "media") {
         _replaceSelection(cm, stat.image, options.insertTexts.image, result.filename);
+        modalFileBrowser.style.display = "none";
+    }
+    if (result.action == "link") {
+        console.log(stat)
+        _replaceSelection(cm, false, options.insertTexts.link, result.filename);
+        modalLinkBrowser.style.display = "none";
+
     }
     console.log(result);
 }, false);
@@ -42,18 +52,38 @@ var simplemde = new SimpleMDE({
     },
     toolbar: [
         {
-            name: "close",
+            name: "save",
             action: function (editor) {
                 saveOnQuit()
             },
-            className: "fa fa-close",
-            title: "Save and Close"
+            className: "fa fa-floppy-o",
+            title: "Save"
+        },
+        {
+            name: "quit",
+            action: function (editor) {
+                window.location.href = readLocation
+            },
+            className: "fa fa-times",
+            title: "Close"
         },
         "bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link",
         {
+            name: "link-internal",
+            action: function (editor) {
+                modalLinkBrowser.style.display = "block";
+                options = editor.options;
+
+                cm = editor.codemirror;
+                stat = editor.getState(cm);
+            },
+            className: "fa fa-file-text",
+            title: "Link to a page"
+        },
+        {
             name: "image",
             action: function (editor) {
-                modal.style.display = "block";
+                modalFileBrowser.style.display = "block";
 
 
                 options = editor.options;
@@ -79,7 +109,6 @@ setInterval(function () {
 function saveOnQuit() {
     var content = simplemde.value();
     save(content, function () {
-        window.location.href = readLocation
 
     });
 }

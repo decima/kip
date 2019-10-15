@@ -67,7 +67,7 @@
 
                     <td class="action-col">
                         <a target="_blank"
-                           href="{{ url("knowledge_read",{path: (path ~"/"~file.filename)| trim("/","left"), action: action}) }}">
+                           href="{{ path("knowledge_read",{path: (path ~"/"~file.filename)| trim("/","left"), action: action}) }}">
                             <i class="fad fa-eye"></i>
                         </a>
                         <a onclick="deleteMedia('{{ path("documents_delete",{path: path ~"/"~file.filename, json: true}) }}')">
@@ -167,7 +167,7 @@
             parent.postMessage(JSON.stringify({
                 "action": "{{ action }}",
                 "filename": filePath
-            }), "{{ url('knowledge_read_home') }}");
+            }), "{{ path('knowledge_read_home') }}");
         }
 
         function browseAndUpload() {
