@@ -54,7 +54,7 @@ var simplemde = new SimpleMDE({
         {
             name: "save",
             action: function (editor) {
-                saveOnQuit()
+                saveAction()
             },
             className: "fa fa-floppy-o",
             title: "Save"
@@ -106,10 +106,10 @@ setInterval(function () {
     });
 }, 10000);
 
-function saveOnQuit() {
+function saveAction() {
     var content = simplemde.value();
     save(content, function () {
-
+        alert("saved");
     });
 }
 
