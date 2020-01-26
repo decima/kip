@@ -1,0 +1,42 @@
+{% macro rightMenu(item) %}
+    {% import _self as macros %}
+
+    <a href="#{{ item.id }}">
+        <span>{{ item.level }}</span>
+        {{ item.text }}
+    </a>
+    <ul>
+        {% if item.children is defined %}
+            {% for child in item.children %}
+                <li>
+                    {{ macros.rightMenu(child) }}
+                </li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+{% endmacro %}
+{% import _self as macros %}
+
+
+
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div>
+        {% if file.metadata.title is defined %}
+            <h1 class="hero">{{ file.metadata.title }}</h1>
+        {% endif %}
+        <hr/>
+        {{ file.content|raw }}
+    </div>
+    <div>
+
+        {% for item in file.tree %}
+            <li>
+                {{ macros.rightMenu(item) }}
+            </li>
+
+        {% endfor %}
+    </div>
+
+{% endblock %}
