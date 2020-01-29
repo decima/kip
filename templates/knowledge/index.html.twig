@@ -2,7 +2,7 @@
     {% import _self as macros %}
 
     <a href="#{{ item.id }}">
-        <span>{{ item.level }}</span>
+        <span><i class="fad fa-h{{ item.level }}"></i></span>
         {{ item.text }}
     </a>
     <ul>
@@ -22,21 +22,30 @@
 
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div>
-        {% if file.metadata.title is defined %}
-            <h1 class="hero">{{ file.metadata.title }}</h1>
-        {% endif %}
-        <hr/>
+    <div class="page-content">
+        <div class="title">
+            <h1 class="hero">{{ file.title }}</h1>
+        </div>
+
         {{ file.content|raw }}
     </div>
-    <div>
-
+{% endblock %}
+{% block right %}
+    <a href="{{ url('knowledge_edit',{webpath: file.webpath}) }}"><i class="fad fa-2x fa-pen"></i></a>
+    <a target="_blank" href="{{ url('knowledge_slides',{webpath: file.webpath}) }}"><i
+                class="fad fa-2x fa-presentation"></i></a>
+    <a href="{{ url('knowledge_delete',{webpath: file.webpath}) }}"
+       onclick="return confirm('Are you sure you want to delete this item?');"><i class="fad fa-2x fa-trash"></i></a>
+    <br/>
+    <span class="title">
+        {{ file.title }}
+    </span>
+    <ul>
         {% for item in file.tree %}
             <li>
                 {{ macros.rightMenu(item) }}
             </li>
 
         {% endfor %}
-    </div>
-
+    </ul>
 {% endblock %}

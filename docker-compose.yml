@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  php:
+    image: decima/kip:alpha-2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - ./var/storage:/storage
+    ports:
+      - "8010:8000"

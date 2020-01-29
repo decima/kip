@@ -1,0 +1,69 @@
+{% macro menuItem(nav,par,dept,path) %}
+    {% import _self as macros %}
+
+    <a id="file-{{ nav.path }}" {% if nav.path==path %}class="is-active"{% endif %}
+
+            {% if nav.isFolder and nav.path~"/" ==path %}class="is-active"{% endif %}
+            {% if nav.hasReadme and nav.path~"/readme.md" ==path %}class="is-active"{% endif %}
+
+       href="{{ path("knowledge_read",{"webpath":nav.path}) }}{% if nav.isFolder %}/{% endif %}">
+        {% if nav.hasReadme %}
+            <span class="icon  has-text-link">
+            <i class="fas fa-folder"></i>
+</span>
+        {% elseif nav.isFolder %}
+            <span class="icon has-text-primary">
+            <i class="fad fa-folder"></i>
+                </span>
+        {% else %}
+            <span class="icon has-text-info">
+
+                {% if nav.type=="image" %}
+                    <i class="fas fa-image"></i>
+                {% elseif nav.type=="video" %}
+                    <i class="fas fa-video"></i>
+                {% else %}
+                    <i class="fas fa-file"></i>
+
+                {% endif %}
+            </span>
+        {% endif %}
+
+        {{ nav.name|unslugify }}
+    </a>
+    {% if nav.isFolder %}
+        <ul>
+            {% for sublink in nav.subLinks %}
+                {% set at=par ~ loop.index0 %}
+                <li>
+                    {{ macros.menuItem(sublink,at,dept+1,path) }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
+{% import _self as macros %}
+
+
+<ul class="menu-list">
+    <li>
+        <a {% if path =="/" %} class="is-active"{% endif %}
+                href="{{ url('knowledge_read_home') }}">
+            <i class="fad fa-home"></i> Home
+        </a>
+    </li>
+    {% for item in nav.subLinks %}
+        {% set dept=0 %}
+        {% set at=loop.index0 %}
+        <li>
+            {{ macros.menuItem(item,at,dept,path) }}
+        </li>
+    {% endfor %}
+</ul>
+{#
+{% if not is_granted("ROLE_USER") %}
+    <a class="login-button" href="{{ path('user_login') }}"> <i class="fad fa-user"></i> Login</a><br/>
+{% else %}
+    <a class="login-button" href="{{ path('user_logout') }}"> <i class="fad fa-power-off"></i> Logout</a><br/>
+{% endif %}
+#}

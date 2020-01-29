@@ -10,10 +10,13 @@ use Symfony\Component\Yaml\Yaml;
 class FileReader
 {
 
-    public function readFile($file): File
+    public function readFile($webpath, $path): File
     {
         $fileExtracted = new File();
-        $fileExtracted->markdownContent = file_get_contents($file);
+        $fileExtracted->webpath = $webpath;
+        $fileExtracted->markdownContent = @file_get_contents($path);
+        $fileExtracted->name = basename($path);
+        $fileExtracted->path = $path;
         return $fileExtracted;
     }
 

@@ -1,0 +1,6 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    The document "{{ file.title }}" requested cannot be found :( <br/><br/>
+    Do you want to <b><a href="{{ url('knowledge_edit',{webpath: file.webpath}) }}">create it ?</a></b>
+
+{% endblock %}

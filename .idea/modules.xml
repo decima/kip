@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../kip/.idea/Kip.iml" filepath="$PROJECT_DIR$/../kip/.idea/Kip.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/kip2.iml" filepath="$PROJECT_DIR$/.idea/kip2.iml" />
     </modules>
   </component>

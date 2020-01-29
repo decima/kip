@@ -3,10 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Knowledge Is Power{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/base.css') }}"/>
+    <script src="https://kit.fontawesome.com/63a539fbd1.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css">
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
-{% block body %}{% endblock %}
+<div class="container">
+    <div class="left-column">
+        {% block left %}
+            {{ render(controller('App\\Controller\\EmbeddedController::leftDefaultMenu')) }}
+        {% endblock %}
+    </div>
+    <div class="center-column">
+        {% block body %}{% endblock %}
+    </div>
+    <div class="right-column">
+        {% block right %}{% endblock %}
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/autoloader/prism-autoloader.min.js"></script>
 {% block javascripts %}{% endblock %}
 </body>
 </html>

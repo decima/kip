@@ -1,8 +1,239 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="51ffee2f-ecc4-4756-89b4-54acbc0e5733" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../kip/templates/knowledge/editor.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/css/base.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/editor.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/EmbeddedController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Services/FileManipulation/FileWriter.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Services/FileManipulation/Page.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/base_no_columns.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/embedded/left-default-menu.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/knowledge/edit.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/knowledge/notfound.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/knowledge/slides.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kip/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kip/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kip/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kip/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kip/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/config/services.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kip/src/Controller/KnowledgeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/src/Controller/KnowledgeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kip/src/Controller/System/DocumentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/src/Controller/System/DocumentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kip/src/Controller/System/EmbeddedController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/src/Controller/System/EmbeddedController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kip/src/DependencyInjection/RegisterExpressionFunctionPass.php" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/src/DependencyInjection/RegisterExpressionFunctionPass.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kip/src/Security/SecurityDisabledChecker.php" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/src/Security/SecurityDisabledChecker.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kip/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/symfony.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kip/templates/embedded/left.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/templates/embedded/left.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../kip/templates/knowledge/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/templates/knowledge/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kip2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kip2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/KnowledgeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/KnowledgeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/FileManipulation/File.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/FileManipulation/File.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/FileManipulation/FileReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/FileManipulation/FileReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/FileManipulation/FileResolver.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/FileManipulation/FileResolver.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/knowledge/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/knowledge/index.html.twig" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution>
+      <executable />
+    </execution>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/symfony/profiler-pack" />
+      <path value="$PROJECT_DIR$/vendor/symfony/twig-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/debug-pack" />
+      <path value="$PROJECT_DIR$/vendor/symfony/monolog-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/web-profiler-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/debug-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/doctrine-bridge" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-zendframework-bridge" />
+      <path value="$PROJECT_DIR$/vendor/symfony/stopwatch" />
+      <path value="$PROJECT_DIR$/vendor/symfony/translation-contracts" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-code" />
+      <path value="$PROJECT_DIR$/vendor/symfony/orm-pack" />
+      <path value="$PROJECT_DIR$/vendor/symfony/twig-bridge" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-eventmanager" />
+      <path value="$PROJECT_DIR$/vendor/symfony/maker-bundle" />
+      <path value="$PROJECT_DIR$/vendor/webimpress/safe-writer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-http" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-csrf" />
+      <path value="$PROJECT_DIR$/vendor/symfony/inflector" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-core" />
+      <path value="$PROJECT_DIR$/vendor/symfony/property-access" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-guard" />
+      <path value="$PROJECT_DIR$/vendor/ocramius/package-versions" />
+      <path value="$PROJECT_DIR$/vendor/ocramius/proxy-manager" />
+      <path value="$PROJECT_DIR$/vendor/symfony/asset" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/collections" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-bundle" />
+      <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/common" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/orm" />
+      <path value="$PROJECT_DIR$/vendor/symfony/twig-pack" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/reflection" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/persistence" />
+      <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-migrations-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/migrations" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/vendor/symfony/cache" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php73" />
+      <path value="$PROJECT_DIR$/vendor/twig/extra-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/vendor/jdorn/sql-formatter" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/vendor/symfony/flex" />
+      <path value="$PROJECT_DIR$/vendor/symfony/cache-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/vendor/symfony/error-handler" />
+      <path value="$PROJECT_DIR$/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/vendor/erusev/parsedown" />
+      <path value="$PROJECT_DIR$/vendor/symfony/framework-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/mime" />
+      <path value="$PROJECT_DIR$/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/vendor/symfony/config" />
+      <path value="$PROJECT_DIR$/vendor/symfony/dependency-injection" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/vendor/symfony/dotenv" />
+      <path value="$PROJECT_DIR$/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/psr/event-dispatcher" />
+      <path value="$PROJECT_DIR$/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/vendor/twig/twig" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/easycorp/easy-log-handler" />
+      <path value="$PROJECT_DIR$/vendor/symfony/monolog-bridge" />
+    </include_path>
+  </component>
   <component name="ProjectId" id="1Wsjt0br6f8hxjuBOqCjFddda4C" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="Symfony2.SettingsForm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/templates" />
+      <recent name="$PROJECT_DIR$/src/Twig" />
+      <recent name="$PROJECT_DIR$/src/Services" />
+    </key>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="51ffee2f-ecc4-4756-89b4-54acbc0e5733" name="Default Changelist" comment="" />
+      <created>1579945406071</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1579945406071</updated>
+      <workItem from="1579945407295" duration="35040000" />
+      <workItem from="1580301384391" duration="445000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="642" y="338" width="626" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1580044576221">
+      <screen x="0" y="27" width="1920" height="1014" />
+    </state>
+    <state x="642" y="338" width="626" height="390" key="#com.intellij.fileTypes.FileTypeChooser/0.27.1920.1014@0.27.1920.1014" timestamp="1580044576221" />
+    <state x="768" y="252" width="374" height="562" key="#com.intellij.ide.util.MemberChooser" timestamp="1580003800320">
+      <screen x="0" y="27" width="1920" height="1014" />
+    </state>
+    <state x="768" y="252" width="374" height="562" key="#com.intellij.ide.util.MemberChooser/0.27.1920.1014@0.27.1920.1014" timestamp="1580003800320" />
+    <state x="651" y="27" width="608" height="1014" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1580041638823">
+      <screen x="0" y="27" width="1920" height="1014" />
+    </state>
+    <state x="651" y="27" width="608" height="1014" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.27.1920.1014@0.27.1920.1014" timestamp="1580041638823" />
+    <state x="693" y="291" width="524" height="484" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1580040613051">
+      <screen x="0" y="27" width="1920" height="1014" />
+    </state>
+    <state x="693" y="291" width="524" height="484" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.27.1920.1014@0.27.1920.1014" timestamp="1580040613051" />
+    <state x="0" y="27" width="1910" height="1014" key="FileDocumentManager.FileCacheConflict" timestamp="1580037335252">
+      <screen x="0" y="27" width="1920" height="1014" />
+    </state>
+    <state x="0" y="27" width="1910" height="1014" key="FileDocumentManager.FileCacheConflict/0.27.1920.1014@0.27.1920.1014" timestamp="1580037335252" />
+    <state x="678" y="346" width="673" height="373" key="NewPhpClassDialog" timestamp="1580040577782">
+      <screen x="0" y="27" width="1920" height="1014" />
+    </state>
+    <state x="678" y="346" width="673" height="373" key="NewPhpClassDialog/0.27.1920.1014@0.27.1920.1014" timestamp="1580040577782" />
+    <state x="449" y="168" key="SettingsEditor" timestamp="1580038767315">
+      <screen x="0" y="27" width="1920" height="1014" />
+    </state>
+    <state x="449" y="168" key="SettingsEditor/0.27.1920.1014@0.27.1920.1014" timestamp="1580038767315" />
+    <state x="610" y="151" width="690" height="764" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1580041656127">
+      <screen x="0" y="27" width="1920" height="1014" />
+    </state>
+    <state x="610" y="151" width="690" height="764" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.27.1920.1014@0.27.1920.1014" timestamp="1580041656127" />
+    <state x="605" y="265" width="891" height="536" key="find.popup" timestamp="1580058614718">
+      <screen x="0" y="27" width="1920" height="1014" />
+    </state>
+    <state x="605" y="265" width="891" height="536" key="find.popup/0.27.1920.1014@0.27.1920.1014" timestamp="1580058614718" />
+    <state x="623" y="248" width="672" height="678" key="search.everywhere.popup" timestamp="1580057941009">
+      <screen x="0" y="27" width="1920" height="1014" />
+    </state>
+    <state x="623" y="248" width="672" height="678" key="search.everywhere.popup/0.27.1920.1014@0.27.1920.1014" timestamp="1580057941009" />
   </component>
 </project>

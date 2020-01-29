@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     env(FILE_STORAGE): "%kernel.project_dir%/var/storage"
+    admin_password: "%env(ADMIN_PASSWORD)%"
+    env(ADMIN_PASSWORD): password
 services:
     # default configuration for services in *this* file
     _defaults:
