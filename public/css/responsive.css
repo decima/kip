@@ -1,0 +1,32 @@
+@media screen and (max-width: 1500px) {
+
+    .page-content {
+        padding-left: 20px;
+    }
+
+}
+
+@media screen and (max-width: 991px) {
+    .left-column {
+        display: none;
+    }
+
+    .page-content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .right-column {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 767px) {
+
+}
+
+@media screen and (max-width: 479px) {
+    /* start of phone styles */
+
+}
