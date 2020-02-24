@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="51ffee2f-ecc4-4756-89b4-54acbc0e5733" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/../kip/templates/knowledge/editor.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/css/responsive.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kip/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kip/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kip/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/Dockerfile" afterDir="false" />
@@ -18,14 +17,18 @@
       <change beforePath="$PROJECT_DIR$/../kip/templates/embedded/left.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/templates/embedded/left.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kip/templates/knowledge/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/templates/knowledge/index.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/base.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/knowledge/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/knowledge/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/knowledge/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/knowledge/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings">
+  <component name="ComposerSettings" doNotAsk="true">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution>
       <executable />
@@ -128,7 +131,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../veille/grpc/go-grpc/api-php" />
     <property name="settings.editor.selected.configurable" value="Symfony2.SettingsForm" />
   </component>
   <component name="RecentsManager">
@@ -162,7 +165,8 @@
       <option name="presentableId" value="Default" />
       <updated>1579945406071</updated>
       <workItem from="1579945407295" duration="35040000" />
-      <workItem from="1580301384391" duration="1709000" />
+      <workItem from="1580301384391" duration="4142000" />
+      <workItem from="1581261457173" duration="5606000" />
     </task>
     <servers />
   </component>
@@ -186,6 +190,10 @@
       <screen x="0" y="27" width="1920" height="1014" />
     </state>
     <state x="693" y="291" width="524" height="484" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.27.1920.1014@0.27.1920.1014" timestamp="1580040613051" />
+    <state x="743" y="291" width="424" height="484" key="FileChooserDialogImpl" timestamp="1581426230139">
+      <screen x="0" y="27" width="1920" height="1014" />
+    </state>
+    <state x="743" y="291" width="424" height="484" key="FileChooserDialogImpl/0.27.1920.1014@0.27.1920.1014" timestamp="1581426230139" />
     <state x="0" y="27" width="1910" height="1014" key="FileDocumentManager.FileCacheConflict" timestamp="1580037335252">
       <screen x="0" y="27" width="1920" height="1014" />
     </state>
@@ -206,9 +214,9 @@
       <screen x="0" y="27" width="1920" height="1014" />
     </state>
     <state x="605" y="265" width="891" height="536" key="find.popup/0.27.1920.1014@0.27.1920.1014" timestamp="1580058614718" />
-    <state x="623" y="248" width="672" height="678" key="search.everywhere.popup" timestamp="1580057941009">
+    <state x="623" y="248" width="672" height="678" key="search.everywhere.popup" timestamp="1581271189735">
       <screen x="0" y="27" width="1920" height="1014" />
     </state>
-    <state x="623" y="248" width="672" height="678" key="search.everywhere.popup/0.27.1920.1014@0.27.1920.1014" timestamp="1580057941009" />
+    <state x="623" y="248" width="672" height="678" key="search.everywhere.popup/0.27.1920.1014@0.27.1920.1014" timestamp="1581271189735" />
   </component>
 </project>
