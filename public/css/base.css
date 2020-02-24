@@ -42,13 +42,29 @@ ul {
 }
 
 .left-column {
-
+    transition: .5s ease;
+    position: relative;
+    width: 300px;
+    max-width: 90%;
+    background-color: var(--color-white);
 }
 
 .left-column ul {
     list-style: none;
     display: block;
     padding: 0px;
+}
+
+.left-close {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
+    background-color: var(--color-white);
+    padding: 8px 10px;
+    cursor: pointer;
+    box-shadow: 0px 0px 4px var(--color-grey-dark);
 }
 
 .left-column li ul {

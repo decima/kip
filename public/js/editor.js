@@ -142,3 +142,5 @@ function _replaceSelection(cm, active, startEnd, url) {
     cm.setSelection(startPoint, endPoint);
     cm.focus();
 }
+
+

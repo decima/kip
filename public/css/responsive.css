@@ -8,7 +8,17 @@
 
 @media screen and (max-width: 991px) {
     .left-column {
-        display: none;
+        transform: translateX(-100%);
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .left-column.active {
+        transform: translateX(0);
+    }
+
+    .left-close {
+        display: block;
     }
 
     .page-content {
