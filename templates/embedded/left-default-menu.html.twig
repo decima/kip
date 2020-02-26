@@ -2,11 +2,11 @@
     {% import _self as macros %}
 
     <a id="file-{{ nav.path }}" {% if nav.path==path %}class="is-active"{% endif %}
-
             {% if nav.isFolder and nav.path~"/" ==path %}class="is-active"{% endif %}
             {% if nav.hasReadme and nav.path~"/readme.md" ==path %}class="is-active"{% endif %}
 
        href="{{ path("knowledge_read",{"webpath":nav.path}) }}{% if nav.isFolder %}/{% endif %}">
+
         {% if nav.hasReadme %}
             <span class="icon  has-text-link">
             <i class="fas fa-folder"></i>
@@ -43,8 +43,6 @@
     {% endif %}
 {% endmacro %}
 {% import _self as macros %}
-
-
 <ul class="menu-list">
     <li>
         <a {% if path =="/" %} class="is-active"{% endif %}

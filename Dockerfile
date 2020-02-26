@@ -18,8 +18,8 @@ COPY --chown=app:app ./ /app
 
 
 WORKDIR /app
-RUN echo $(git rev-parse --short HEAD) >> .env.prod.local
-RUN export BUILD_VERSION=$(git rev-parse --short HEAD) && composer install -o
+RUN echo "BUILD_VERSION=$(git rev-parse --short HEAD)" >> .env.prod.local
+RUN composer install -o
 
 
 ENV FILE_STORAGE /storage

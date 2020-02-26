@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>KIP - {% block title %}{% endblock %}</title>
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
 
     <link rel="stylesheet" href="{{ asset('css/base.css') }}?v={{ build_version }}"/>
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}?v={{ build_version }}"/>
@@ -16,10 +16,10 @@
 <div class="container">
     <div class="left-column">
         {% block left %}
-        <span class="left-close"> Menu <i class="fas fa-dragon"></i></span>    
+            <span class="left-close"><i class="fal fa-bars"></i></span>
             {{ render(controller('App\\Controller\\EmbeddedController::leftDefaultMenu')) }}
         {% endblock %}
-    </div> 
+    </div>
     <div class="center-column">
         {% block body %}{% endblock %}
     </div>
@@ -32,11 +32,14 @@
 <script>
     //Responsive side menu
     var menuButton = document.getElementsByClassName('left-close')[0];
-    menuButton.addEventListener("click", function() {
+    menuButton.addEventListener("click", function () {
         document.getElementsByClassName('left-column')[0].classList.toggle("active");
-    }) 
+    })
 
-   
+    var item = document.querySelector(".left-column .menu-list")
+    var selectedId = document.getElementById("file-{{ app.request.attributes.get("webpath")|trim("/") }}")
+    item.scrollBy(selectedId.offsetLeft, selectedId.offsetTop-100)
+
 </script>
 {% block javascripts %}{% endblock %}
 </body>
