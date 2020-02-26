@@ -2,13 +2,12 @@
     {% import _self as macros %}
 
     <a href="#{{ item.id }}">
-        <span><i class="fad fa-h{{ item.level }}"></i></span>
         {{ item.text }}
     </a>
     <ul>
         {% if item.children is defined %}
             {% for child in item.children %}
-                <li>
+                <li style="border-left: 1px solid #C9C9C9;">
                     {{ macros.rightMenu(child) }}
                 </li>
             {% endfor %}
@@ -27,6 +26,23 @@
 {% endblock %}
 {% block body %}
     <div class="page-content">
+        <ul class="top-menu">
+
+            <li>
+                <a href="{{ url('knowledge_delete',{webpath: file.webpath}) }}"
+                   onclick="return confirm('Are you sure you want to delete this item?');"><i
+                            class="fad fa-trash"></i> Delete</a>
+            </li>
+            <li>
+                <a target="_blank" href="{{ url('knowledge_slides',{webpath: file.webpath}) }}"><i
+                            class="fad fa-presentation"></i> Slides</a>
+            </li>
+
+            <li>
+                <a href="{{ url('knowledge_edit',{webpath: file.webpath}) }}"><i class="fad fa-pen"></i> Edit</a>
+            </li>
+        </ul>
+
         <div class="title">
             <h1 class="hero">{{ file.title }}</h1>
         </div>
@@ -35,12 +51,7 @@
     </div>
 {% endblock %}
 {% block right %}
-    <a href="{{ url('knowledge_edit',{webpath: file.webpath}) }}"><i class="fad fa-2x fa-pen"></i></a>
-    <a target="_blank" href="{{ url('knowledge_slides',{webpath: file.webpath}) }}"><i
-                class="fad fa-2x fa-presentation"></i></a>
-    <a href="{{ url('knowledge_delete',{webpath: file.webpath}) }}"
-       onclick="return confirm('Are you sure you want to delete this item?');"><i class="fad fa-2x fa-trash"></i></a>
-    <br/>
+
     <span class="title">
         {{ file.title }}
     </span>
