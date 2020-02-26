@@ -60,6 +60,7 @@ ul {
     position: absolute;
     top: 0;
     right: -10px;
+
     transform: translateX(100%);
     background-color: var(--color-white);
     padding: 8px 10px;

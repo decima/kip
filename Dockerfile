@@ -21,5 +21,4 @@ WORKDIR /app
 RUN echo "BUILD_VERSION=$(git rev-parse --short HEAD)" >> .env.prod.local
 RUN composer install -o
 
-
 ENV FILE_STORAGE /storage
