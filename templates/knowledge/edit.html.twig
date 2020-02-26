@@ -1,12 +1,15 @@
 {% extends "base.html.twig" %}
+{% block title %}
+    EDIT - {{ file.name }}
+{% endblock %}
 {% block body %}
     <textarea id="text-content">{{ file.markdownContent }}</textarea>
 {% endblock %}
 {% block javascripts %}
     <script>
-        var readLocation = "{{ url("knowledge_read",{ webpath:file.webpath}) }}";
+        var readLocation = "{{ path("knowledge_read",{ webpath:file.webpath}) }}";
         var rawPath = "{{ file.webpath }}";
-        var saveDocument = "{{ url('knowledge_update',{webpath:file.webpath}) }}";
+        var saveDocument = "{{ path('knowledge_update',{webpath:file.webpath}) }}";
     </script>
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script src="{{ asset('js/editor.js') }}"></script>

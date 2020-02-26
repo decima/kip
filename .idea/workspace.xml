@@ -3,19 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="51ffee2f-ecc4-4756-89b4-54acbc0e5733" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/../kip/templates/knowledge/editor.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/css/base.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/editor.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/EmbeddedController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Services/FileManipulation/FileWriter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Services/FileManipulation/Page.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/base_no_columns.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/embedded/left-default-menu.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/knowledge/edit.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/knowledge/notfound.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/knowledge/slides.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kip/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kip/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kip/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/Dockerfile" afterDir="false" />
@@ -29,28 +16,18 @@
       <change beforePath="$PROJECT_DIR$/../kip/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/symfony.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kip/templates/embedded/left.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/templates/embedded/left.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kip/templates/knowledge/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../kip/templates/knowledge/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/kip2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kip2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/twig.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/twig.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/KnowledgeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/KnowledgeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Services/FileManipulation/File.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/FileManipulation/File.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Services/FileManipulation/FileReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/FileManipulation/FileReader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Services/FileManipulation/FileResolver.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/FileManipulation/FileResolver.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/knowledge/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/knowledge/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings">
+  <component name="ComposerSettings" doNotAsk="true">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution>
       <executable />
@@ -187,7 +164,9 @@
       <option name="presentableId" value="Default" />
       <updated>1579945406071</updated>
       <workItem from="1579945407295" duration="35040000" />
-      <workItem from="1580301384391" duration="445000" />
+      <workItem from="1580301384391" duration="4142000" />
+      <workItem from="1581261457173" duration="5606000" />
+      <workItem from="1582619158852" duration="1664000" />
     </task>
     <servers />
   </component>
@@ -211,6 +190,10 @@
       <screen x="0" y="27" width="1920" height="1014" />
     </state>
     <state x="693" y="291" width="524" height="484" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.27.1920.1014@0.27.1920.1014" timestamp="1580040613051" />
+    <state x="743" y="291" width="424" height="484" key="FileChooserDialogImpl" timestamp="1581426230139">
+      <screen x="0" y="27" width="1920" height="1014" />
+    </state>
+    <state x="743" y="291" width="424" height="484" key="FileChooserDialogImpl/0.27.1920.1014@0.27.1920.1014" timestamp="1581426230139" />
     <state x="0" y="27" width="1910" height="1014" key="FileDocumentManager.FileCacheConflict" timestamp="1580037335252">
       <screen x="0" y="27" width="1920" height="1014" />
     </state>
@@ -227,13 +210,17 @@
       <screen x="0" y="27" width="1920" height="1014" />
     </state>
     <state x="610" y="151" width="690" height="764" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.27.1920.1014@0.27.1920.1014" timestamp="1580041656127" />
+    <state x="728" y="453" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1582620878777">
+      <screen x="0" y="27" width="1920" height="1014" />
+    </state>
+    <state x="728" y="453" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1920.1014@0.27.1920.1014" timestamp="1582620878777" />
     <state x="605" y="265" width="891" height="536" key="find.popup" timestamp="1580058614718">
       <screen x="0" y="27" width="1920" height="1014" />
     </state>
     <state x="605" y="265" width="891" height="536" key="find.popup/0.27.1920.1014@0.27.1920.1014" timestamp="1580058614718" />
-    <state x="623" y="248" width="672" height="678" key="search.everywhere.popup" timestamp="1580057941009">
+    <state x="623" y="248" width="672" height="678" key="search.everywhere.popup" timestamp="1582620287775">
       <screen x="0" y="27" width="1920" height="1014" />
     </state>
-    <state x="623" y="248" width="672" height="678" key="search.everywhere.popup/0.27.1920.1014@0.27.1920.1014" timestamp="1580057941009" />
+    <state x="623" y="248" width="672" height="678" key="search.everywhere.popup/0.27.1920.1014@0.27.1920.1014" timestamp="1582620287775" />
   </component>
 </project>
