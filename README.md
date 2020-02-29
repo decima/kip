@@ -28,8 +28,8 @@ Fill free to change the folder by creating your own .env.local and set the env v
 ### Using Docker
 For those who don't want to install php on their computer, you can use a pre-built docker-image for development.
 
-Using docker-compose, it will start the project on port 8010 by default and use the var/storage folder as a base.
+Using docker-compose, it will start the project on port 8010 by default and use the var/storage folder for markdown files.
 
 ## How to contribute
 Every contributions, even small are welcome, feel free to make this project awesome. 
-I have created issues 
+The project is full of issues you can add but you can also fix ones if you want to.
