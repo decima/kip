@@ -173,7 +173,6 @@ ul {
 
 .center-column {
     flex: 1 1;
-    padding: 16px;
     overflow: auto;
     scroll-behavior: smooth;
 
@@ -188,10 +187,11 @@ ul {
 .right-column {
     position: fixed;
     padding-top: 16px;
-    top: 0;
+    top: 150px;
     right: 10px;
     width: 240px;
     font-size: 13px;
+    padding-left: 20px;
 
 
 }
@@ -209,30 +209,6 @@ ul {
     padding-left: 15px;
 }
 
-.breadcrumb {
-
-}
-
-.breadcrumb ul li:not(:first-of-type):before {
-    content: "/";
-    margin: 10px;
-}
-
-.breadcrumb ul li {
-    display: inline-block;
-}
-
-.breadcrumb a {
-    color: var(--color-link);
-}
-
-.breadcrumb a:hover {
-    color: var(--color-black);
-}
-
-.breadcrumb .is-active a {
-    color: var(--color-black);
-}
 
 .editor {
     height: 100vh;
@@ -248,8 +224,28 @@ ul {
     padding-bottom: 200px;
 }
 
-.page-content .title {
+.title {
     margin-bottom: 1em;
+}
+
+#document-title .hero {
+    padding: 50px 20px 20px;
+    background-color: var(--color-black-ter);
+    color: var(--color-white-ter);
+    margin: 0px;
+    border-bottom: 5px solid black;
+    border-image: url('/spectrum.svg') 1;
+    font-size: 50px;
+
+
+}
+
+#document-title {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+
+
 }
 
 .page-content p {
