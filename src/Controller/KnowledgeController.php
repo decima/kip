@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Services\FileManipulation\File;
 use App\Services\FileManipulation\FileNotExistsException;
 use App\Services\FileManipulation\FileReader;
 use App\Services\FileManipulation\FileResolver;
 use App\Services\FileManipulation\FileWriter;
+use App\Services\FileManipulation\Metadata;
+use App\Services\FileManipulation\MetadataManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,9 +61,8 @@ class KnowledgeController extends AbstractController
         if (!$fileResolver->isMarkdownFile($path)) {
             return $this->redirectToRoute("knowledge_read", ["path" => $path]);
         }
-
-
         $file = $fileReader->readFile($webpath, $path);
+
         return $this->render("knowledge/edit.html.twig", [
             'file' => $file,
         ]);
@@ -90,7 +92,7 @@ class KnowledgeController extends AbstractController
      * @Route("/{webpath}/_edit",requirements={"webpath"="[^_].*"}, methods={"PUT"},name="_update")
      * @Route("/_edit", methods={"PUT"},name="_update_home")
      */
-    public function update(FileResolver $fileResolver, FileWriter $fileWriter, Request $request, $webpath = "/")
+    public function update(FileResolver $fileResolver, FileWriter $fileWriter, FileReader $fileReader, MetadataManager $metadataManager, Request $request, $webpath = "/")
     {
 
         try {
@@ -102,7 +104,19 @@ class KnowledgeController extends AbstractController
             $path = $fileNotExistsException->filename;
             $fileWriter->createParentFolder($path);
         }
-        $fileWriter->writeFile($path, $request->getContent());
+        $content = $request->getContent();
+        $fileWriter->writeFile($path, $content);
+        $file = new File();
+        $file->webpath = $webpath;
+        $file->markdownContent = $content;
+        $fileReader->extractMetaData($file);
+        $fileDeclaredMetadata = $file->getMetadata();
+        $metadata = new Metadata();
+        if (isset($fileDeclaredMetadata["title"])) {
+            $metadata->setName($fileDeclaredMetadata["title"]);
+        }
+        $metadataManager->setMetadataForDocument($webpath, $metadata);
+
         return $this->json("saved");
 
     }
@@ -111,12 +125,13 @@ class KnowledgeController extends AbstractController
      * @Route("/{webpath}/_delete",requirements={"webpath"="[^_].*"}, methods={"GET"},name="_delete")
      * @Route("/_delete", methods={"GET"},name="_delete_home")
      */
-    public function delete(FileResolver $fileResolver, FileWriter $fileWriter, Request $request, $webpath = "/")
+    public function delete(FileResolver $fileResolver, FileWriter $fileWriter, MetadataManager $metadataManager, Request $request, $webpath = "/")
     {
 
         try {
             $path = $fileResolver->getFile($webpath);
             if ($fileResolver->isMarkdownFile($path)) {
+                $metadataManager->unsetMetadata($webpath);
                 unlink($path);
             }
         } catch (FileNotExistsException $fileNotExistsException) {

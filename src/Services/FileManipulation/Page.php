@@ -11,6 +11,13 @@ class Page
     public $mime = "";
     public $name;
     public $path;
+    /**
+     * @var Metadata
+     */
+    public $metadata;
+    /**
+     * @var Page[]
+     */
     public $subLinks = [];
     public $content;
 
@@ -18,4 +25,5 @@ class Page
     {
         return explode("/", $this->mime)[0];
     }
+
 }

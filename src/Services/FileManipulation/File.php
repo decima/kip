@@ -15,6 +15,11 @@ class File
     public string $content = "";
     public array $tree = [];
 
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+
     public function getTitle()
     {
         if (isset($this->metadata["title"])) {
