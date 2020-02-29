@@ -12,6 +12,7 @@
         position: absolute;
         top: 0;
         left: 0;
+        padding-left: 25px;
     }
 
     .left-column.active {
@@ -20,6 +21,9 @@
 
     .left-close {
         display: block;
+    }
+    .left-close.active {
+        transform: translateX(-100%);
     }
 
     .page-content {

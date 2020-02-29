@@ -13,9 +13,11 @@
 </head>
 <body>
 <div class="container">
+    <span class="left-close"><i class="fal fa-bars"></i></span>
+
     <div class="left-column">
+
         {% block left %}
-            <span class="left-close"><i class="fal fa-bars"></i></span>
             {{ render(controller('App\\Controller\\EmbeddedController::leftDefaultMenu')) }}
         {% endblock %}
     </div> 
