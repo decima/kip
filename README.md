@@ -15,7 +15,6 @@ It must have the following features:
 - A good markdown extensions for making diagram, styling, links and more
 - A nice homepage for making thing accessible easily
 - An easy way to import / export data from it
-- A reliable way  way to store data by using a database and not just files
 
 ## Getting started
 
@@ -26,8 +25,11 @@ It will directly serve a `storage` folder at the root of the project.
 
 Fill free to change the folder by creating your own .env.local and set the env variable to `FILE_STORAGE=$PWD/../storage`
 
-This is all what the project needs to work.
+### Using Docker
+For those who don't want to install php on their computer, you can use a pre-built docker-image for development.
 
+Using docker-compose, it will start the project on port 8010 by default and use the var/storage folder as a base.
 
 ## How to contribute
-Every contributions, even small are welcome, feel free to make this project awesome
+Every contributions, even small are welcome, feel free to make this project awesome. 
+I have created issues 
