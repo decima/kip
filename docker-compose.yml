@@ -2,6 +2,8 @@ version: "3.7"
 services:
   php:
     image: decima/kip:alpha-2
+    environment:
+      APP_ENV: dev
     build:
       context: .
       dockerfile: Dockerfile
