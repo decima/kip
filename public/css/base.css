@@ -57,14 +57,19 @@ ul {
 
 .left-close {
     display: none;
-    position: absolute;
     top: 0;
     right: -10px;
+    z-index: 1000;
 
-    transform: translateX(100%);
-    background-color: var(--color-white);
+    background-color: var(--color-black-ter);
     padding: 8px 10px;
     cursor: pointer;
+}
+
+.left-close i {
+    z-index: 1000;
+    color: var(--color-white);
+
 }
 
 .left-column li ul {
@@ -185,6 +190,7 @@ ul {
 }
 
 .right-column {
+    display: block;
     position: fixed;
     padding-top: 16px;
     top: 150px;
@@ -241,10 +247,11 @@ ul {
 }
 
 #document-title {
-    position: -webkit-sticky;
-    position: sticky;
     top: 0;
-
+    /**
+    position: sticky;
+    position: -webkit-sticky;
+     */
 
 }
 
