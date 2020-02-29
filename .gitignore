@@ -1,4 +1,5 @@
 .idea/workspace.xml
+supervisord.log
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
