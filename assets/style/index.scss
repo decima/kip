@@ -1,0 +1,108 @@
+@import "variables.scss";
+@import "responsive.scss";
+@import "left-column.scss";
+@import "right-column.scss";
+@import "center-column.scss";
+@import "markdown.scss";
+
+a {
+    color: var(--color-grey-dark);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-link);
+}
+
+
+body {
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Open Sans', sans-serif;
+    color: var(--color-grey-dark);
+}
+
+ul {
+    margin: 0px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+
+
+.left-opener {
+    box-shadow: 0px 0px 4px var(--color-grey-dark);
+    height: 100vh;
+    display: none;
+
+
+}
+
+.left-opener a {
+    height: 45px;
+    line-height: 45px;
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+
+.left-opener.show {
+    display: block;
+}
+
+.login-button {
+    height: 45px;
+    line-height: 45px;
+    display: block;
+    text-align: center;
+}
+
+form input[type=text] {
+    height: 20px;
+}
+
+form button {
+    border: 0px;
+    background-color: var(--color-grey-dark);
+    color: var(--color-grey-lighter);
+    height: 26px;
+}
+
+
+.pull-right {
+    float: right;
+    margin-right: 10px;
+    margin-left: auto;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+

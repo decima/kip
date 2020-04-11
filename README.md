@@ -16,14 +16,25 @@ It must have the following features:
 - A nice homepage for making thing accessible easily
 - An easy way to import / export data from it
 
-## Getting started
+## Installation
 
 This project is a symfony project and requires PHP >7.3 to develop with.
 
-To run the project in dev environment, just run ```php bin/console server:run 0.0.0.0:8000```
+You should run these commands :
+```bash
+composer install
+npm install
+```
+
+## Getting started
+
+To run the project in dev environment, just run ```php -S 0.0.0.0:8000 -t public```
 It will directly serve a `storage` folder at the root of the project.
 
-Fill free to change the folder by creating your own .env.local and set the env variable to `FILE_STORAGE=$PWD/../storage`
+Feel free to change the folder by creating your own .env.local and set the env variable to `FILE_STORAGE=$PWD/../storage`
+
+You should also run ```npm run dev-server``` in parallel to build scss files to the `public` folder.
+
 
 ### Using Docker
 For those who don't want to install php on their computer, you can use a pre-built docker-image for development.
