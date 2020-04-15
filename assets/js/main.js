@@ -2,12 +2,16 @@ import Vue from 'vue';
 import routerManager from "./router";
 import store from './store';
 import i18n from './translations';
-import { Button } from 'ant-design-vue';
 import App from './App.vue';
+import vueAntDesign from './plugins/vueAntDesign';
+import utils from './plugins/utils';
 
-
-Vue.use(Button);
+//importing style
 import 'style/index.less';
+
+//using plugins
+Vue.use(vueAntDesign);
+Vue.use(utils);
 
 App.store = store;
 App.router = routerManager;

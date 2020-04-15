@@ -1,0 +1,15 @@
+{
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    ["import", {
+      "libraryName": "antd",
+      "style": true
+    }],
+    "@babel/transform-runtime",
+    "@babel/plugin-transform-async-to-generator",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-proposal-optional-chaining"
+  ]
+}
