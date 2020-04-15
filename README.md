@@ -16,12 +16,12 @@
 
 We spent many hours searching for a Knowledge Base ('KB') to fill all our needs, and after maybe 15 or more KB solutions tested, 
 paid or free, open source or not, we never found something that really rocks for us. 
-That's why [@decima](https://github.com/decima) took the lead to create a killer KB from scratch :boom:
+That's why [@decima](https://github.com/decima) took the lead to create a killer KB from scratch ! :boom:
 
 ## Features
 
 - [x] :eyes: A nice and modern interface to read articles (who reads ugly articles, right ?)
-- [x] :open_file_folder: An easy way to import / export data from it : it simply reads a folder containing all your markdown files
+- [x] :open_file_folder: An easy way to import / export data from it : it simply reads a folder containing all your markdown files, CAN'T BEAT THAT
 - [x] :pencil2: A good markdown editor
 - [x] :no_good: Access management : being able to edit articles only when logged in
 - [ ] :mag: A powerful search engine
@@ -44,6 +44,8 @@ yarn install # or `npm install` if you are using npm
 
 Feel free to change environment variables by copying the `.env` file to a `.env.local` file.
 
+And you're good to go ! :tada:
+
 ## Getting started
 
 Your markdown files should be placed in the folder specified in the `FILE_STORAGE` environment variable.
@@ -52,7 +54,7 @@ Make sure to create this folder if it doesn't exist.
 ### Using a local stack
 
 To run the project in development, you should run these commands in parallel :
-```
+```bash
 php -S 0.0.0.0:8000 -t public # this serves the specified folder as the root of the KB
 npm run dev-server #builds style and script files to the `public` folder
 ```
