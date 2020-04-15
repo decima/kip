@@ -1,46 +1,79 @@
 # KIP
 
+> KIP (standing as Knowledge Is Power) is a dead simple yet beautiful knowledge base management based on markdown files :fire:
+
+> @TODO put a screenshot / live demo link when the new style will be implemented
+
+- [Purpose](#purpose)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Getting started](#getting-started)
+- [Contribute](#contribute)
+- [Licence](#licence)
+
 ## Purpose 
 
-We passed many hours to search a Knowledge base to fill all our needs, and after maybe 15 or more KB solutions tested, paid or free, open source or not even wiki
-. We never found something that really rocks for us. That's why @decima took the lead to create from scratch a KB that will kill every kb out there.
+We spent many hours searching for a Knowledge Base ('KB') to fill all our needs, and after maybe 15 or more KB solutions tested, 
+paid or free, open source or not, we never found something that really rocks for us. 
+That's why [@decima](https://github.com/decima) took the lead to create a killer KB from scratch ! :boom:
 
-### What is the perfect KB?
+## Features
 
-It must have the following features:
+- [x] :eyes: A nice and modern interface to read articles (who reads ugly articles, right ?)
+- [x] :open_file_folder: An easy way to import / export data from it : it simply reads a folder containing all your markdown files, CAN'T BEAT THAT
+- [x] :pencil2: A good markdown editor
+- [x] :no_good: Access management : being able to edit articles only when logged in
+- [ ] :mag: A powerful search engine
+- [ ] :lock: Database / LDAP authentication
 
-- A Good search engine
-- A nice and modern interface for reading articles (you don't want to read something ugly, and you don't want people avoid reading your kb because it is ugly or unreadable)
-- A good markdown editor
-- A good markdown extensions for making diagram, styling, links and more
-- A nice homepage for making thing accessible easily
-- An easy way to import / export data from it
+## Requirements
+
+- This project is a symfony project and requires PHP >= 7.4
+- node and npm/yarn to build asset files
 
 ## Installation
 
-This project is a symfony project and requires PHP >7.3 to develop with.
-
-You should run these commands :
+You should run these commands in a terminal :
 ```bash
+git clone https://github.com/AboutGoods/kip.git
+cd kip
 composer install
-npm install
+yarn install # or `npm install` if you are using npm 
 ```
+
+Feel free to change environment variables by copying the `.env` file to a `.env.local` file.
+
+And you're good to go ! :tada:
 
 ## Getting started
 
-To run the project in dev environment, just run ```php -S 0.0.0.0:8000 -t public```
-It will directly serve a `storage` folder at the root of the project.
+Your markdown files should be placed in the folder specified in the `FILE_STORAGE` environment variable.
+Make sure to create this folder if it doesn't exist.
 
-Feel free to change the folder by creating your own .env.local and set the env variable to `FILE_STORAGE=$PWD/../storage`
+### Using a local stack
 
-You should also run ```npm run dev-server``` in parallel to build scss files to the `public` folder.
-
+To run the project in development, you should run these commands in parallel :
+```bash
+php -S 0.0.0.0:8000 -t public # this serves the specified folder as the root of the KB
+npm run dev-server #builds style and script files to the `public` folder
+```
 
 ### Using Docker
+
 For those who don't want to install php on their computer, you can use a pre-built docker-image for development.
 
-Using docker-compose, it will start the project on port 8010 by default and use the var/storage folder for markdown files.
+Using docker-compose, it will start the project on port 8010 by default and use the var/storage folder for markdown files :
+```bash
+docker-compose up
+```
 
-## How to contribute
-Every contributions, even small are welcome, feel free to make this project awesome. 
-The project is full of issues you can add but you can also fix ones if you want to.
+## Contribute
+
+:raised_hands: Every contributions, even small are welcome, feel free to make this project awesome :dizzy:
+
+Make sure to follow the instructions in [CONTRIBUTING.md](./CONTRIBUTING.md)
+
+## Licence
+
+Defining it soon (@TODO)
