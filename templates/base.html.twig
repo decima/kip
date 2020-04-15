@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>KIP - {% block title %}{% endblock %}</title>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    {{ encore_entry_link_tags('style') }}
+    {{ encore_entry_link_tags('app') }}
     <script src="https://kit.fontawesome.com/63a539fbd1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css">
@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="container">
-    <span class="left-close"><i class="fal fa-bars"></i></span>
+    {#<span class="left-close"><i class="fal fa-bars"></i></span>
 
     <div class="left-column">
 
@@ -25,13 +25,14 @@
         <div class="right-column">
             {% block right %}{% endblock %}
         </div>
-    </div>
+    </div>#}
+    <div id="app"></div>
 
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-core.min.js"></script>
 <script src="https://cdnjhttps://github.com/decima/kip/pull/14/conflict?name=templates%252Fbase.html.twig&ancestor_oid=82d66d5fc4468dabc7c27fccf461090203a32d37&base_oid=229a3a019f28662c3df04af44d999a4d30de84a6&head_oid=f9c283816ce1e5fb0eb2241051d445407abbabees.cloudflare.com/ajax/libs/prism/1.17.1/plugins/autoloader/prism-autoloader.min.js"></script>
 <script>
-    //Responsive side menu
+   /* //Responsive side menu
     var menuButton = document.getElementsByClassName('left-close')[0];
     menuButton.addEventListener("click", function () {
         document.getElementsByClassName('left-column')[0].classList.toggle("active");
@@ -39,9 +40,10 @@
 
     var item = document.querySelector(".left-column .menu-list")
     var selectedId = document.getElementById("file-{{ app.request.attributes.get("webpath")|trim("/") }}")
-    item.scrollBy(selectedId.offsetLeft, selectedId.offsetTop-100)
+    item.scrollBy(selectedId.offsetLeft, selectedId.offsetTop-100)*/
 
 </script>
+{{ encore_entry_script_tags('app') }}
 {% block javascripts %}{% endblock %}
 </body>
 </html>

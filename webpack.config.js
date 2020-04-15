@@ -1,4 +1,5 @@
-var Encore = require('@symfony/webpack-encore');
+const Encore = require('@symfony/webpack-encore');
+const path = require("path");
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -21,9 +22,9 @@ Encore
      * (including one that's included on every page - e.g. "app")
      *
      * Each entry will result in one JavaScript file (e.g. app.js)
-     * and one CSS file (e.g. index.scss) if your JavaScript imports CSS.
+     * and one CSS file (e.g. index.less) if your JavaScript imports CSS.
      */
-    .addEntry('style', './assets/style/index.scss')
+    .addEntry('app', './assets/js/main.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 
@@ -53,8 +54,12 @@ Encore
         config.corejs = 3;
     })
 
-    // enables Sass/SCSS support
-    .enableSassLoader()
+    .enableLessLoader((options) => {
+        options.javascriptEnabled = true;
+        options.modifyVars = {
+
+        }
+    })
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
@@ -69,6 +74,31 @@ Encore
     // uncomment if you use API Platform Admin (composer req api-admin)
     //.enableReactPreset()
     //.addEntry('admin', './assets/js/admin.js')
+
+    .addLoader({
+        test: /\.less$/,
+        use: [
+            {
+                loader: "style-resources-loader",
+                options: {
+                    patterns: [
+                        path.resolve(__dirname, "./assets/style/variables.less"),
+                    ]
+                }
+            },
+        ]
+    })
+
+    .enableVueLoader()
 ;
 
-module.exports = Encore.getWebpackConfig();
+let config = Encore.getWebpackConfig();
+
+config.resolve.alias = {
+    ...config.resolve.alias,
+    '@': path.resolve(__dirname, './client/'),
+    'pages': path.resolve(__dirname, './assets/js/pages/'),
+    'style': path.resolve(__dirname, './assets/style/'),
+};
+
+module.exports = config;
