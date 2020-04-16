@@ -1,5 +1,9 @@
 export const RouteName = class RouteName {
-    static get ARTICLE_PAGE(){
-        return "ArticlePage"
+    static get READ_ARTICLE(){
+        return "ReadArticle"
+    }
+
+    static get EDIT_ARTICLE(){
+        return "EditArticle"
     }
 };
