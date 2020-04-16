@@ -1,18 +1,24 @@
 <template>
-    <div>
-        <a-button type="primary">button</a-button>
+    <div class="article-page">
+        <articles-tree />
+
+        <router-view :key="$route.path" />
     </div>
 </template>
 
 <script>
+    import ArticlesTree from "pages/article/ArticlesTree";
+
     export default {
         name : "ArticlePage",
-        mounted(){
-            console.log(this.$route)
-        }
+        components: {ArticlesTree}
     }
 </script>
 
 <style scoped>
+
+    .article-page {
+        display:flex;
+    }
 
 </style>

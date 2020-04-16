@@ -7,7 +7,10 @@
 <script>
 
     export default {
-        name: 'App'
+        name: 'App',
+        async created(){
+            this.$store.dispatch("loadArticlesTree")
+        }
     }
 
 </script>
