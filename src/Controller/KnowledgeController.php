@@ -36,22 +36,12 @@ class KnowledgeController extends AbstractController
             }
         } catch (FileNotExistsException $fileNotExistsException) {
             return new Response(null, Response::HTTP_NOT_FOUND);
-            /*$path = $fileNotExistsException->filename;
-            $notfoundResponse = new Response("", Response::HTTP_NOT_FOUND);
-            $file = $fileReader->readFile($webpath, $path);
-            return $this->render("knowledge/notfound.html.twig", ["file" => $file], $notfoundResponse);*/
         }
 
         $file = $fileReader->readFile($webpath, $path);
         $fileReader->extractMetaData($file);
         $fileReader->parseMarkdown($file);
 
-
-        /*return $this->render("knowledge/index.html.twig", [
-            'file' => $file,
-            'exists' => $fileExists,
-            'isMD' => $fileResolver->isMarkdownFile($path),
-        ]);*/
         return $this->json([
             'file' => $file,
             'exists' => $fileExists,
@@ -102,6 +92,7 @@ class KnowledgeController extends AbstractController
     /**
      * @Route("/{webpath}/_edit",requirements={"webpath"="[^_].*"}, methods={"PUT"},name="_update")
      * @Route("/_edit", methods={"PUT"},name="_update_home")
+     * @RouteExposed()
      */
     public function update(FileResolver $fileResolver, FileWriter $fileWriter, FileReader $fileReader, MetadataManager $metadataManager, Request $request, $webpath = "/")
     {
@@ -128,8 +119,7 @@ class KnowledgeController extends AbstractController
         }
         $metadataManager->setMetadataForDocument($webpath, $metadata);
 
-        return $this->json("saved");
-
+        return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
     /**

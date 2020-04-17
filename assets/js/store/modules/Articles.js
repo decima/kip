@@ -3,7 +3,6 @@ import axios from "axios";
 const state = {
     articlesTree: null,
     currentArticle: null,
-    articleToEdit: null
 };
 
 const mutations = {
@@ -13,8 +12,8 @@ const mutations = {
     setCurrentArticle(state, value) {
         state.currentArticle = value;
     },
-    setArticleToEdit(state, value) {
-        state.articleToEdit = value;
+    setCurrentArticleMarkdownContent(state, value){
+        state.currentArticle.file.markdownContent = value;
     }
 };
 
@@ -24,9 +23,9 @@ const actions = {
         commit("setArticlesTree", articlesTree);
         return articlesTree;
     },
-    async loadCurrentArticleFromPath({commit}, path) {
+    async loadCurrentArticleFromPath({commit}, webpath) {
         try {
-            const currentArticle = (await axios.get(Router.url("knowledge_read", {webpath: path}))).data;
+            const currentArticle = (await axios.get(Router.url("knowledge_read", {webpath}))).data;
             commit("setCurrentArticle", currentArticle);
             return currentArticle;
         } catch(e){
@@ -36,22 +35,23 @@ const actions = {
                 return null;
             }
         }
-
     },
-    async deleteArticle({commit}, path) {
-        return await axios.get(Router.url("knowledge_delete", {webpath: path}));
+    async deleteArticle({commit}, webpath) {
+        return await axios.get(Router.url("knowledge_delete", {webpath}));
     },
-    async loadArticleToEditFromPath({commit}, path) {
-        const articleToEdit = (await axios.get(Router.url("knowledge_edit", {webpath: path}))).data;
-        commit("setArticleToEdit", articleToEdit);
+    async loadArticleToEditFromPath({commit}, webpath) {
+        const articleToEdit = (await axios.get(Router.url("knowledge_edit", {webpath}))).data;
+        commit("setCurrentArticle", articleToEdit);
         return articleToEdit;
+    },
+    async saveArticle({commit}, payload){
+        return await axios.put(Router.url("knowledge_update", {webpath: payload.webpath}), payload.content);
     }
 };
 
 const getters = {
     getArticlesTree: state => state.articlesTree,
     getCurrentArticle: state => state.currentArticle,
-    getArticleToEdit: state => state.articleToEdit
 };
 
 export default {
