@@ -8,7 +8,8 @@
                     title: 'name',
                     key: 'path'
                 }"
-                :defaultExpandAll="true">
+                :defaultExpandAll="true"
+                :selectedKeys="[$getArticleWebpath]">
         </a-tree>
     </div>
 </template>
@@ -23,9 +24,14 @@
         },
         methods: {
             onSelect(selectedKeys) {
-                //we don't enable multi selects, so we take the first element of the array
-                const articlePath = selectedKeys[0];
-                this.$router.push({ path : `/${articlePath}` });
+                //selectedKeys is empty on deselection
+                if(selectedKeys.length > 0){
+                    //we don't enable multi selects, so we take the first element of the array
+                    const articlePath = `/${selectedKeys[0]}`;
+                    if(articlePath !== this.$getArticleWebpath()) {
+                        this.$router.push({ path : articlePath });
+                    }
+                }
             }
         }
     }

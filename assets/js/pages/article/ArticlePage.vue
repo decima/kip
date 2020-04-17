@@ -2,16 +2,20 @@
     <div class="article-page">
         <articles-tree />
 
-        <router-view :key="$route.path" />
+        <div class="article-wrapper">
+            <article-header />
+            <router-view :key="$route.path" />
+        </div>
     </div>
 </template>
 
 <script>
     import ArticlesTree from "pages/article/ArticlesTree";
+    import ArticleHeader from "pages/article/header/ArticleHeader";
 
     export default {
         name : "ArticlePage",
-        components: {ArticlesTree}
+        components: {ArticleHeader, ArticlesTree}
     }
 </script>
 
@@ -19,6 +23,10 @@
 
     .article-page {
         display:flex;
+    }
+
+    .article-wrapper {
+        width : 100%;
     }
 
 </style>

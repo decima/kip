@@ -4,10 +4,7 @@
              v-if="$store.getters.getCurrentArticle"
              :key="$store.getters.getCurrentArticle.file.path">
 
-            <div>
-                <article-header />
-                <article-content />
-            </div>
+            <article-content />
 
 
             <table-of-content />
@@ -21,11 +18,10 @@
     import TableOfContent from "pages/article/read/TableOfContent";
     import ArticleNotFound from "pages/article/read/ArticleNotFound";
     import ArticleContent from "pages/article/read/ArticleContent";
-    import ArticleHeader from "pages/article/read/ArticleHeader";
 
     export default {
         name : "ReadArticle",
-        components: {ArticleHeader, ArticleContent, ArticleNotFound, TableOfContent},
+        components: {ArticleContent, ArticleNotFound, TableOfContent},
         data(){
             return {
                 notFound : false
@@ -34,7 +30,7 @@
         methods : {
             async loadCurrentArticleFromPath(){
                 this.notFound = false;
-                const currentArticle = await this.$store.dispatch("loadCurrentArticleFromPath", this.$route.path);
+                const currentArticle = await this.$store.dispatch("loadCurrentArticleFromPath", this.$readLink());
                 if(!currentArticle){
                     this.notFound = true
                 }

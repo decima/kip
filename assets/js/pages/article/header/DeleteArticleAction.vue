@@ -13,7 +13,7 @@
         methods : {
             async deleteArticle(){
                this.loading = true;
-                const response = await this.$store.dispatch("deleteArticle", this.$store.getters.getCurrentArticle.file.webpath);
+                const response = await this.$store.dispatch("deleteArticle", this.$getArticleWebpath());
                 this.loading = false;
                 if(response.status === 204){
                     //we deleted the article successfully

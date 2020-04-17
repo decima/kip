@@ -6,11 +6,19 @@ export default {
         Vue.prototype.$routes = RouteName;
 
         Vue.prototype.$editLink = function(){
-            return this.$route.path + editLink
-        }
+            return this.$readLink() + editLink
+        };
 
         Vue.prototype.$readLink = function(){
-            return this.$route.path.substring(0,this.$route.path.lastIndexOf(editLink))
+            if(this.$route.name === this.$routes.EDIT_ARTICLE){
+                return this.$route.path.substring(0, this.$route.path.lastIndexOf(editLink))
+            }
+
+            return this.$route.path;
+        };
+
+        Vue.prototype.$getArticleWebpath = function(){
+            return this.$store.getters.getCurrentArticle?.file?.webpath;
         }
     }
 }

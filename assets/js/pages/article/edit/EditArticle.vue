@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="edit-article">
         <editor v-if="loaded" />
     </div>
 </template>
@@ -28,5 +28,9 @@
 </script>
 
 <style scoped>
+
+    .edit-article {
+        width : 100%;
+    }
 
 </style>
