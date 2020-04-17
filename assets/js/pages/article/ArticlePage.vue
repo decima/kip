@@ -1,6 +1,6 @@
 <template>
     <div class="article-page">
-        <articles-tree />
+        <nav-bar />
 
         <div class="article-wrapper">
             <article-header />
@@ -10,12 +10,12 @@
 </template>
 
 <script>
-    import ArticlesTree from "pages/article/ArticlesTree";
     import ArticleHeader from "pages/article/header/ArticleHeader";
+    import NavBar from "pages/article/navbar/NavBar";
 
     export default {
         name : "ArticlePage",
-        components: {ArticleHeader, ArticlesTree}
+        components: {NavBar, ArticleHeader}
     }
 </script>
 

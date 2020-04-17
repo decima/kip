@@ -17,14 +17,22 @@ class FileLister
     private $metadataManager;
 
     /**
+     * @var FileReader
+     */
+    private $fileReader;
+
+    public $indexedFiles = [];
+
+    /**
      * FileLister constructor.
      * @param FileResolver $fileResolver
      * @param MetadataManager $metadataManager
      */
-    public function __construct(FileResolver $fileResolver, MetadataManager $metadataManager)
+    public function __construct(FileResolver $fileResolver, MetadataManager $metadataManager, FileReader $fileReader)
     {
         $this->fileResolver = $fileResolver;
         $this->metadataManager = $metadataManager;
+        $this->fileReader = $fileReader;
     }
 
 
@@ -51,17 +59,25 @@ class FileLister
                     } else {
                         $parent->hasReadme = true;
                     }
+
+                    $file = $this->fileReader->readFile($newPath, $fullFolderPath);
+                    $this->fileReader->parseMarkdown($file);
+
+                    $fileContentAsPlainText = preg_replace("/<[^>]+>/", " ", $file->content);
+                    $indexedFile = new IndexedFile();
+                    $indexedFile->title = $item->name;
+                    $indexedFile->content = $fileContentAsPlainText;
+                    $indexedFile->webpath = $newPath;
+                    $this->indexedFiles[] = $indexedFile;
                 } else {
                     if (strpos($item->name, ".") !== 0) {
                         $item->mime = mime_content_type($fullFolderPath);
-                        // $parent->subLinks[] = $item;
                     }
 
                 }
             } else if ($value != "." && $value != ".." && strpos($value, ".") !== 0) {
                 $this->listAllFiles($newPath, $item);
                 $parent->subLinks[] = $item;
-
             }
         }
         usort($parent->subLinks, function (Page $page, Page $page2) {
@@ -73,11 +89,8 @@ class FileLister
             } else {
                 return $page->name > $page2->name;
             }
-
         });
 
-
         return $parent;
-
     }
 }

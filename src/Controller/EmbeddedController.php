@@ -25,6 +25,8 @@ class EmbeddedController extends AbstractController
     {
         $webpath = $requestStack->getMasterRequest()->attributes->get("webpath", "/");
         $page = new Page();
-        return $this->json(["path" => $webpath, "nav" => $fileLister->listAllFiles("/", $page)]);
+        $articlesTree = $fileLister->listAllFiles("/", $page);
+        $indexedArticles = $fileLister->indexedFiles;
+        return $this->json(["path" => $webpath, "nav" => $articlesTree, "indexedArticles" => $indexedArticles]);
     }
 }

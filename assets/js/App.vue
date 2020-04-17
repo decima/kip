@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-view/>
+        <router-view v-if="$store.getters.getArticlesTree"/>
     </div>
 </template>
 

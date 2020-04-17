@@ -4,7 +4,8 @@ import {
     Tree,
     Spin,
     Tag,
-    notification
+    notification,
+    Select
 } from 'ant-design-vue';
 
 import Fa from "components/Fa";
@@ -22,6 +23,7 @@ export default {
         Vue.use(Button);
         Vue.use(Tree);
         Vue.use(Tag);
+        Vue.use(Select);
 
         Vue.component("fa", Fa);
 
