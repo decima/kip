@@ -30,6 +30,7 @@
     "dependencies": {
         "ant-design-vue": "^1.5.3",
         "axios": "^0.19.2",
+        "flexsearch": "github:nextapps-de/flexsearch",
         "vue": "^2.6.11",
         "vue-i18n": "^8.17.0",
         "vue-router": "^3.1.6",

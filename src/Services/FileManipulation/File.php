@@ -52,4 +52,8 @@ class File
 
         return $str;
     }
+
+    public function getPlainText(){
+        return preg_replace("/<[^>]+>/", " ", $this->content);
+    }
 }
