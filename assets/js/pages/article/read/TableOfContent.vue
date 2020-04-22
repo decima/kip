@@ -1,26 +1,15 @@
 <template>
-    <div>
-        <a-tree showLine
-                @select="onSelect"
-                :treeData="$store.getters.getCurrentArticle.file.tree"
-                :replaceFields="{
-                    children: 'children',
-                    title: 'text',
-                    key: 'id'
-                }"
-                :defaultExpandAll="true">
-        </a-tree>
-    </div>
+    <a-anchor :offsetTop="50">
+        <anchor-links :article-tree="$store.getters.getCurrentArticle.file.tree"/>
+    </a-anchor>
 </template>
 
 <script>
-    export default {
-        name : "TableOfContent",
-        methods : {
-            onSelect(){
+    import AnchorLinks from "pages/article/read/AnchorLinks";
 
-            }
-        }
+    export default {
+        name: "TableOfContent",
+        components: {AnchorLinks},
     }
 </script>
 

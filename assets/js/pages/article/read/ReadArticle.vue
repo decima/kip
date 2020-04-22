@@ -4,10 +4,10 @@
              v-if="$store.getters.getCurrentArticle"
              :key="$store.getters.getCurrentArticle.file.path">
 
-            <article-content />
-
-
-            <table-of-content />
+            <a-row :gutter="40">
+                <a-col :md="{ span : 15 }" :xs="{ span : 24 }"><article-content /></a-col>
+                <a-col :md="{ span : 9 }" :xs="{ span : 0 }"><table-of-content /></a-col>
+            </a-row>
         </div>
 
         <article-not-found v-if="notFound" />

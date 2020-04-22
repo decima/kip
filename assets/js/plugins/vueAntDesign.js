@@ -5,7 +5,10 @@ import {
     Spin,
     Tag,
     notification,
-    Select
+    Select,
+    Anchor,
+    Row,
+    Col
 } from 'ant-design-vue';
 
 import Fa from "components/Fa";
@@ -24,6 +27,9 @@ export default {
         Vue.use(Tree);
         Vue.use(Tag);
         Vue.use(Select);
+        Vue.use(Anchor);
+        Vue.use(Row);
+        Vue.use(Col);
 
         Vue.component("fa", Fa);
 
