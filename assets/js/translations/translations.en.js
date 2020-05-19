@@ -6,5 +6,9 @@ export default {
         deleted : "Article deleted",
         save : "Save",
         saved : "Article saved"
+    },
+
+    navBar : {
+        search : "Search"
     }
 };

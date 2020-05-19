@@ -1,14 +1,16 @@
 <template>
     <a-select class="search-bar"
               showSearch
+              :placeholder="$t('navBar.search')"
               :defaultActiveFirstOption="false"
               :showArrow="false"
               :filterOption="false"
-              :value="null"
+              :value="undefined"
               @search="onSearch"
               @change="onChange"
               :notFoundContent="null"
               :dropdownMatchSelectWidth="false">
+        <fa icon="user" slot="suffixIcon" />
         <a-select-option v-for="result in results" :key="result.webpath">
             <result-item :result="result" :query="query"/>
         </a-select-option>
@@ -37,6 +39,7 @@
 
                 const max = 10;
                 if (this.index === null || query.length < 3) {
+                    this.results = [];
                     return;
                 }
                 // here we use the search method that FlexSearch provides.

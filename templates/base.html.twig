@@ -5,14 +5,14 @@
     <title>KIP - {% block title %}{% endblock %}</title>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <script src="{{ path('routing_js') }}"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/63a539fbd1.js" crossorigin="anonymous"></script>
     {{ encore_entry_link_tags('app') }}
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
-    <div class="container">
-        <div id="app"></div>
-    </div>
+
+    <div id="app"></div>
 
     {% block javascripts %}{% endblock %}
     {{ encore_entry_script_tags('app') }}

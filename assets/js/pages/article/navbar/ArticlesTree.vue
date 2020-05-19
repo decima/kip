@@ -1,6 +1,7 @@
 <template>
     <a-tree v-if="$store.getters.getArticlesTree"
             showLine
+            :showIcon="true"
             @select="onSelect"
             :treeData="treeData"
             :replaceFields="{
@@ -11,6 +12,7 @@
             :defaultExpandAll="true"
             :selectedKeys="[$getArticleWebpath]"
             class="articles-tree">
+        <fa type="fad" icon="folder" slot="switcherIcon"  />
     </a-tree>
 </template>
 
@@ -47,6 +49,14 @@
         padding-top: 0;
     }
 
+    .ant-tree.ant-tree-show-line li span.ant-tree-switcher {
+        background: none !important;
+    }
+
+    .ant-tree.ant-tree-show-line li span.ant-tree-switcher.ant-tree-switcher_open .ant-tree-switcher-icon,
+    .ant-tree.ant-tree-show-line li span.ant-tree-switcher.ant-tree-switcher_open .ant-select-switcher-icon {
+        font-size: 18px !important;
+    }
 </style>
 
 

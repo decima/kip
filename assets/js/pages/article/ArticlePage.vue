@@ -2,14 +2,14 @@
     <div class="article-page">
         <a-layout class="container-layout">
 
-            <multipane @paneResize="resizeNavBar">
+            <multipane @paneResize="resizeNavBar" class="multipane">
                 <a-layout-sider :width="$store.getters.getNavBarWidth"
                                 :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }">
                     <nav-bar />
                 </a-layout-sider>
 
                 <multipane-resizer class="pane-resizer"
-                                   :style="{ marginLeft: $store.getters.getNavBarWidth, left : 0 }" />
+                                   :style="{ marginLeft: $store.getters.getNavBarWidth }" />
 
                 <a-layout :style="{ flexGrow : 1 }" class="main-layout">
                     <a-layout-content class="layout-content"
@@ -49,13 +49,34 @@
 
     @main-layout-border-radius: 60px;
 
+    .multipane {
+        width : 100%;
+    }
+
+    .article-page, .container-layout {
+        min-height: 100vh;
+    }
+
     .main-layout {
         border-top-left-radius: @main-layout-border-radius;
         border-bottom-left-radius: @main-layout-border-radius;
+        box-shadow: -10px 0px 80px rgba(0, 0, 0, 0.03);
+        z-index: 1;
     }
 
-    .pane-resizer, .container-layout {
+    .layout-content {
+        margin: 0 !important;
+        padding: 40px;
+    }
+
+    .container-layout {
         background-color: @navbar-background-color;
+    }
+
+    .pane-resizer {
+        margin-top : @main-layout-border-radius;
+        z-index: 2;
+        height : calc(100% - @main-layout-border-radius) !important;
     }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="app-wrapper">
         <router-view v-if="$store.getters.getArticlesTree"/>
     </div>
 </template>
@@ -8,9 +8,17 @@
 
     export default {
         name: 'App',
-        async created(){
+        async created() {
             this.$store.dispatch("loadArticlesTree")
         }
     }
 
 </script>
+
+<style scoped>
+
+    .app-wrapper {
+        height: 100%;
+    }
+
+</style>

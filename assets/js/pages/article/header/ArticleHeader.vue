@@ -1,6 +1,6 @@
 <template>
     <div v-if="$store.getters.getCurrentArticle">
-        <div>{{ $getArticleWebpath() }}</div>
+        <div class="article-path">{{ $getArticleWebpath() }}</div>
 
         <router-link :to="{ path: $readLink() }">
             <a-button type="link"><fa icon="eye" /></a-button>
@@ -37,5 +37,10 @@
 </script>
 
 <style scoped>
+
+    .article-path {
+        color: #CED4DC;
+        font-size: 12px;
+    }
 
 </style>
