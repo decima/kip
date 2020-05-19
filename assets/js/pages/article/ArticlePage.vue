@@ -17,7 +17,10 @@
 
                         <div class="article-wrapper">
                             <article-header />
-                            <router-view :key="$route.path" />
+
+                            <transition name="subroute" mode="out-in">
+                                <router-view :key="$route.path" />
+                            </transition>
                         </div>
 
                     </a-layout-content>
@@ -66,7 +69,7 @@
 
     .layout-content {
         margin: 0 !important;
-        padding: 40px;
+        padding: 32px 40px 40px  40px;
     }
 
     .container-layout {
@@ -79,4 +82,12 @@
         height : calc(100% - @main-layout-border-radius) !important;
     }
 
+    .subroute-enter-active, .subroute-leave-active {
+        transition: transform .3s @ease-out-quint, opacity .3s;
+        transform-origin: top;
+    }
+    .subroute-enter, .subroute-leave-to {
+        transform: scale(0.97);
+        opacity: 0;
+    }
 </style>

@@ -10,8 +10,9 @@
                     key: 'path'
                 }"
             :defaultExpandAll="true"
-            :selectedKeys="[$getArticleWebpath]"
-            class="articles-tree">
+            :selectedKeys="selectedKeys"
+            class="articles-tree"
+            :blockNode="true">
         <fa type="fad" icon="folder" slot="switcherIcon"  />
     </a-tree>
 </template>
@@ -21,7 +22,12 @@
         name: "ArticlesTree",
         computed: {
             treeData() {
-                return [this.$store.getters.getArticlesTree.nav];
+                const articlesTree = this.$store.getters.getArticlesTree.nav;
+                //@TODO put 'home' as first link in the tree
+                return articlesTree.subLinks;
+            },
+            selectedKeys(){
+                return [this.$getArticleWebpath()?.substring(1) || this.$route.path.substring(1)]
             }
         },
         methods: {
@@ -30,7 +36,8 @@
                 if (selectedKeys.length > 0) {
                     //we don't enable multi selects, so we take the first element of the array
                     const articlePath = `/${selectedKeys[0]}`;
-                    if (articlePath !== this.$getArticleWebpath()) {
+                    if (articlePath !== this.$getArticleWebpath()
+                        && articlePath !== this.$route.path) {
                         this.$router.push({path: articlePath});
                     }
                 }

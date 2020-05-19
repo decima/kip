@@ -1,23 +1,32 @@
 <template>
-    <div v-if="$store.getters.getCurrentArticle">
+    <div v-if="$store.getters.getCurrentArticle" class="article-header">
         <div class="article-path">{{ $getArticleWebpath() }}</div>
 
-        <router-link :to="{ path: $readLink() }">
-            <a-button type="link"><fa icon="eye" /></a-button>
-        </router-link>
+        <div class="article-options">
+            <save-article-action v-if="$route.name === $routes.EDIT_ARTICLE"/>
 
-        <router-link :to="{ path: $editLink() }">
-            <a-button type="link"><fa icon="pencil" /></a-button>
-        </router-link>
+            <a-button-group>
+                <a-button :type="$route.name === $routes.READ_ARTICLE ? 'primary' : 'default'">
+                    <router-link :to="{ path: $readLink() }">
+                        <fa icon="eye"/>
+                    </router-link>
+                </a-button>
 
-        <a :href="slidesLink"
-           target="_blank">
-            <a-button type="link"><fa icon="presentation" /></a-button>
-        </a>
+                <a-button :type="$route.name === $routes.EDIT_ARTICLE ? 'primary' : 'default'">
+                    <router-link :to="{ path: $editLink() }">
+                        <fa icon="pencil"/>
+                    </router-link>
+                </a-button>
 
-        <delete-article-action />
+                <a-button>
+                    <a :href="slidesLink" target="_blank">
+                        <fa icon="presentation"/>
+                    </a>
+                </a-button>
+            </a-button-group>
 
-        <save-article-action v-if="$route.name === $routes.EDIT_ARTICLE" />
+            <delete-article-action/>
+        </div>
     </div>
 </template>
 
@@ -26,11 +35,11 @@
     import SaveArticleAction from "pages/article/header/SaveArticleAction";
 
     export default {
-        name : "ArticleHeader",
+        name: "ArticleHeader",
         components: {SaveArticleAction, DeleteArticleAction},
-        computed : {
-            slidesLink(){
-                return Router.url('knowledge_slides', { webpath : this.$getArticleWebpath() })
+        computed: {
+            slidesLink() {
+                return Router.url('knowledge_slides', {webpath: this.$getArticleWebpath()})
             }
         }
     }
@@ -41,6 +50,21 @@
     .article-path {
         color: #CED4DC;
         font-size: 12px;
+    }
+
+    .article-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+    }
+
+</style>
+
+<style>
+
+    .article-options .ant-btn i {
+        margin-left: 0;
     }
 
 </style>
