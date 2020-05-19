@@ -24,13 +24,13 @@ That's why [@decima](https://github.com/decima) took the lead to create a killer
 - [x] :open_file_folder: An easy way to import / export data from it : it simply reads a folder containing all your markdown files, CAN'T BEAT THAT
 - [x] :pencil2: A good markdown editor
 - [x] :no_good: Access management : being able to edit articles only when logged in
-- [ ] :mag: A powerful search engine
+- [x] :mag: A powerful search engine
 - [ ] :lock: Database / LDAP authentication
 
 ## Requirements
 
 - This project is a symfony project and requires PHP >= 7.4
-- node and npm/yarn to build asset files
+- node and npm or yarn to build asset files
 
 ## Installation
 
@@ -39,7 +39,7 @@ You should run these commands in a terminal :
 git clone https://github.com/AboutGoods/kip.git
 cd kip
 composer install
-yarn install # or `npm install` if you are using npm 
+yarn # or `npm install` if you are using npm 
 ```
 
 Feel free to change environment variables by copying the `.env` file to a `.env.local` file.
@@ -56,7 +56,7 @@ Make sure to create this folder if it doesn't exist.
 To run the project in development, you should run these commands in parallel :
 ```bash
 php -S 0.0.0.0:8000 public/index.php # this serves the specified folder as the root of the KB
-npm run dev-server #builds style and script files to the `public` folder
+yarn dev-server # or `npm run dev-server` - builds style and script files to the `public` folder
 ```
 
 ### Using Docker
