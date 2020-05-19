@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="navbar">
         <search-bar />
         <articles-tree />
     </div>
@@ -15,6 +15,11 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="less">
+
+    .navbar {
+        background-color: @navbar-background-color;
+        padding: 30px 24px;
+    }
 
 </style>

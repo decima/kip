@@ -8,7 +8,8 @@ import {
     Select,
     Anchor,
     Row,
-    Col
+    Col,
+    Layout
 } from 'ant-design-vue';
 
 import Fa from "components/Fa";
@@ -30,6 +31,7 @@ export default {
         Vue.use(Anchor);
         Vue.use(Row);
         Vue.use(Col);
+        Vue.use(Layout);
 
         Vue.component("fa", Fa);
 

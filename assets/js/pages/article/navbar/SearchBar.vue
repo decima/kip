@@ -1,21 +1,19 @@
 <template>
-    <div>
-        <a-select showSearch
-                  placeholder="input search text"
-                  style="width: 200px"
-                  :defaultActiveFirstOption="false"
-                  :showArrow="false"
-                  :filterOption="false"
-                  :value="null"
-                  @search="onSearch"
-                  @change="onChange"
-                  :notFoundContent="null"
-                  :dropdownMatchSelectWidth="false">
-            <a-select-option v-for="result in results" :key="result.webpath">
-                <result-item :result="result" :query="query" />
-            </a-select-option>
-        </a-select>
-    </div>
+    <a-select class="search-bar"
+              showSearch
+              :defaultActiveFirstOption="false"
+              :showArrow="false"
+              :filterOption="false"
+              :value="null"
+              @search="onSearch"
+              @change="onChange"
+              :notFoundContent="null"
+              :dropdownMatchSelectWidth="false">
+        <a-select-option v-for="result in results" :key="result.webpath">
+            <result-item :result="result" :query="query"/>
+        </a-select-option>
+    </a-select>
+
 </template>
 
 <script>
@@ -28,7 +26,7 @@
         components: {ResultItem},
         data() {
             return {
-                query : "",
+                query: "",
                 results: []
             }
         },
@@ -61,8 +59,8 @@
             },
             onChange(value) {
                 const articlePath = `/${value}`;
-                if(articlePath !== this.$getArticleWebpath()) {
-                    this.$router.push({ path : articlePath });
+                if (articlePath !== this.$getArticleWebpath()) {
+                    this.$router.push({path: articlePath});
                 }
             }
         },
@@ -80,5 +78,9 @@
 </script>
 
 <style scoped>
+
+    .search-bar {
+        width: 100%;
+    }
 
 </style>
