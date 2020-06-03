@@ -18,9 +18,7 @@
                         <div class="article-wrapper">
                             <article-header />
 
-                            <transition name="subroute" mode="out-in">
-                                <router-view :key="$route.path" />
-                            </transition>
+                            <router-view :key="$route.path" />
                         </div>
 
                     </a-layout-content>
@@ -42,7 +40,14 @@
         components: {NavBar, ArticleHeader, Multipane, MultipaneResizer},
         methods : {
             resizeNavBar(pane, resizer, size){
-                this.$store.commit("setNavBarWidth", size);
+                const minNavBarSize = 240;
+                const maxNavBarSize = 450;
+                let sizeInNumber = parseInt(size, 10);
+
+                // clamp the size of the navbar between min and max size
+                sizeInNumber = Math.min(Math.max(sizeInNumber, minNavBarSize), maxNavBarSize);
+
+                this.$store.commit("setNavBarWidth", `${ sizeInNumber }px`);
             }
         }
     }
@@ -62,8 +67,6 @@
 
     .main-layout {
         border-top-left-radius: @main-layout-border-radius;
-        border-bottom-left-radius: @main-layout-border-radius;
-        box-shadow: -10px 0px 80px rgba(0, 0, 0, 0.03);
         z-index: 1;
     }
 
@@ -78,16 +81,12 @@
 
     .pane-resizer {
         margin-top : @main-layout-border-radius;
-        z-index: 2;
+        z-index: 999;
         height : calc(100% - @main-layout-border-radius) !important;
-    }
+        min-width:10px;
 
-    .subroute-enter-active, .subroute-leave-active {
-        transition: transform .3s @ease-out-quint, opacity .3s;
-        transform-origin: top;
-    }
-    .subroute-enter, .subroute-leave-to {
-        transform: scale(0.97);
-        opacity: 0;
+        &:hover {
+            background-image: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 30%, rgba(0,0,0,0.1) 50%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%);;
+        }
     }
 </style>

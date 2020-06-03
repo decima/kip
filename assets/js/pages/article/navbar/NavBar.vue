@@ -19,7 +19,7 @@
 
     .navbar {
         background-color: @navbar-background-color;
-        padding: 30px 24px;
+        padding: 30px @navbar-padding-horizontal;
     }
 
 </style>

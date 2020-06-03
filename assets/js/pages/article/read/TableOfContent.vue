@@ -13,6 +13,10 @@
     }
 </script>
 
-<style scoped>
+<style>
+
+    .ant-anchor-wrapper {
+        max-width: 250px;
+    }
 
 </style>

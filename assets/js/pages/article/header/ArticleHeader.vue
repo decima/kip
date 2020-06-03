@@ -1,6 +1,6 @@
 <template>
     <div v-if="$store.getters.getCurrentArticle" class="article-header">
-        <div class="article-path">{{ $getArticleWebpath() }}</div>
+        <div class="article-path">{{ articleWebPath }}</div>
 
         <div class="article-options">
             <save-article-action v-if="$route.name === $routes.EDIT_ARTICLE"/>
@@ -40,6 +40,12 @@
         computed: {
             slidesLink() {
                 return Router.url('knowledge_slides', {webpath: this.$getArticleWebpath()})
+            },
+            articleWebPath(){
+                if(this.$getArticleWebpath() === "/"){
+                    return this.$t("navBar.home")
+                }
+                return this.$getArticleWebpath();
             }
         }
     }

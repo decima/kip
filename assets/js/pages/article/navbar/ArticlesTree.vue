@@ -23,8 +23,15 @@
         computed: {
             treeData() {
                 const articlesTree = this.$store.getters.getArticlesTree.nav;
-                //@TODO put 'home' as first link in the tree
-                return articlesTree.subLinks;
+
+                // add a 'Home' link
+                articlesTree.subLinks.splice(0,0,{
+                    name : this.$t("navBar.home"),
+                    path : ""
+                });
+
+                // we hide the README at the root of the files to only display the "home" link
+                return articlesTree.subLinks.filter(files => files.name.toLowerCase() !== "readme");
             },
             selectedKeys(){
                 return [this.$getArticleWebpath()?.substring(1) || this.$route.path.substring(1)]
@@ -46,10 +53,10 @@
     }
 </script>
 
-<style>
+<style lang="less">
 
     .articles-tree {
-        margin-top: 20px !important;
+        margin-top: 10px !important;
     }
 
     .ant-tree > li:first-child {
@@ -64,6 +71,12 @@
     .ant-tree.ant-tree-show-line li span.ant-tree-switcher.ant-tree-switcher_open .ant-select-switcher-icon {
         font-size: 18px !important;
     }
+
+    .ant-tree.ant-tree-block-node li .ant-tree-node-content-wrapper {
+        min-width: calc(100% - @navbar-padding-horizontal) !important;
+        width: auto !important;
+    }
+
 </style>
 
 

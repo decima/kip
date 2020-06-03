@@ -28,7 +28,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "ant-design-vue": "^1.5.3",
+        "ant-design-vue": "^1.6.2",
         "axios": "^0.19.2",
         "flexsearch": "github:nextapps-de/flexsearch",
         "vue": "^2.6.11",

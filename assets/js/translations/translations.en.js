@@ -9,6 +9,7 @@ export default {
     },
 
     navBar : {
-        search : "Search"
+        search : "Search",
+        home : "🏠 Home"
     }
 };

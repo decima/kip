@@ -1,6 +1,5 @@
 <template>
     <div class="result-preview">
-        <div>{{ result.title }}</div>
         <div>{{ result.webpath }}</div>
         <div v-html="querySnippet" class="query-snippet"></div>
     </div>
@@ -42,9 +41,10 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="less">
     .query-snippet {
         font-size: 12px;
+        color: @text-color-secondary;
     }
 
 </style>
@@ -55,6 +55,8 @@
         .query-highlight {
             display: inline-block;
             background-color : @yellow-2;
+            border-radius: 2px;
+            padding: 0 2px;
         }
     }
 
