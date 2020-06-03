@@ -9,7 +9,8 @@ import {
     Anchor,
     Row,
     Col,
-    Layout
+    Layout,
+    Modal
 } from 'ant-design-vue';
 
 import Fa from "components/Fa";
@@ -43,5 +44,6 @@ export default {
         });
 
         Vue.prototype.$notification = notification;
+        Vue.prototype.$confirm = Modal.confirm;
     }
 }

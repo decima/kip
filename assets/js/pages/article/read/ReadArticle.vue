@@ -10,7 +10,9 @@
             </a-row>-->
             <div class="read-article-content">
                 <article-content />
-                <table-of-content class="toc" />
+                <div class="toc-wrapper">
+                    <table-of-content class="toc" />
+                </div>
             </div>
         </div>
 
@@ -53,7 +55,6 @@
     }
 
     .toc {
-        margin-top: 20px;
         display: flex;
         justify-content: flex-end;
     }

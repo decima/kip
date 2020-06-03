@@ -89,4 +89,9 @@
             background-image: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 30%, rgba(0,0,0,0.1) 50%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%);;
         }
     }
+
+    .article-wrapper {
+        height: 100%;
+    }
+
 </style>

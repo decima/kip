@@ -15,8 +15,8 @@
 
 <style>
 
-    .ant-anchor-wrapper {
-        max-width: 250px;
+    .ant-anchor-wrapper, .toc-wrapper {
+        width: 250px;
     }
 
 </style>

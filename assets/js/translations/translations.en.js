@@ -11,5 +11,10 @@ export default {
     navBar : {
         search : "Search",
         home : "🏠 Home"
+    },
+
+    edit : {
+        changesNotSaved : "Changes not saved",
+        changesNotSavedDescription : "Do you want to save the changes made to this article before leaving the editor ?"
     }
 };

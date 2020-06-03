@@ -77,6 +77,7 @@ config.resolve.alias = {
     'components': path.resolve(__dirname, './assets/js/components/'),
     'utils': path.resolve(__dirname, './assets/js/utils.js'),
     'style': path.resolve(__dirname, './assets/style/'),
+    'mixins': path.resolve(__dirname, './assets/js/mixins/'),
 };
 
 module.exports = config;

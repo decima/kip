@@ -62,7 +62,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 6px;
+        margin-bottom: 20px;
     }
 
 </style>
