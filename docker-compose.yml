@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   php:
-    image: decima/kip:alpha-2
+    image: aboutgoods/kip:alpha
     environment:
       APP_ENV: dev
     build:
@@ -11,4 +11,4 @@ services:
       - .:/app
       - ./var/storage:/storage
     ports:
-      - "8010:8000"
+      - "8000:8000"
