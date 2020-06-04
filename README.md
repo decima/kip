@@ -49,7 +49,7 @@ And you're good to go ! :tada:
 ## Getting started
 
 Your markdown files should be placed in the folder specified in the `FILE_STORAGE` environment variable (by default in `./var/storage`).
-Make sure to create this folder if it doesn't exist.
+There already is a starter file for you to start writing !
 
 ### Using a local stack
 
