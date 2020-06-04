@@ -19,7 +19,7 @@
 <style scoped>
 
     .article-content {
-        padding-right: 20px;
+        padding-right: 40px;
         width: 100%;
     }
 

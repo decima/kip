@@ -6,7 +6,6 @@ supervisord.log
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/var/
 /vendor/
 ###< symfony/framework-bundle ###
 
@@ -16,3 +15,8 @@ supervisord.log
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+/var/*
+!/var/storage
+/var/storage/*
+!/var/storage/README.md
