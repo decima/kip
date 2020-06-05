@@ -28,6 +28,7 @@ class FileResolver
      */
     public function getFile(string $path, $throwIfNotExists = true)
     {
+        $path = ltrim($path, "/");
         $fullPath = $this->removeTrailingSlash($this->basepath . $path);
         if (file_exists($fullPath) && !is_dir($fullPath)) {
             return $fullPath;

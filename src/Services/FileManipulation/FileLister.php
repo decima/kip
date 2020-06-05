@@ -4,6 +4,8 @@
 namespace App\Services\FileManipulation;
 
 
+use Symfony\Component\Finder\Finder;
+
 class FileLister
 {
     /**
@@ -25,7 +27,7 @@ class FileLister
 
     /**
      * FileLister constructor.
-     * @param FileResolver $fileResolver
+     * @param FileResolver    $fileResolver
      * @param MetadataManager $metadataManager
      */
     public function __construct(FileResolver $fileResolver, MetadataManager $metadataManager, FileReader $fileReader)
@@ -35,62 +37,43 @@ class FileLister
         $this->fileReader = $fileReader;
     }
 
-
-    public function listAllFiles($path = "", Page &$parent = null)
+    public function listAllFiles($path = "")
     {
-        $fullPath = $this->fileResolver->getBasePath() . $path;
-        $files = scandir($fullPath);
-        $parent->isFolder = true;
-        $parent->path = $path;
-        foreach ($files as $key => $value) {
-            $fullFolderPath = realpath($fullPath . DIRECTORY_SEPARATOR . $value);
-            $newPath = str_replace($this->fileResolver->getBasePath(), "", $fullFolderPath);
-            $item = new Page();
-            $item->path = $newPath;
-            $item->metadata = $this->metadataManager->getMetadataForDocument($item->path);
-            $item->name = $item->metadata->getDocumentName();
-            if (!is_dir($fullFolderPath)) {
-                if ($this->fileResolver->isMarkdownFile($newPath)) {
-                    $item->mime = "text/markdown";
-                    $item->name = str_replace(".md", "", $item->name);
-                    if ($item->name !== "readme") {
-                        $item->isFolder = false;
-                        $parent->subLinks[] = $item;
-                    } else {
-                        $parent->hasReadme = true;
-                    }
+        $finder = new Finder();
+        $finder->in($this->fileResolver->getBasePath() . $path);
+        $refs = [];
+        $initial = new Page();
+        foreach ($finder as $file) {
+            if ($file->getExtension() !== "md" && !$file->isDir()) {
+                continue;
+            }
+            $filePath = $file->getRelativePathname();
+            $refs[$filePath] = new Page();
+            $refs[$filePath]->path = $filePath;
+            $refs[$filePath]->isFolder = $file->isDir();
+            $refs[$filePath]->metadata = $this->metadataManager->getMetadataForDocument($file->getRelativePathname());
+            $refs[$filePath]->name = $file->getFilenameWithoutExtension();
+            if (!$file->isDir() && $file->getExtension() === "md") {
+                $refs[$filePath]->content = $file->getContents();
+                $refs[$filePath]->mime = mime_content_type($file->getPathname());
+                $fileContentAsPlainText = preg_replace("/<[^>]+>/", " ",  $refs[$filePath]->content);
+                $indexedFile = new IndexedFile();
+                $indexedFile->title =  $refs[$filePath]->name;
+                $indexedFile->content = $fileContentAsPlainText;
+                $indexedFile->webpath = $file->getRelativePathname();
+                $this->indexedFiles[] = $indexedFile;
+            }
+            if ($file->getRelativePath() === "") {
+                $initial->subLinks[] = $refs[$filePath];
+                continue;
+            }
 
-                    $file = $this->fileReader->readFile($newPath, $fullFolderPath);
-                    $this->fileReader->parseMarkdown($file);
-
-                    $fileContentAsPlainText = preg_replace("/<[^>]+>/", " ", $file->content);
-                    $indexedFile = new IndexedFile();
-                    $indexedFile->title = $item->name;
-                    $indexedFile->content = $fileContentAsPlainText;
-                    $indexedFile->webpath = $newPath;
-                    $this->indexedFiles[] = $indexedFile;
-                } else {
-                    if (strpos($item->name, ".") !== 0) {
-                        $item->mime = mime_content_type($fullFolderPath);
-                    }
-
-                }
-            } else if ($value != "." && $value != ".." && strpos($value, ".") !== 0) {
-                $this->listAllFiles($newPath, $item);
-                $parent->subLinks[] = $item;
+            if ($refs[$filePath]->name === "readme") {
+                $refs[$file->getRelativePath()]->hasReadme = true;
+            } else {
+                $refs[$file->getRelativePath()]->subLinks[] = $refs[$filePath];
             }
         }
-        usort($parent->subLinks, function (Page $page, Page $page2) {
-            if ($page->isFolder && !$page2->isFolder) {
-                return true;
-            } else if ($page2->isFolder && !$page->isFolder) {
-                return false;
-
-            } else {
-                return $page->name > $page2->name;
-            }
-        });
-
-        return $parent;
+        return $initial;
     }
 }

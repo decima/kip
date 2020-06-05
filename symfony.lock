@@ -1,4 +1,7 @@
 {
+    "aws/aws-sdk-php": {
+        "version": "3.140.2"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -90,6 +93,15 @@
     "erusev/parsedown": {
         "version": "1.7.4"
     },
+    "guzzlehttp/guzzle": {
+        "version": "6.5.3"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.6.1"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
@@ -104,6 +116,9 @@
     },
     "monolog/monolog": {
         "version": "2.0.2"
+    },
+    "mtdowling/jmespath.php": {
+        "version": "2.5.0"
     },
     "nikic/php-parser": {
         "version": "v4.3.0"
@@ -135,8 +150,14 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/log": {
         "version": "1.1.2"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "symfony/asset": {
         "version": "v5.0.3"

@@ -9,6 +9,21 @@ parameters:
   env(ADMIN_PASSWORD): password
   build_version: "%env(BUILD_VERSION)%"
   env(BUILD_VERSION): "dev"
+
+  env(S3_VERSION): "latest"
+  env(S3_REGION): "minio"
+  env(S3_KEY): "minioadmin"
+  env(S3_SECRET): "minioadmin"
+  env(S3_ENDPOINT): "http://localhost:9000"
+  s3:
+    version: "%env(S3_VERSION)%"
+    region: "%env(S3_REGION)%"
+    credentials:
+      key: "%env(S3_KEY)%"
+      secret: "%env(S3_SECRET)%"
+    endpoint: "%env(S3_ENDPOINT)%"
+    use_path_style_endpoint: true
+
 services:
   # default configuration for services in *this* file
   _defaults:
@@ -44,3 +59,6 @@ services:
       $propertyTypeExtractor: "@custom_extractor"
     tags:
       - {name: serializer.normalizer, priority: 1}
+  Aws\S3\S3Client:
+    arguments:
+      - "%s3%"

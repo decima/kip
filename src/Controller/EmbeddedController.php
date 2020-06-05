@@ -4,12 +4,12 @@
 namespace App\Controller;
 
 
+use App\Annotations\RouteExposed;
 use App\Services\FileManipulation\FileLister;
 use App\Services\FileManipulation\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Annotations\RouteExposed;
 
 /**
  * Class EmbeddedController
@@ -24,8 +24,7 @@ class EmbeddedController extends AbstractController
     public function leftDefaultMenu(FileLister $fileLister, RequestStack $requestStack)
     {
         $webpath = $requestStack->getMasterRequest()->attributes->get("webpath", "/");
-        $page = new Page();
-        $articlesTree = $fileLister->listAllFiles("/", $page);
+        $articlesTree = $fileLister->listAllFiles("");
         $indexedArticles = $fileLister->indexedFiles;
         return $this->json(["path" => $webpath, "nav" => $articlesTree, "indexedArticles" => $indexedArticles]);
     }

@@ -5,6 +5,7 @@
         "php": "^7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "aws/aws-sdk-php": "^3.140",
         "doctrine/annotations": "^1.8",
         "erusev/parsedown": "^1.7",
         "symfony/asset": "5.0.*",

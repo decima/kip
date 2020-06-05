@@ -28,7 +28,7 @@ class MetadataManager
 
     private function getFilePath()
     {
-        return $this->fileResolver->getBasePath() . "/" . self::FILE_INDEX_NAME;
+        return $this->fileResolver->getBasePath() . self::FILE_INDEX_NAME;
     }
 
     private function loadIndex()
@@ -52,7 +52,7 @@ class MetadataManager
 
     public function saveIndex()
     {
-        $handle = fopen($this->getFilePath(), "w+");
+        $handle = fopen($this->getFilePath(), "w");
         if ($handle) {
             foreach ($this->index as $file => $meta) {
                 fputs($handle, implode(" => ", [$file, json_encode($meta)]) . "\n");
@@ -83,7 +83,6 @@ class MetadataManager
             return (new Metadata())->setPath($path);
         }
     }
-
 
 
 }
