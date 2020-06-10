@@ -1,22 +1,23 @@
 <template>
-    <div class="article-content">
-        <viewer :initialValue="$store.getters.getCurrentArticle.file.markdownContent" />
-    </div>
+    <div class="article-content"
+         v-html="$store.getters.getCurrentArticle.file.content"></div>
 </template>
 
 <script>
 
-    import '@toast-ui/editor/dist/toastui-editor-viewer.css';
-
-    import { Viewer } from '@toast-ui/vue-editor';
+    import Prism from 'prismjs';
+    import 'prismjs/plugins/autoloader/prism-autoloader.min';
+    import 'prismjs/themes/prism.css';
 
     export default {
         name : "ArticleContent",
-        components : { Viewer }
+        async mounted(){
+           Prism.highlightAll();
+        }
     }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 
     .article-content {
         padding-right: 40px;

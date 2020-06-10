@@ -3,14 +3,13 @@
               showSearch
               :placeholder="$t('navBar.search')"
               :defaultActiveFirstOption="false"
-              :showArrow="false"
               :filterOption="false"
               :value="undefined"
               @search="onSearch"
               @change="onChange"
               :notFoundContent="null"
               :dropdownMatchSelectWidth="false">
-        <fa icon="user" slot="suffixIcon" />
+        <div slot="suffixIcon" class="slash-sign">/</div>
         <a-select-option v-for="result in results" :key="result.webpath">
             <result-item :result="result" :query="query"/>
         </a-select-option>
@@ -80,10 +79,21 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 
     .search-bar {
         width: 100%;
+    }
+
+    .slash-sign {
+        border-radius: 4px;
+        border:solid 1px @input-placeholder-color;
+        padding: 0px 6px;
+        position: relative;
+        height: 20px;
+        line-height: 20px;
+        top: -4px;
+        font-size: 10px;
     }
 
 </style>

@@ -1,15 +1,7 @@
+/* inspired from Github Flavored Markdown css */
 .article-content, .editor {
-  h1 {
-    font-size: 24px;
+  h1, h2 {
     border-bottom: solid 1px #dbdbdb !important;
-  }
-
-  h1,h2 {
-    font-weight: bold;
-  }
-
-  h2 {
-    font-size:20px;
   }
 
   a {
@@ -23,101 +15,116 @@
       color: @blue-7
     }
   }
+
+  > *:first-child {
+    margin-top: 0 !important; }
+  > *:last-child {
+    margin-bottom: 0 !important; }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 20px 0 10px;
+    padding: 0;
+    font-weight: bold;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  h4 {
+    font-size: 16px;
+  }
+
+  h5 {
+    font-size: 14px;
+  }
+
+  h6 {
+    color: #777777;
+    font-size: 14px;
+  }
+
+  p, blockquote, ul, ol, dl, li, table, pre {
+    margin: 15px 0;
+  }
+
+  ul, ol {
+    padding-left: 30px;
+  }
+
+  blockquote {
+    border-left: 4px solid #dddddd;
+    padding: 0 15px;
+    color: #777777;
+  }
+
+  table {
+    padding: 0;
+  }
+
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+  }
+
+  table tr:nth-child(2n) {
+    background-color: #f8f8f8;
+  }
+
+  table tr th {
+    font-weight: bold;
+    border: 1px solid #cccccc;
+    text-align: left;
+    margin: 0;
+    padding: 6px 13px;
+  }
+
+  table tr td {
+    border: 1px solid #cccccc;
+    text-align: left;
+    margin: 0;
+    padding: 6px 13px;
+  }
+
+  table tr th :first-child, table tr td :first-child {
+    margin-top: 0;
+  }
+
+  table tr th :last-child, table tr td :last-child {
+    margin-bottom: 0;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+
+  pre code {
+    margin: 0;
+    padding: 0;
+    white-space: pre;
+    border: none;
+    background: transparent; }
+
+  pre {
+    background-color: #f8f8f8;
+    border: 1px solid #cccccc;
+    font-size: 13px;
+    line-height: 19px;
+    overflow: auto;
+    padding: 6px 10px;
+    border-radius: 3px; }
+  pre code, pre tt {
+    background-color: transparent;
+    border: none; }
 }
-
-
-/*
-.page-content {
-  padding-left: 250px;
-  padding-right: 250px;
-}
-
-
-
-.editor {
-  height: 100vh;
-  overflow: hidden;
-}
-
-.CodeMirror-wrap {
-  height: calc(100vh - 150px) !important;
-  overflow: auto;
-}
-
-.page-content {
-  padding-bottom: 200px;
-}
-
-.title {
-  margin-bottom: 1em;
-}
-
-#document-title .hero {
-  padding: 50px 20px 20px;
-  background-color: var(--color-black-ter);
-  color: var(--color-white-ter);
-  margin: 0px;
-  border-bottom: 5px solid black;
-  border-image: url('/spectrum.svg') 1;
-  font-size: 50px;
-
-
-}
-
-#document-title {
-  top: 0;
-  !**
-  position: sticky;
-  position: -webkit-sticky;
-   *!
-}
-
-.page-content p {
-  text-align: justify;
-}
-
-.page-content pre {
-  overflow: auto;
-}
-
-
-.page-content table {
-  width: 100%;
-  border-collapse: collapse;
-
-}
-
-.page-content table td {
-  padding: 20px;
-}
-
-.page-content table th {
-  padding: 10px;
-  border-bottom: 2px solid var(--color-black-ter);
-}
-
-.page-content a {
-  color: var(--color-link);
-}
-
-.page-content a:hover {
-  color: var(--color-grey-dark);
-}
-
-.page-content table tr:nth-of-type(2n) {
-  background-color: var(--color-light);
-}
-
-.page-content img {
-  max-width: 100%;
-  box-shadow: 0px 0px 4px var(--color-grey-lighter);
-}
-
-blockquote {
-  border-left: 8px solid var(--color-info);
-  margin-left: 0px;
-  margin-right: 16px;
-  padding: 4px 4px 4px 32px;
-
-  color: var(--color-grey);
-}*/

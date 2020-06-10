@@ -40,6 +40,7 @@ class FileLister
     public function listAllFiles($path = "")
     {
         $finder = new Finder();
+        $finder->sortByType();
         $finder->in($this->fileResolver->getBasePath() . $path);
         $refs = [];
         $initial = new Page();

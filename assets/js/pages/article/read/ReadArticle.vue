@@ -25,9 +25,12 @@
     import ArticleNotFound from "pages/article/read/ArticleNotFound";
     import ArticleContent from "pages/article/read/ArticleContent";
 
+    import changePageTitleMixin from "mixins/changePageTitleMixin";
+
     export default {
         name : "ReadArticle",
         components: {ArticleContent, ArticleNotFound, TableOfContent},
+        mixins : [changePageTitleMixin],
         data(){
             return {
                 notFound : false
@@ -44,6 +47,7 @@
         },
         async created(){
             await this.loadCurrentArticleFromPath();
+            this.changePageTitle();
         }
     }
 </script>

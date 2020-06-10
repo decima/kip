@@ -9,10 +9,12 @@
     import Editor from "pages/article/edit/Editor";
     import saveArticleMixin from "mixins/saveArticleMixin";
 
+    import changePageTitleMixin from "mixins/changePageTitleMixin";
+
     export default {
         name: "EditArticle",
         components: {Editor},
-        mixins : [saveArticleMixin],
+        mixins : [saveArticleMixin, changePageTitleMixin],
         data() {
             return {
                 loaded: false
@@ -43,6 +45,7 @@
         },
         async created() {
             await this.loadArticleToEditFromPath();
+            this.changePageTitle()
         }
     }
 </script>

@@ -48,7 +48,7 @@
                 sizeInNumber = Math.min(Math.max(sizeInNumber, minNavBarSize), maxNavBarSize);
 
                 this.$store.commit("setNavBarWidth", `${ sizeInNumber }px`);
-            }
+            },
         }
     }
 </script>
