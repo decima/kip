@@ -1,5 +1,5 @@
 <template>
-    <div class="article-content"
+    <div class="article-content language-none"
          v-html="$store.getters.getCurrentArticle.file.content"></div>
 </template>
 
