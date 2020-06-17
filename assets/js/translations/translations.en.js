@@ -16,6 +16,7 @@ export default {
 
     edit : {
         changesNotSaved : "Changes not saved",
-        changesNotSavedDescription : "Do you want to save the changes made to this article before leaving the editor ?"
+        changesNotSavedDescription : "Do you want to save the changes made to this article before leaving the editor ?",
+        editTooltip : "Type 'e' to switch to Edit mode"
     }
 };
