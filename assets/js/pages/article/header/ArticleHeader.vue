@@ -13,9 +13,12 @@
                 </a-button>
 
                 <a-button :type="$route.name === $routes.EDIT_ARTICLE ? 'primary' : 'default'">
-                    <router-link :to="{ path: $editLink() }">
-                        <fa icon="pencil"/>
-                    </router-link>
+                    <a-tooltip>
+                        <template slot="title">{{ $t("edit.editTooltip")}}</template>
+                        <router-link :to="{ path: $editLink() }">
+                            <fa icon="pencil"/>
+                        </router-link>
+                    </a-tooltip>
                 </a-button>
 
                 <a-button>

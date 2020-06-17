@@ -2,12 +2,9 @@
     <div>
         <div class="read-article"
              v-if="$store.getters.getCurrentArticle"
-             :key="$store.getters.getCurrentArticle.file.path">
+             :key="$store.getters.getCurrentArticle.file.path"
+             v-hotkey="keymap">
 
-            <!--<a-row :gutter="40" :style="{ width : '100%' }">
-                <a-col :md="{ span : 19 }" :xs="{ span : 24 }"><article-content /></a-col>
-                <a-col :md="{ span : 5 }" :xs="{ span : 0 }"><table-of-content class="toc" /></a-col>
-            </a-row>-->
             <div class="read-article-content">
                 <article-content />
                 <div class="toc-wrapper">
@@ -36,6 +33,13 @@
                 notFound : false
             }
         },
+        computed : {
+            keymap(){
+                return {
+                    'e' : this.goToEditArticle
+                }
+            }
+        },
         methods : {
             async loadCurrentArticleFromPath(){
                 this.notFound = false;
@@ -43,6 +47,9 @@
                 if(!currentArticle){
                     this.notFound = true
                 }
+            },
+            goToEditArticle(){
+                this.$router.push({ path: this.$editLink() });
             }
         },
         async created(){
