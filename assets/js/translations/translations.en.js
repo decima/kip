@@ -10,7 +10,8 @@ export default {
 
     navBar : {
         search : "Search",
-        home : "🏠 Home"
+        home : "🏠 Home",
+        slashTooltip : "Type '/' to focus"
     },
 
     edit : {
