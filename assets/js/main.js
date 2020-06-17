@@ -5,13 +5,14 @@ import i18n from './translations';
 import App from './App.vue';
 import vueAntDesign from './plugins/vueAntDesign';
 import utils from './plugins/utils';
-
+import VueHotkey from 'v-hotkey';
 //importing style
 import 'style/index.less';
 
 //using plugins
 Vue.use(vueAntDesign);
 Vue.use(utils);
+Vue.use(VueHotkey);
 
 App.store = store;
 App.router = routerManager;

@@ -8,8 +8,14 @@
               @search="onSearch"
               @change="onChange"
               :notFoundContent="null"
-              :dropdownMatchSelectWidth="false">
-        <div slot="suffixIcon" class="slash-sign">/</div>
+              :dropdownMatchSelectWidth="false"
+              ref="searchBar"
+              v-hotkey="keymap">
+
+        <a-tooltip class="slash-sign" slot="suffixIcon">
+            <template slot="title">{{ $t("navBar.slashTooltip")}}</template>/
+        </a-tooltip>
+
         <a-select-option v-for="result in results" :key="result.webpath">
             <result-item :result="result" :query="query"/>
         </a-select-option>
@@ -31,7 +37,27 @@
                 results: []
             }
         },
+        computed : {
+            keymap(){
+                return {
+                    'shift+/' : {
+                        keyup : (e) => this.focusSearchBar(e)
+                    },
+                    '/' : {
+                        keyup : (e) =>  this.focusSearchBar(e),
+                    }
+                }
+            }
+        },
         methods: {
+            async focusSearchBar(e){
+                // if we are not currently focusing an input or a textarea, we focus on the search bar
+                if(["textarea","input"].indexOf(e.target.type) === -1){
+                    this.$refs.searchBar.focus(); // this is not enough as the search input is in 'display:none' by default
+                    this.$refs.searchBar.$el.querySelector(".ant-select-search").style.display = "block";
+                    this.$refs.searchBar.$el.querySelector("input").focus();
+                }
+            },
             onSearch(value) {
                 const query = value.trim().toLowerCase();
                 this.query = query;

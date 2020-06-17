@@ -10,7 +10,8 @@ import {
     Row,
     Col,
     Layout,
-    Modal
+    Modal,
+    Tooltip
 } from 'ant-design-vue';
 
 import Fa from "components/Fa";
@@ -33,6 +34,7 @@ export default {
         Vue.use(Row);
         Vue.use(Col);
         Vue.use(Layout);
+        Vue.use(Tooltip);
 
         Vue.component("fa", Fa);
 
