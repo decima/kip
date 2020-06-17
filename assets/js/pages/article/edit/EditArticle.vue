@@ -24,6 +24,13 @@
             async loadArticleToEditFromPath() {
                 await this.$store.dispatch("loadArticleToEditFromPath", this.$readLink());
                 this.loaded = true;
+            },
+            initPreventCloseTabIfChangesNotSaved(){
+                window.onbeforeunload = () => {
+                    if(this.$refs.editor.areThereAnyChangesNotSaved()){
+                        return this.$t("edit.changesNotSavedDescription")
+                    }
+                };
             }
         },
         beforeRouteLeave(to, from, next){
@@ -45,7 +52,8 @@
         },
         async created() {
             await this.loadArticleToEditFromPath();
-            this.changePageTitle()
+            this.changePageTitle();
+            this.initPreventCloseTabIfChangesNotSaved();
         }
     }
 </script>
