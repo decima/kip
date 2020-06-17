@@ -27,7 +27,8 @@
         computed: {
             options() {
                 return {
-                    hideModeSwitch: true
+                    hideModeSwitch: true,
+                    useCommandShortcut: false
                 }
             }
         },
