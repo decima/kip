@@ -18,10 +18,9 @@
         },
         methods: {
             scrollTo(href) {
-                const element = document.querySelector(href);
+                const element = document.querySelector(`[data-id="${href}" ]`);
                 if(element){
                     const top = element.offsetTop;
-
                     window.scrollTo(0, top);
                 }
             }
