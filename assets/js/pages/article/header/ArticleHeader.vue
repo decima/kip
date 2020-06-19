@@ -7,9 +7,12 @@
 
             <a-button-group>
                 <a-button :type="$route.name === $routes.READ_ARTICLE ? 'primary' : 'default'">
-                    <router-link :to="{ path: $readLink() }">
-                        <fa icon="eye"/>
-                    </router-link>
+                    <a-tooltip>
+                        <template slot="title">{{ $t("read.readTooltip")}}</template>
+                        <router-link :to="{ path: $readLink() }">
+                            <fa icon="eye"/>
+                        </router-link>
+                    </a-tooltip>
                 </a-button>
 
                 <a-button :type="$route.name === $routes.EDIT_ARTICLE ? 'primary' : 'default'">
@@ -22,9 +25,12 @@
                 </a-button>
 
                 <a-button>
-                    <a :href="slidesLink" target="_blank">
-                        <fa icon="presentation"/>
-                    </a>
+                    <a-tooltip>
+                        <template slot="title">{{ $t("presentation.presentationTooltip")}}</template>
+                        <a :href="slidesLink" target="_blank">
+                            <fa icon="presentation"/>
+                        </a>
+                    </a-tooltip>
                 </a-button>
             </a-button-group>
 

@@ -36,7 +36,8 @@
         computed : {
             keymap(){
                 return {
-                    'e' : this.goToEditArticle
+                    'e' : this.goToEditArticle,
+                    'p' : this.goToPresentationMode,
                 }
             }
         },
@@ -50,6 +51,9 @@
             },
             goToEditArticle(){
                 this.$router.push({ path: this.$editLink() });
+            },
+            goToPresentationMode(){
+                window.location = Router.url('knowledge_slides', {webpath: this.$getArticleWebpath()})
             }
         },
         async created(){

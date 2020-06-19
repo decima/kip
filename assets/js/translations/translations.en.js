@@ -5,7 +5,8 @@ export default {
         delete : "Delete",
         deleted : "Article deleted",
         save : "Save",
-        saved : "Article saved"
+        saved : "Article saved",
+        readTooltip : "Press 'esc' to switch to View mode"
     },
 
     navBar : {
@@ -17,6 +18,11 @@ export default {
     edit : {
         changesNotSaved : "Changes not saved",
         changesNotSavedDescription : "Do you want to save the changes made to this article before leaving the editor ?",
-        editTooltip : "Type 'e' to switch to Edit mode"
+        editTooltip : "Type 'e' to switch to Edit mode",
+        no : "No"
+    },
+
+    presentation : {
+        presentationTooltip : "Type 'p' to switch to Presentation mode"
     }
 };
