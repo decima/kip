@@ -22,7 +22,7 @@
         name: "ArticlesTree",
         computed: {
             treeData() {
-                const articlesTree = this.$store.getters.getArticlesTree.nav;
+                const articlesTree = JSON.parse(JSON.stringify(this.$store.getters.getArticlesTree.nav));
 
                 // add a 'Home' link
                 articlesTree.subLinks.splice(0,0,{
@@ -46,6 +46,10 @@
                     if (articlePath !== this.$getArticleWebpath()
                         && articlePath !== this.$route.path) {
                         this.$router.push({path: articlePath});
+
+                        if(this.$store.getters.getNavBarDrawerOpened){
+                            this.$store.commit("setNavBarDrawerOpened", false)
+                        }
                     }
                 }
             }

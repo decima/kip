@@ -5,12 +5,16 @@
              :key="$store.getters.getCurrentArticle.file.path"
              v-hotkey="keymap">
 
-            <div class="read-article-content">
-                <article-content />
-                <div class="toc-wrapper">
+            <a-row type="flex">
+                <a-col class="article-content-col"
+                       :style="{ width : 'calc(100% - 250px' }">
+                    <article-content />
+                </a-col>
+                <a-col class="toc-col"
+                       :style="{ width : '250px', marginLeft : 'auto' }">
                     <table-of-content class="toc" />
-                </div>
-            </div>
+                </a-col>
+            </a-row>
         </div>
 
         <article-not-found v-if="notFound" />
@@ -65,19 +69,10 @@
 
 <style scoped>
 
-    .read-article {
-        display:flex;
-    }
-
     .toc {
         display: flex;
         justify-content: flex-end;
-    }
-
-    .read-article-content {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
+        flex : 0 0 auto;
     }
 
 </style>

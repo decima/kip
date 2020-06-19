@@ -11,7 +11,8 @@ import {
     Col,
     Layout,
     Modal,
-    Tooltip
+    Tooltip,
+    Drawer
 } from 'ant-design-vue';
 
 import Fa from "components/Fa";
@@ -35,6 +36,7 @@ export default {
         Vue.use(Col);
         Vue.use(Layout);
         Vue.use(Tooltip);
+        Vue.use(Drawer);
 
         Vue.component("fa", Fa);
 

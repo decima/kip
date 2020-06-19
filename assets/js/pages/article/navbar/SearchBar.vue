@@ -89,6 +89,10 @@
                 const articlePath = `/${value}`;
                 if (articlePath !== this.$getArticleWebpath()) {
                     this.$router.push({path: articlePath});
+
+                    if(this.$store.getters.getNavBarDrawerOpened){
+                        this.$store.commit("setNavBarDrawerOpened", false)
+                    }
                 }
             }
         },

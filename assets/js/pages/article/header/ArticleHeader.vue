@@ -65,13 +65,20 @@
     .article-path {
         color: #CED4DC;
         font-size: 12px;
+        margin-right: 40px;
     }
 
     .article-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        flex-wrap:wrap;
+        width: 100%;
+    }
+
+    .article-options {
+        display:flex;
+        flex: 0 0 auto;
     }
 
 </style>
