@@ -5,6 +5,7 @@ export default {
         delete : "Delete",
         deleted : "Article deleted",
         confirmDelete: "Are you sure to delete this article ?",
+        notFoundTitle : 'Not found',
         save : "Save",
         saved : "Article saved",
         readTooltip : "Press 'esc' to switch to View mode",

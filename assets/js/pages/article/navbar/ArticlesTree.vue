@@ -14,6 +14,10 @@
             class="articles-tree"
             :blockNode="true">
         <fa type="fad" icon="folder" slot="switcherIcon"  />
+
+        <template slot="title" slot-scope="data">
+            <span @click.stop>{{ data.name }} <a href="">test</a> </span>
+        </template>
     </a-tree>
 </template>
 
