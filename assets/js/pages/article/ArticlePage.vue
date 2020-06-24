@@ -1,8 +1,6 @@
 <template>
     <div class="article-page">
-        <a-layout class="container-layout"
-                  :class="{ 'container-layout--md' : $store.getters.getTocCollapsed }">
-
+        <a-layout class="container-layout">
             <multipane @paneResize="resizeNavBar"
                        class="multipane">
                 <a-layout-sider :width="$store.getters.getNavBarWidth"
@@ -36,7 +34,6 @@
 
                         <div class="article-wrapper">
                             <div class="article-top-wrapper">
-                                <hamburger-button/>
                                 <article-header/>
                             </div>
 
@@ -56,11 +53,10 @@
     import NavBar from "pages/article/navbar/NavBar";
 
     import {Multipane, MultipaneResizer} from 'vue-multipane';
-    import HamburgerButton from "pages/article/header/HamburgerButton";
 
     export default {
         name: "ArticlePage",
-        components: {HamburgerButton, NavBar, ArticleHeader, Multipane, MultipaneResizer},
+        components: {NavBar, ArticleHeader, Multipane, MultipaneResizer},
         computed: {
             navBarCollapsed: {
                 get() {
@@ -131,7 +127,12 @@
         min-width: 10px;
 
         &:hover {
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 30%, rgba(0, 0, 0, 0.1) 50%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0) 100%);;
+            background-image: linear-gradient(to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0) 30%,
+            rgba(0, 0, 0, 0.1) 50%,
+            rgba(255, 255, 255, 0) 50%,
+            rgba(255, 255, 255, 0) 100%);
         }
     }
 
@@ -143,6 +144,14 @@
         display: flex;
         align-items: center;
         margin-bottom: 20px;
+    }
+
+
+    @media screen and (min-width: 1750px){
+        .layout-content {
+            max-width: 1400px;
+            margin: 0 auto !important;
+        }
     }
 
 </style>
@@ -159,13 +168,23 @@
         }
     }
 
-    .ant-layout {
-        background-color: @navbar-background-color;
-        display: block !important;
-        flex-direction: unset !important;
+    @media screen and (max-width: @screen-md) {
+        .ant-layout {
+            background-color: white !important;
+            display: block !important;
+            flex-direction: unset !important;
 
-        .multipane {
-            display: block;
+            .multipane {
+                display: block;
+            }
+        }
+
+        .article-page, .container-layout, .multipane, .main-layout, .layout-content {
+            height: 100%;
+        }
+
+        .layout-content {
+            padding: 20px 15px 40px 15px !important;
         }
     }
 

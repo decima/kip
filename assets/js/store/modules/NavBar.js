@@ -3,7 +3,8 @@ const state = {
     navBarCollapsed: false,
     navBarDrawerOpened: false,
     tocCollapsed: false,
-    tocDrawerOpened : false
+    tocDrawerOpened : false,
+    windowWidth : window.innerWidth
 };
 
 const mutations = {
@@ -22,6 +23,9 @@ const mutations = {
     setTocDrawerOpened(state, value) {
         state.tocDrawerOpened = value;
     },
+    setWindowWidth(state, value) {
+        state.windowWidth = value;
+    },
 };
 
 const actions = {
@@ -34,6 +38,7 @@ const getters = {
     getNavBarDrawerOpened: state => state.navBarDrawerOpened,
     getTocCollapsed: state => state.tocCollapsed,
     getTocDrawerOpened: state => state.tocDrawerOpened,
+    getWindowWidth: state => state.windowWidth,
 };
 
 export default {

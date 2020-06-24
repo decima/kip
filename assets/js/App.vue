@@ -10,6 +10,11 @@
         name: 'App',
         async created() {
             this.$store.dispatch("loadArticlesTree")
+        },
+        mounted(){
+            window.onresize = async () => {
+                this.$store.commit("setWindowWidth", window.innerWidth);
+            }
         }
     }
 

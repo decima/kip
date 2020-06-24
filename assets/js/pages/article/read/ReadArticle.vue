@@ -5,9 +5,6 @@
              :key="$store.getters.getCurrentArticle.file.path"
              v-hotkey="keymap">
 
-            <a @click="openTocDrawer"
-               v-if="$store.getters.getTocCollapsed">{{ $t('read.displayToc') }}</a>
-
             <a-row type="flex">
                 <a-col class="article-content-col"
                        :style="{ width : $store.getters.getTocCollapsed ? '100%' : 'calc(100% - 250px)' }">
@@ -97,9 +94,6 @@
             },
             onTocDrawerClose(){
                 this.$store.commit("setTocDrawerOpened", false)
-            },
-            openTocDrawer(){
-                this.$store.commit("setTocDrawerOpened", true)
             }
         },
         async created(){
