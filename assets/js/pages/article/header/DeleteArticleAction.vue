@@ -1,5 +1,10 @@
 <template>
-    <a-button type="link" @click="deleteArticle" :loading="loading">{{ $t("read.delete") }}</a-button>
+    <a-popconfirm
+            :title="$t('read.confirmDelete')"
+            @confirm="deleteArticle"
+            placement="bottomRight">
+        <a-button type="link" :loading="loading">{{ $t("read.delete") }}</a-button>
+    </a-popconfirm>
 </template>
 
 <script>

@@ -4,6 +4,7 @@ export default {
         createIt : "Create it",
         delete : "Delete",
         deleted : "Article deleted",
+        confirmDelete: "Are you sure to delete this article ?",
         save : "Save",
         saved : "Article saved",
         readTooltip : "Press 'esc' to switch to View mode",
@@ -25,5 +26,5 @@ export default {
 
     presentation : {
         presentationTooltip : "Type 'p' to switch to Presentation mode"
-    }
+    },
 };

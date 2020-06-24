@@ -12,7 +12,8 @@ import {
     Layout,
     Modal,
     Tooltip,
-    Drawer
+    Drawer,
+    Popconfirm
 } from 'ant-design-vue';
 
 import Fa from "components/Fa";
@@ -37,6 +38,7 @@ export default {
         Vue.use(Layout);
         Vue.use(Tooltip);
         Vue.use(Drawer);
+        Vue.use(Popconfirm);
 
         Vue.component("fa", Fa);
 
