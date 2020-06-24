@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Annotations\RouteExposed;
 
 /**
  * @Route("", name="knowledge")
@@ -21,8 +22,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class KnowledgeController extends AbstractController
 {
     /**
-     * @Route("/{webpath}",requirements={"webpath"="[^_](?:(?!(?|_slides|_delete|/_edit)).)*"}, methods={"GET"},name="_read")
-     * @Route("", methods={"GET"},name="_read_home")
+     * @Route("/articles/{webpath}",requirements={"webpath"="[^_](?:(?!(?|_slides|_delete|/_edit|_routing_js)).)*"}, methods={"GET"},name="_read")
+     * @RouteExposed()
      */
     public function index(FileResolver $fileResolver, FileReader $fileReader, $webpath = "/")
     {
@@ -34,16 +35,14 @@ class KnowledgeController extends AbstractController
                 return new BinaryFileResponse($path);
             }
         } catch (FileNotExistsException $fileNotExistsException) {
-            $path = $fileNotExistsException->filename;
-            $notfoundResponse = new Response("", Response::HTTP_NOT_FOUND);
-            $file = $fileReader->readFile($webpath, $path);
-            return $this->render("knowledge/notfound.html.twig", ["file" => $file], $notfoundResponse);
+            return new Response(null, Response::HTTP_NOT_FOUND);
         }
 
         $file = $fileReader->readFile($webpath, $path);
         $fileReader->extractMetaData($file);
         $fileReader->parseMarkdown($file);
-        return $this->render("knowledge/index.html.twig", [
+
+        return $this->json([
             'file' => $file,
             'exists' => $fileExists,
             'isMD' => $fileResolver->isMarkdownFile($path),
@@ -54,24 +53,26 @@ class KnowledgeController extends AbstractController
      * @Route("/{webpath}/_edit",requirements={"webpath"="[^_].*"}, methods={"GET"},name="_edit")
      * @Route("/_edit", methods={"GET"},name="_edit_home")
      * @throws FileNotExistsException
+     * @RouteExposed()
      */
     public function edit(FileResolver $fileResolver, FileReader $fileReader, $webpath = "/")
     {
         $path = $fileResolver->getFile($webpath, false);
+
         if (!$fileResolver->isMarkdownFile($path)) {
-            return $this->redirectToRoute("knowledge_read", ["path" => $path]);
+            return $this->json(["path" => $path]);
         }
+
         $file = $fileReader->readFile($webpath, $path);
 
-        return $this->render("knowledge/edit.html.twig", [
-            'file' => $file,
-        ]);
+        return $this->json(['file' => $file]);
     }
 
 
     /**
      * @Route("/{webpath}/_slides",requirements={"webpath"="[^_].*"}, methods={"GET"},name="_slides")
      * @Route("/_slides", methods={"GET"},name="_slides_home")
+     * @RouteExposed()
      */
     public function slides(FileResolver $fileResolver, FileReader $fileReader, $webpath = "/")
     {
@@ -91,6 +92,7 @@ class KnowledgeController extends AbstractController
     /**
      * @Route("/{webpath}/_edit",requirements={"webpath"="[^_].*"}, methods={"PUT"},name="_update")
      * @Route("/_edit", methods={"PUT"},name="_update_home")
+     * @RouteExposed()
      */
     public function update(FileResolver $fileResolver, FileWriter $fileWriter, FileReader $fileReader, MetadataManager $metadataManager, Request $request, $webpath = "/")
     {
@@ -117,17 +119,16 @@ class KnowledgeController extends AbstractController
         }
         $metadataManager->setMetadataForDocument($webpath, $metadata);
 
-        return $this->json("saved");
-
+        return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
     /**
      * @Route("/{webpath}/_delete",requirements={"webpath"="[^_].*"}, methods={"GET"},name="_delete")
      * @Route("/_delete", methods={"GET"},name="_delete_home")
+     * @RouteExposed()
      */
     public function delete(FileResolver $fileResolver, FileWriter $fileWriter, MetadataManager $metadataManager, Request $request, $webpath = "/")
     {
-
         try {
             $path = $fileResolver->getFile($webpath);
             if ($fileResolver->isMarkdownFile($path)) {
@@ -135,8 +136,8 @@ class KnowledgeController extends AbstractController
                 unlink($path);
             }
         } catch (FileNotExistsException $fileNotExistsException) {
-        }
-        return $this->redirectToRoute("knowledge_read", ["webpath" => $webpath]);
 
+        }
+        return new Response(null, Response::HTTP_NO_CONTENT);
     }
 }

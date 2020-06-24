@@ -25,5 +25,4 @@ class Page
     {
         return explode("/", $this->mime)[0];
     }
-
 }

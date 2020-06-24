@@ -1,0 +1,20 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    "@vue/babel-preset-jsx"
+  ],
+  "plugins": [
+    ["import", {
+      "libraryName": "antd",
+      "style": true
+    }],
+    "@babel/transform-runtime",
+    "@babel/plugin-transform-async-to-generator",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-proposal-optional-chaining",
+    ["prismjs", {
+      "languages": ["javascript", "css", "markup", "json"],
+      "css": true
+    }]
+  ]
+}

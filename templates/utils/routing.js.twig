@@ -1,0 +1,46 @@
+//routing.js.twig
+class Routing {
+    constructor(routes) {
+        this.routes = routes;
+    }
+
+    getPath() {
+        return "{{ (app.request.schemeAndHttpHost ~ app.request.baseUrl)|raw }}";
+    }
+
+    url(routeName, args) {
+        let response = "{{ (app.request.schemeAndHttpHost ~ app.request.baseUrl)|raw }}";
+        if (!this.routes[routeName]) {
+            throw "route " + routeName + " not exists or not exposed";
+
+        }
+        let route = this.routes[routeName];
+
+        let requiredArguments = Object.keys(route.arguments);
+        let path = route.path;
+        for (var i = 0; i < requiredArguments.length; i++) {
+            if (args[requiredArguments[i]]) {
+                path = path.replace("{" + requiredArguments[i] + "}", args[requiredArguments[i]]);
+            } else if (route.arguments[requiredArguments[i]]) {
+                path = path.replace("{" + requiredArguments[i] + "}", route.arguments[requiredArguments[i]]);
+            } else {
+                throw "missing argument " + requiredArguments[i] + " and no default value";
+            }
+        }
+
+        response += path;
+        return response;
+    }
+
+
+}
+
+var Router = new Routing(
+  {{ routes|json_encode|raw }}
+);
+
+{% if app.environment == "dev" %}
+console.groupCollapsed("Router");
+console.log(Router.routes);
+console.groupEnd();
+{% endif %}
