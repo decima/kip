@@ -7,7 +7,8 @@
 
         <div class="line-wrapper bottom-actions">
             <article-actions class="article-actions" />
-            <a @click="openTocDrawer">{{ $t('read.displayToc') }}</a>
+            <a @click="openTocDrawer"
+               v-if="$store.getters.getCurrentArticle">{{ $t('read.displayToc') }}</a>
         </div>
     </div>
 </template>
