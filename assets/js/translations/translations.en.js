@@ -6,7 +6,8 @@ export default {
         deleted : "Article deleted",
         save : "Save",
         saved : "Article saved",
-        readTooltip : "Press 'esc' to switch to View mode"
+        readTooltip : "Press 'esc' to switch to View mode",
+        displayToc : "Display table of contents"
     },
 
     navBar : {

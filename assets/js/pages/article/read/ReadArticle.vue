@@ -5,16 +5,37 @@
              :key="$store.getters.getCurrentArticle.file.path"
              v-hotkey="keymap">
 
+            <a @click="openTocDrawer"
+               v-if="$store.getters.getTocCollapsed">{{ $t('read.displayToc') }}</a>
+
             <a-row type="flex">
                 <a-col class="article-content-col"
-                       :style="{ width : 'calc(100% - 250px' }">
+                       :style="{ width : $store.getters.getTocCollapsed ? '100%' : 'calc(100% - 250px)' }">
                     <article-content />
                 </a-col>
-                <a-col class="toc-col"
-                       :style="{ width : '250px', marginLeft : 'auto' }">
-                    <table-of-content class="toc" />
-                </a-col>
+                <a-layout-sider v-model="tocCollapsed"
+                                :collapsedWidth="0"
+                                breakpoint="md"
+                                collapsible
+                                :trigger="null"
+                                @breakpoint="onBreakpointChanged"
+                                class="toc-sider">
+                    <a-col class="toc-col"
+                           v-if="!$store.getters.getTocCollapsed"
+                           :style="{ width : '250px', marginLeft : 'auto' }">
+                        <table-of-content class="toc" />
+                    </a-col>
+                </a-layout-sider>
             </a-row>
+
+            <a-drawer placement="right"
+                      class="toc-drawer"
+                      :closable="false"
+                      :visible="$store.getters.getTocDrawerOpened"
+                      @close="onTocDrawerClose"
+                      :width="300">
+                <table-of-content class="toc" />
+            </a-drawer>
         </div>
 
         <article-not-found v-if="notFound" />
@@ -43,7 +64,15 @@
                     'e' : this.goToEditArticle,
                     'p' : this.goToPresentationMode,
                 }
-            }
+            },
+            tocCollapsed: {
+                get() {
+                    return this.$store.getters.getTocCollapsed
+                },
+                set(value) {
+                    this.$store.commit("setTocCollapsed", value);
+                }
+            },
         },
         methods : {
             async loadCurrentArticleFromPath(){
@@ -58,6 +87,19 @@
             },
             goToPresentationMode(){
                 window.location = Router.url('knowledge_slides', {webpath: this.$getArticleWebpath()})
+            },
+            onBreakpointChanged(collapsed){
+                this.$store.commit("setTocCollapsed", collapsed);
+
+                if(!collapsed && this.$store.getters.getTocCollapsed){
+                    this.$store.commit("setTocCollapsed", false)
+                }
+            },
+            onTocDrawerClose(){
+                this.$store.commit("setTocDrawerOpened", false)
+            },
+            openTocDrawer(){
+                this.$store.commit("setTocDrawerOpened", true)
             }
         },
         async created(){
@@ -73,6 +115,10 @@
         display: flex;
         justify-content: flex-end;
         flex : 0 0 auto;
+    }
+
+    .toc-sider {
+        background: none;
     }
 
 </style>

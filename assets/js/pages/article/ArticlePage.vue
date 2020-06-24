@@ -1,13 +1,16 @@
 <template>
     <div class="article-page">
-        <a-layout class="container-layout">
+        <a-layout class="container-layout"
+                  :class="{ 'container-layout--md' : $store.getters.getTocCollapsed }">
 
-            <multipane @paneResize="resizeNavBar" class="multipane">
+            <multipane @paneResize="resizeNavBar"
+                       class="multipane">
                 <a-layout-sider :width="$store.getters.getNavBarWidth"
                                 v-model="navBarCollapsed"
                                 :collapsedWidth="0"
                                 breakpoint="lg"
                                 collapsible
+                                :trigger="null"
                                 @breakpoint="onBreakpointChanged"
                                 :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }">
                     <nav-bar v-if="!$store.getters.getNavBarCollapsed"/>
@@ -33,7 +36,7 @@
 
                         <div class="article-wrapper">
                             <div class="article-top-wrapper">
-                                <hamburger-button />
+                                <hamburger-button/>
                                 <article-header/>
                             </div>
 
@@ -82,11 +85,11 @@
             onBreakpointChanged(collapsed) {
                 this.$store.commit("setNavBarCollapsed", collapsed);
 
-                if(!collapsed && this.$store.getters.getNavBarDrawerOpened){
+                if (!collapsed && this.$store.getters.getNavBarDrawerOpened) {
                     this.$store.commit("setNavBarDrawerOpened", false)
                 }
             },
-            onNavBarDrawerClose(){
+            onNavBarDrawerClose() {
                 this.$store.commit("setNavBarDrawerOpened", false)
             }
         }
@@ -103,6 +106,7 @@
 
     .article-page, .container-layout {
         min-height: 100vh;
+        background-color: @navbar-background-color;
     }
 
     .main-layout {
@@ -118,10 +122,6 @@
     .layout-content {
         margin: 0 !important;
         padding: 32px 40px 40px 40px;
-    }
-
-    .container-layout {
-        background-color: @navbar-background-color;
     }
 
     .pane-resizer {
@@ -140,9 +140,9 @@
     }
 
     .article-top-wrapper {
-        display:flex;
-        align-items:center;
-        margin-bottom:20px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
     }
 
 </style>
@@ -153,8 +153,19 @@
         .ant-drawer-wrapper-body {
             background-color: @navbar-background-color;
         }
+
         .ant-drawer-body {
-            padding : 0;
+            padding: 0;
+        }
+    }
+
+    .ant-layout {
+        background-color: @navbar-background-color;
+        display: block !important;
+        flex-direction: unset !important;
+
+        .multipane {
+            display: block;
         }
     }
 
