@@ -1,5 +1,5 @@
 <template>
-    <div class="edit-article">
+    <div class="edit-article" v-hotkey="keymap">
         <editor ref="editor" v-if="loaded"/>
     </div>
 </template>
@@ -20,23 +20,38 @@
                 loaded: false
             }
         },
+        computed : {
+            keymap(){
+                return {
+                    'esc' : () => this.$router.push({ path: this.$readLink() })
+                }
+            }
+        },
         methods: {
             async loadArticleToEditFromPath() {
                 await this.$store.dispatch("loadArticleToEditFromPath", this.$readLink());
                 this.loaded = true;
+            },
+            initPreventCloseTabIfChangesNotSaved(){
+                window.onbeforeunload = () => {
+                    if(this.$refs.editor && this.$refs.editor.areThereAnyChangesNotSaved()){
+                        return this.$t("edit.changesNotSavedDescription")
+                    }
+                };
             }
         },
         beforeRouteLeave(to, from, next){
-            if(this.$refs.editor.areThereAnyChangesNotSaved()){
+            if(this.$refs.editor && this.$refs.editor.areThereAnyChangesNotSaved()){
                 this.$confirm({
                     title: this.$t("edit.changesNotSaved"),
                     content: this.$t("edit.changesNotSavedDescription"),
+                    cancelText : this.$t("edit.no"),
                     onOk : async () => {
                         await this.saveArticle();
                         next();
                     },
                     onCancel() {
-                        next(false);
+                        next();
                     },
                 });
             } else {
@@ -45,7 +60,8 @@
         },
         async created() {
             await this.loadArticleToEditFromPath();
-            this.changePageTitle()
+            this.changePageTitle();
+            this.initPreventCloseTabIfChangesNotSaved();
         }
     }
 </script>
@@ -54,7 +70,7 @@
 
     .edit-article {
         width: 100%;
-        height: 100%;
+        height: calc(100% - 50px);
     }
 
 </style>

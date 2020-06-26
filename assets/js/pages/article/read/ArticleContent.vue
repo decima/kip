@@ -1,6 +1,7 @@
 <template>
     <div class="article-content language-none"
-         v-html="$store.getters.getCurrentArticle.file.content"></div>
+         v-html="$store.getters.getCurrentArticle.file.content"
+         :style="{ paddingRight : $store.getters.getTocCollapsed ? '0' : '40px' }"></div>
 </template>
 
 <script>

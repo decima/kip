@@ -2,18 +2,37 @@
     <div>
         <div class="read-article"
              v-if="$store.getters.getCurrentArticle"
-             :key="$store.getters.getCurrentArticle.file.path">
+             :key="$store.getters.getCurrentArticle.file.path"
+             v-hotkey="keymap">
 
-            <!--<a-row :gutter="40" :style="{ width : '100%' }">
-                <a-col :md="{ span : 19 }" :xs="{ span : 24 }"><article-content /></a-col>
-                <a-col :md="{ span : 5 }" :xs="{ span : 0 }"><table-of-content class="toc" /></a-col>
-            </a-row>-->
-            <div class="read-article-content">
-                <article-content />
-                <div class="toc-wrapper">
-                    <table-of-content class="toc" />
-                </div>
-            </div>
+            <a-row type="flex">
+                <a-col class="article-content-col"
+                       :style="{ width : $store.getters.getTocCollapsed ? '100%' : 'calc(100% - 250px)' }">
+                    <article-content />
+                </a-col>
+                <a-layout-sider v-model="tocCollapsed"
+                                :collapsedWidth="0"
+                                breakpoint="md"
+                                collapsible
+                                :trigger="null"
+                                @breakpoint="onBreakpointChanged"
+                                class="toc-sider">
+                    <a-col class="toc-col"
+                           v-if="!$store.getters.getTocCollapsed"
+                           :style="{ width : '250px', marginLeft : 'auto' }">
+                        <table-of-content class="toc" />
+                    </a-col>
+                </a-layout-sider>
+            </a-row>
+
+            <a-drawer placement="right"
+                      class="toc-drawer"
+                      :closable="false"
+                      :visible="$store.getters.getTocDrawerOpened"
+                      @close="onTocDrawerClose"
+                      :width="300">
+                <table-of-content class="toc" />
+            </a-drawer>
         </div>
 
         <article-not-found v-if="notFound" />
@@ -36,6 +55,22 @@
                 notFound : false
             }
         },
+        computed : {
+            keymap(){
+                return {
+                    'e' : this.goToEditArticle,
+                    'p' : this.goToPresentationMode,
+                }
+            },
+            tocCollapsed: {
+                get() {
+                    return this.$store.getters.getTocCollapsed
+                },
+                set(value) {
+                    this.$store.commit("setTocCollapsed", value);
+                }
+            },
+        },
         methods : {
             async loadCurrentArticleFromPath(){
                 this.notFound = false;
@@ -43,6 +78,22 @@
                 if(!currentArticle){
                     this.notFound = true
                 }
+            },
+            goToEditArticle(){
+                this.$router.push({ path: this.$editLink() });
+            },
+            goToPresentationMode(){
+                window.location = Router.url('knowledge_slides', {webpath: this.$getArticleWebpath()})
+            },
+            onBreakpointChanged(collapsed){
+                this.$store.commit("setTocCollapsed", collapsed);
+
+                if(!collapsed && this.$store.getters.getTocCollapsed){
+                    this.$store.commit("setTocCollapsed", false)
+                }
+            },
+            onTocDrawerClose(){
+                this.$store.commit("setTocDrawerOpened", false)
             }
         },
         async created(){
@@ -54,19 +105,14 @@
 
 <style scoped>
 
-    .read-article {
-        display:flex;
-    }
-
     .toc {
         display: flex;
         justify-content: flex-end;
+        flex : 0 0 auto;
     }
 
-    .read-article-content {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
+    .toc-sider {
+        background: none;
     }
 
 </style>

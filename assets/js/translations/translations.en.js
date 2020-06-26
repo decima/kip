@@ -4,17 +4,27 @@ export default {
         createIt : "Create it",
         delete : "Delete",
         deleted : "Article deleted",
+        confirmDelete: "Are you sure to delete this article ?",
         save : "Save",
-        saved : "Article saved"
+        saved : "Article saved",
+        readTooltip : "Press 'esc' to switch to View mode",
+        displayToc : "Display table of contents"
     },
 
     navBar : {
         search : "Search",
-        home : "🏠 Home"
+        home : "🏠 Home",
+        slashTooltip : "Type '/' to focus"
     },
 
     edit : {
         changesNotSaved : "Changes not saved",
-        changesNotSavedDescription : "Do you want to save the changes made to this article before leaving the editor ?"
-    }
+        changesNotSavedDescription : "Do you want to save the changes made to this article before leaving the editor ?",
+        editTooltip : "Type 'e' to switch to Edit mode",
+        no : "No"
+    },
+
+    presentation : {
+        presentationTooltip : "Type 'p' to switch to Presentation mode"
+    },
 };

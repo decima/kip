@@ -10,7 +10,10 @@ import {
     Row,
     Col,
     Layout,
-    Modal
+    Modal,
+    Tooltip,
+    Drawer,
+    Popconfirm
 } from 'ant-design-vue';
 
 import Fa from "components/Fa";
@@ -33,6 +36,9 @@ export default {
         Vue.use(Row);
         Vue.use(Col);
         Vue.use(Layout);
+        Vue.use(Tooltip);
+        Vue.use(Drawer);
+        Vue.use(Popconfirm);
 
         Vue.component("fa", Fa);
 

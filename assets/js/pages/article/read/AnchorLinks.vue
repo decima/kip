@@ -4,8 +4,9 @@
                        :key="articleLink.id"
                        :href="`#${articleLink.id}`"
                        :title="articleLink.text"
-                       @click.native.stop.prevent="scrollTo(`#${articleLink.id}`)">
-            <anchor-links v-if="articleLink.children" :article-tree="articleLink.children"/>
+                       @click.native.prevent.stop="scrollToElement">
+            <anchor-links v-if="articleLink.children"
+                          :article-tree="articleLink.children"/>
         </a-anchor-link>
     </div>
 </template>
@@ -17,12 +18,9 @@
             articleTree: {}
         },
         methods: {
-            scrollTo(href) {
-                const element = document.querySelector(href);
-                if(element){
-                    const top = element.offsetTop;
-
-                    window.scrollTo(0, top);
+            scrollToElement() {
+                if (this.$store.getters.getTocDrawerOpened) {
+                    this.$store.commit("setTocDrawerOpened", false)
                 }
             }
         }
