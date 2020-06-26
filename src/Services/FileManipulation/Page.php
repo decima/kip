@@ -25,4 +25,8 @@ class Page
     {
         return explode("/", $this->mime)[0];
     }
+
+    public function getScopedSlots(){
+        return ["title" => "title", "icon" => "icon"];
+    }
 }

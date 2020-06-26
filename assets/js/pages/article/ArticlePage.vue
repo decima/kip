@@ -117,6 +117,7 @@
 
     .layout-content {
         margin: 0 !important;
+        width: 100%;
         padding: 32px 40px 40px 40px;
     }
 

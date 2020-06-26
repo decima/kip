@@ -1,5 +1,5 @@
 <template>
-    <div class="article-options">
+    <div class="article-options" v-if="$store.getters.getCurrentArticle">
         <save-article-action v-if="$route.name === $routes.EDIT_ARTICLE"/>
 
         <a-button-group>

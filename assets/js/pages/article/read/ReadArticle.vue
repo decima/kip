@@ -58,8 +58,8 @@
         computed : {
             keymap(){
                 return {
-                    'e' : this.goToEditArticle,
-                    'p' : this.goToPresentationMode,
+                    'e' : e => this.goToEditArticle(e),
+                    'p' : e => this.goToPresentationMode(e),
                 }
             },
             tocCollapsed: {
@@ -79,11 +79,15 @@
                     this.notFound = true
                 }
             },
-            goToEditArticle(){
-                this.$router.push({ path: this.$editLink() });
+            goToEditArticle(e){
+                if(e.target.tagName !== "INPUT"){
+                    this.$router.push({ path: this.$editLink() });
+                }
             },
-            goToPresentationMode(){
-                window.location = Router.url('knowledge_slides', {webpath: this.$getArticleWebpath()})
+            goToPresentationMode(e){
+                if(e.target.tagName !== "INPUT"){
+                    window.location = Router.url('knowledge_slides', {webpath: this.$getArticleWebpath()})
+                }
             },
             onBreakpointChanged(collapsed){
                 this.$store.commit("setTocCollapsed", collapsed);

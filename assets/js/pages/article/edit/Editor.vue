@@ -4,7 +4,7 @@
                     ref="toastuiEditor"
                     :options="options"
                     :initialValue="initialValue"
-                    previewStyle="vertical"
+                    previewStyle="tab"
                     @change="onEditorChange" />
 
     </div>
@@ -28,7 +28,7 @@
             options() {
                 return {
                     hideModeSwitch: true,
-                    useCommandShortcut: false
+                    useCommandShortcut: false,
                 }
             }
         },
@@ -42,6 +42,8 @@
             }
         },
         mounted(){
+            this.$refs.toastuiEditor.invoke('focus');
+
             this.$store.subscribeAction((action, state) => {
                 if(action.type === "saveArticle"){
                     this.initialValue = action.payload.content;
