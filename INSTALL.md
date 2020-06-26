@@ -1,5 +1,5 @@
 # Installation guide for Kip
-Here is a sort guide to getting started using KIP.
+Here is the guide to getting started using KIP.
 
 
 ## Configuration
