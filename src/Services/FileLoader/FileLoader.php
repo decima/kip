@@ -26,7 +26,9 @@ class FileLoader
         if ($fileInfo->isDir()) {
             return $this->loadFileByPath($fileInfo->getRelativePathname() . "/readme.md");
         }
-        if (strtolower($fileInfo->getExtension()) === "md") {
+        if (!$fileInfo->isFile()) {
+            $file = new EmptyFile();
+        } elseif (strtolower($fileInfo->getExtension()) === "md") {
             $file = new MarkdownFile();
             $file->markdownContent = $fileInfo->getContents();
             $file = $this->markdown->parse($file);

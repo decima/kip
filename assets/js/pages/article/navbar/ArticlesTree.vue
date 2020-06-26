@@ -36,7 +36,7 @@
                 // add a 'Home' link
                 articlesTree.subLinks.splice(0,0,{
                     name : this.$t("navBar.home"),
-                    path : "readme.md",
+                    path : "README.md",
                     scopedSlots : { title : 'title' }
                 });
 

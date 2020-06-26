@@ -5,8 +5,8 @@ namespace App\Controller;
 
 
 use App\Annotations\RouteExposed;
-use App\Services\FileManipulation\FileLister;
 use App\Services\FileManipulation\Page;
+use App\Services\TreeLoader\TreeLoader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,11 +21,11 @@ class EmbeddedController extends AbstractController
      * @Route("/_/left", name="articles_tree")
      * @RouteExposed()
      */
-    public function leftDefaultMenu(FileLister $fileLister, RequestStack $requestStack)
+    public function leftDefaultMenu(TreeLoader $treeLoader, RequestStack $requestStack)
     {
         $webpath = $requestStack->getMasterRequest()->attributes->get("webpath", "/");
-        $articlesTree = $fileLister->listAllFiles("");
-        $indexedArticles = $fileLister->indexedFiles;
+        $articlesTree = $treeLoader->listAllFiles();
+        $indexedArticles = $treeLoader->indexedFiles;
         return $this->json(["path" => $webpath, "nav" => $articlesTree, "indexedArticles" => $indexedArticles]);
     }
 }
