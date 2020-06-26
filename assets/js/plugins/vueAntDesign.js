@@ -13,7 +13,10 @@ import {
     Modal,
     Tooltip,
     Drawer,
-    Popconfirm
+    Popconfirm,
+    Menu,
+    Dropdown,
+    Input
 } from 'ant-design-vue';
 
 import Fa from "components/Fa";
@@ -39,6 +42,10 @@ export default {
         Vue.use(Tooltip);
         Vue.use(Drawer);
         Vue.use(Popconfirm);
+        Vue.use(Dropdown);
+        Vue.use(Menu);
+        Vue.use(Input);
+        Vue.use(Modal);
 
         Vue.component("fa", Fa);
 

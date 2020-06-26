@@ -15,7 +15,11 @@ export default {
     navBar : {
         search : "Search",
         home : "🏠 Home",
-        slashTooltip : "Type '/' to focus"
+        slashTooltip : "Type '/' to focus",
+        newArticle : "📄 New Article",
+        addReadme : "📚 Add README.md",
+        articleName : "Article name",
+        createANewArticle : "Create a new article"
     },
 
     edit : {

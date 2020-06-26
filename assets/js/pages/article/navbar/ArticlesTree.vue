@@ -122,6 +122,10 @@
         transform: rotate(90deg) scale(0.8) !important;
     }
 
+    .ant-tree-node-content-wrapper {
+        position:relative;
+    }
+
 </style>
 
 
