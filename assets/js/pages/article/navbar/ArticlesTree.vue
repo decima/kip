@@ -2,7 +2,6 @@
     <a-tree v-if="$store.getters.getArticlesTree"
             showLine
             :showIcon="true"
-            @select="onSelect"
             :treeData="treeData"
             :replaceFields="{
                     children: 'subLinks',
@@ -16,7 +15,10 @@
         <fa type="fad" icon="folder" slot="switcherIcon"  />
 
         <template slot="title" slot-scope="data">
-            <span @click.stop>{{ data.name }} <a href="">test</a> </span>
+            <div @click.stop>
+                <router-link class="article-link"
+                             :to="{ path : `/${ data.path }` }">{{ data.name }}</router-link>
+            </div>
         </template>
     </a-tree>
 </template>
@@ -31,7 +33,8 @@
                 // add a 'Home' link
                 articlesTree.subLinks.splice(0,0,{
                     name : this.$t("navBar.home"),
-                    path : ""
+                    path : "",
+                    scopedSlots : { title : 'title' }
                 });
 
                 // we hide the README at the root of the files to only display the "home" link
@@ -41,25 +44,24 @@
                 return [this.$getArticleWebpath()?.substring(1) || this.$route.path.substring(1)]
             }
         },
-        methods: {
-            onSelect(selectedKeys) {
-                //selectedKeys is empty on deselection
-                if (selectedKeys.length > 0) {
-                    //we don't enable multi selects, so we take the first element of the array
-                    const articlePath = `/${selectedKeys[0]}`;
-                    if (articlePath !== this.$getArticleWebpath()
-                        && articlePath !== this.$route.path) {
-                        this.$router.push({path: articlePath});
-
-                        if(this.$store.getters.getNavBarDrawerOpened){
-                            this.$store.commit("setNavBarDrawerOpened", false)
-                        }
-                    }
+        watch : {
+            "$route.path" : function(){
+                if(this.$store.getters.getNavBarDrawerOpened){
+                    this.$store.commit("setNavBarDrawerOpened", false)
                 }
             }
         }
     }
 </script>
+
+<style scoped lang="less">
+
+    .article-link {
+        display :block;
+        color: @text-color;
+    }
+
+</style>
 
 <style lang="less">
 
