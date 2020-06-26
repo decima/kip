@@ -46,6 +46,8 @@ Feel free to change environment variables by copying the `.env` file to a `.env.
 
 And you're good to go ! :tada:
 
+For more installation options and configurations, please check [INSTALL.md](INSTALL.md)
+
 ## Getting started
 
 Your markdown files should be placed in the folder specified in the `FILE_STORAGE` environment variable (by default in `./var/storage`).
