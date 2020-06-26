@@ -110,7 +110,7 @@
     }
 
     .ant-tree-node-selected .actions {
-        background-image: linear-gradient(to right, #c5d0d100 0%, #c5d0d1 30%);
+        background-image: linear-gradient(to right, #c5d0d100 0%, #c5d0d1 30%) !important;
     }
 
 </style>
