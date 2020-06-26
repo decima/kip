@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Annotations\RouteExposed;
+use App\Services\FileLoader\MarkdownFile;
 use App\Services\FileManipulation\File;
 use App\Services\FileManipulation\FileNotExistsException;
 use App\Services\FileManipulation\FileReader;
@@ -14,7 +16,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Annotations\RouteExposed;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 /**
  * @Route("", name="knowledge")
@@ -22,31 +24,33 @@ use App\Annotations\RouteExposed;
 class KnowledgeController extends AbstractController
 {
     /**
-     * @Route("/articles/{webpath}",requirements={"webpath"="[^_](?:(?!(?|_slides|_delete|/_edit|_routing_js)).)*"}, methods={"GET"},name="_read")
+     * @Route("/",defaults={"webpath"="/"}, methods={"GET"},name="_read_homepage")
+     * @Route("/{webpath}",requirements={"webpath"="[^_](?:(?!(?|_slides|_delete|/_edit|_routing_js)).)*"}, methods={"GET"},name="_read")
      * @RouteExposed()
      */
-    public function index(FileResolver $fileResolver, FileReader $fileReader, $webpath = "/")
+    public function index(\App\Services\FileLoader\File $file, Request $request)
     {
-        $fileExists = false;
-        try {
-            $path = $fileResolver->getFile($webpath);
-            $fileExists = true;
-            if (!$fileResolver->isMarkdownFile($path)) {
-                return new BinaryFileResponse($path);
+        if ($file->fileInfo->isDir()) {
+            return $this->redirectToRoute("knowledge_read_homepage", ["webpath" => $file->fileInfo->getRelativePathname() . "/readme.md"]);
+        }
+        if (!($file instanceof MarkdownFile)) {
+            try {
+
+                return new BinaryFileResponse($file->fileInfo->getPathname());
+            } catch (FileNotExistsException $fileNotExistsException) {
+                return new Response(null, Response::HTTP_NOT_FOUND);
             }
-        } catch (FileNotExistsException $fileNotExistsException) {
-            return new Response(null, Response::HTTP_NOT_FOUND);
+        }
+        if ($request->getPreferredFormat() === "html") {
+            // this behavior is for vue
+            return $this->redirectToRoute("home", ["_fragment" => $file->webpath]);
         }
 
-        $file = $fileReader->readFile($webpath, $path);
-        $fileReader->extractMetaData($file);
-        $fileReader->parseMarkdown($file);
-
         return $this->json([
-            'file' => $file,
-            'exists' => $fileExists,
-            'isMD' => $fileResolver->isMarkdownFile($path),
-        ]);
+            'file'   => $file,
+            'exists' => $file->fileInfo->isFile(),
+            'isMD'   => true,
+        ], 200, [], [AbstractNormalizer::IGNORED_ATTRIBUTES => ['strippedContent', 'fileInfo']]);
     }
 
     /**

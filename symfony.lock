@@ -32,6 +32,9 @@
     "guzzlehttp/psr7": {
         "version": "1.6.1"
     },
+    "league/commonmark": {
+        "version": "1.5.0"
+    },
     "monolog/monolog": {
         "version": "2.0.2"
     },
@@ -70,6 +73,21 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
+    },
+    "sensio/framework-extra-bundle": {
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
+        },
+        "files": [
+            "config/packages/sensio_framework_extra.yaml"
+        ]
+    },
+    "spatie/yaml-front-matter": {
+        "version": "2.0.5"
     },
     "symfony/asset": {
         "version": "v5.0.3"
@@ -184,6 +202,9 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
+    },
+    "symfony/mime": {
+        "version": "v5.1.2"
     },
     "symfony/monolog-bridge": {
         "version": "v5.0.3"

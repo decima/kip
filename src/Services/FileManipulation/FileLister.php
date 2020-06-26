@@ -57,14 +57,19 @@ class FileLister
             if (!$file->isDir() && $file->getExtension() === "md") {
                 $refs[$filePath]->content = $file->getContents();
                 $refs[$filePath]->mime = mime_content_type($file->getPathname());
-                $fileContentAsPlainText = preg_replace("/<[^>]+>/", " ",  $refs[$filePath]->content);
+                $fileContentAsPlainText = preg_replace("/<[^>]+>/", " ", $refs[$filePath]->content);
                 $indexedFile = new IndexedFile();
-                $indexedFile->title =  $refs[$filePath]->name;
+                $indexedFile->title = $refs[$filePath]->name;
                 $indexedFile->content = $fileContentAsPlainText;
                 $indexedFile->webpath = $file->getRelativePathname();
                 $this->indexedFiles[] = $indexedFile;
+            } elseif ($file->isDir()) {
+                $refs[$filePath]->path = $filePath . "/readme.md";
+
             }
             if ($file->getRelativePath() === "") {
+                $refs[$filePath]->webpath = "/readme.md";
+
                 $initial->subLinks[] = $refs[$filePath];
                 continue;
             }

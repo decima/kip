@@ -5,8 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
   env(FILE_STORAGE): "%kernel.project_dir%/var/storage"
-  admin_password: "%env(ADMIN_PASSWORD)%"
-  env(ADMIN_PASSWORD): password
+  storage: "%env(FILE_STORAGE)%"
   build_version: "%env(BUILD_VERSION)%"
   env(BUILD_VERSION): "dev"
 
