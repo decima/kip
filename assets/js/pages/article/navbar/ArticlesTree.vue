@@ -1,6 +1,5 @@
 <template>
     <a-tree v-if="$store.getters.getArticlesTree"
-            showLine
             :showIcon="true"
             :treeData="treeData"
             :replaceFields="{
@@ -12,20 +11,24 @@
             :selectedKeys="selectedKeys"
             class="articles-tree"
             :blockNode="true">
-        <fa type="fad" icon="folder" slot="switcherIcon"  />
+        <fa icon="chevron-right" slot="switcherIcon"  />
 
-        <template slot="title" slot-scope="data">
-            <div @click.stop>
-                <router-link class="article-link"
-                             :to="{ path : `/${ data.path }` }">{{ data.name }}</router-link>
-            </div>
+        <template slot="title" slot-scope="article">
+            <article-tree-item :article="article" />
+        </template>
+
+        <template slot="icon" slot-scope="article">
+            <fa icon="file" v-if="!article.dataRef.isFolder" />
+            <fa type="fad" icon="folder" v-if="article.dataRef.isFolder" />
         </template>
     </a-tree>
 </template>
 
 <script>
+    import ArticleTreeItem from "pages/article/navbar/ArticleTreeItem";
     export default {
         name: "ArticlesTree",
+        components: {ArticleTreeItem},
         computed: {
             treeData() {
                 const articlesTree = JSON.parse(JSON.stringify(this.$store.getters.getArticlesTree.nav));
@@ -54,15 +57,6 @@
     }
 </script>
 
-<style scoped lang="less">
-
-    .article-link {
-        display :block;
-        color: @text-color;
-    }
-
-</style>
-
 <style lang="less">
 
     .articles-tree {
@@ -83,8 +77,49 @@
     }
 
     .ant-tree.ant-tree-block-node li .ant-tree-node-content-wrapper {
-        min-width: calc(100% - @navbar-padding-horizontal) !important;
+        min-width: 100% !important;
         width: auto !important;
+
+        &:not(.ant-tree-node-content-wrapper-normal) {
+            min-width: calc(100% - @navbar-padding-horizontal) !important;
+        }
+    }
+
+    .ant-tree li:not(:last-child)::before {
+        position: absolute;
+        left: 12px;
+        width: 1px;
+        height: 100%;
+        height: calc(100% - 22px);
+        margin: 22px 0 0;
+        border-left: 1px solid #d9d9d9;
+        content: ' ';
+    }
+
+    .ant-tree li {
+        position: relative;
+    }
+
+    .ant-tree-title {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .ant-tree-iconEle.ant-tree-icon__customize {
+        position: relative;
+        left: -4px;
+    }
+
+    .ant-tree-switcher.ant-tree-switcher-noop {
+        display: none !important;
+    }
+
+    .ant-tree li ul{
+        padding-left: 24px !important;
+    }
+
+    .ant-tree-switcher.ant-tree-switcher_open i {
+        transform: rotate(90deg) scale(0.8) !important;
     }
 
 </style>

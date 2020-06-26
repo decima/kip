@@ -27,6 +27,6 @@ class Page
     }
 
     public function getScopedSlots(){
-        return ["title" => "title"];
+        return ["title" => "title", "icon" => "icon"];
     }
 }
