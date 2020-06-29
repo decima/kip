@@ -3,12 +3,10 @@
 namespace App\Controller;
 
 use App\Annotations\RouteExposed;
+use App\Services\FileLoader\EmptyFile;
+use App\Services\FileLoader\FileLoader;
 use App\Services\FileLoader\MarkdownFile;
-use App\Services\FileManipulation\File;
-use App\Services\FileManipulation\FileNotExistsException;
-use App\Services\FileManipulation\FileResolver;
 use App\Services\FileManipulation\FileWriter;
-use App\Services\FileManipulation\Metadata;
 use App\Services\FileManipulation\MetadataManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -33,12 +31,7 @@ class KnowledgeController extends AbstractController
             return $this->redirectToRoute("knowledge_read_homepage", ["webpath" => $file->fileInfo->getRelativePathname() . "/readme.md"]);
         }
         if (!($file instanceof MarkdownFile)) {
-            try {
-
                 return new BinaryFileResponse($file->fileInfo->getPathname());
-            } catch (FileNotExistsException $fileNotExistsException) {
-                return new Response(null, Response::HTTP_NOT_FOUND);
-            }
         }
         if ($request->getPreferredFormat() === "html") {
             // this behavior is for vue
@@ -63,7 +56,7 @@ class KnowledgeController extends AbstractController
         if (!($file instanceof MarkdownFile)) {
             return $this->json($file, 200, [], [AbstractNormalizer::IGNORED_ATTRIBUTES => ['strippedContent', 'fileInfo']]);
         }
-        return $this->json(['file' => $file], 200, [], [AbstractNormalizer::IGNORED_ATTRIBUTES => ['strippedContent', 'fileInfo']]);
+        return $this->json(["file" => $file], 200, [], [AbstractNormalizer::IGNORED_ATTRIBUTES => ['strippedContent', 'fileInfo']]);
     }
 
 
@@ -85,31 +78,20 @@ class KnowledgeController extends AbstractController
      * @Route("/_edit", methods={"PUT"},name="_update_home")
      * @RouteExposed()
      */
-    public function update(\App\Services\FileLoader\File $file, Request $request)
+    public function update(\App\Services\FileLoader\File $file, Request $request, FileLoader $fileLoader, MetadataManager $metadataManager)
     {
-        dd($file);
-        try {
-            $path = $fileResolver->getFile($webpath);
-            if (!$fileResolver->isMarkdownFile($path)) {
-                return $this->json("unprocessable", Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
-        } catch (FileNotExistsException $fileNotExistsException) {
-            $path = $fileNotExistsException->filename;
-            $fileWriter->createParentFolder($path);
+        if (!$file instanceof MarkdownFile && !$file instanceof EmptyFile) {
+            return $this->json("unprocessable", Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+        $directory = dirname($file->fileInfo->getPath());
+        @mkdir($directory, 0777, true);
         $content = $request->getContent();
-        $fileWriter->writeFile($path, $content);
-        $file = new File();
-        $file->webpath = $webpath;
-        $file->markdownContent = $content;
-        $fileReader->extractMetaData($file);
-        $fileDeclaredMetadata = $file->getMetadata();
-        $metadata = new Metadata();
-        if (isset($fileDeclaredMetadata["title"])) {
-            $metadata->setName($fileDeclaredMetadata["title"]);
-        }
-        $metadataManager->setMetadataForDocument($webpath, $metadata);
+        file_put_contents($file->fileInfo->getPathname(), $content);
 
+        $savedFile = $fileLoader->loadFileByPath($file->fileInfo->getPathname());
+        if ($savedFile instanceof MarkdownFile) {
+            $metadataManager->setMetadataForDocument($file->fileInfo->getRelativePathname(), $savedFile->metadata);
+        }
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
@@ -120,15 +102,7 @@ class KnowledgeController extends AbstractController
      */
     public function delete(FileResolver $fileResolver, FileWriter $fileWriter, MetadataManager $metadataManager, Request $request, $webpath = "/")
     {
-        try {
-            $path = $fileResolver->getFile($webpath);
-            if ($fileResolver->isMarkdownFile($path)) {
-                $metadataManager->unsetMetadata($webpath);
-                unlink($path);
-            }
-        } catch (FileNotExistsException $fileNotExistsException) {
 
-        }
-        return new Response(null, Response::HTTP_NO_CONTENT);
+        return new Response(null, Response::HTTP_NOT_IMPLEMENTED);
     }
 }

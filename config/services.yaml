@@ -40,11 +40,7 @@ services:
   App\Controller\:
     resource: '../src/Controller'
     tags: ['controller.service_arguments']
-  App\Services\FileManipulation\FileResolver:
-    arguments:
-      $basepath: "%env(FILE_STORAGE)%"
-  # add more service definitions when explicit configuration is needed
-  # please note that last definitions always *replace* previous ones
+
 
   custom_extractor:
     class: Symfony\Component\PropertyInfo\PropertyInfoExtractor

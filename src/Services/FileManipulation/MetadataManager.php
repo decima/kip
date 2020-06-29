@@ -4,23 +4,22 @@
 namespace App\Services\FileManipulation;
 
 
+use App\Services\FileLoader\Metadata;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+
 class MetadataManager
 {
     const FILE_INDEX_NAME = ".index";
-    /**
-     * @var FileResolver
-     */
-    private $fileResolver;
 
+    private $storage;
     private $index = [];
+    private SerializerInterface $serializer;
 
-    /**
-     * MetadataManager constructor.
-     * @param FileResolver $fileResolver
-     */
-    public function __construct(FileResolver $fileResolver)
+    public function __construct(ParameterBagInterface $parameterBag, SerializerInterface $serializer)
     {
-        $this->fileResolver = $fileResolver;
+        $this->storage = $parameterBag->get("storage");
+        $this->serializer = $serializer;
         $this->loadIndex();
 
     }
@@ -28,7 +27,7 @@ class MetadataManager
 
     private function getFilePath()
     {
-        return $this->fileResolver->getBasePath() . self::FILE_INDEX_NAME;
+        return $this->storage . self::FILE_INDEX_NAME;
     }
 
     private function loadIndex()
@@ -39,8 +38,9 @@ class MetadataManager
             while (($buffer = fgets($handle, 4096)) !== false) {
                 $items = explode(" => ", $buffer);
                 if (count($items) == 2) {
-                    $content = json_decode(trim($items[1]), true);
-                    $this->index[trim($items[0])] = Metadata::fromArray($content);
+                    $metadata = $this->serializer->deserialize($items[1], Metadata::class, "json");
+                    $metadata->path = $items[0];
+                    $this->index[trim($items[0])] = $metadata;
                 }
             }
             if (!feof($handle)) {
@@ -55,7 +55,8 @@ class MetadataManager
         $handle = fopen($this->getFilePath(), "w");
         if ($handle) {
             foreach ($this->index as $file => $meta) {
-                fputs($handle, implode(" => ", [$file, json_encode($meta)]) . "\n");
+                $jsonMeta = $this->serializer->serialize($meta, "json");
+                fputs($handle, implode(" => ", [$file, $jsonMeta]) . "\n");
 
             }
             fclose($handle);
@@ -70,7 +71,7 @@ class MetadataManager
 
     public function setMetadataForDocument($path, Metadata $meta)
     {
-        $meta->setPath($path);
+        $meta->path = $path;
         $this->index[$path] = $meta;
         $this->saveIndex();
     }
@@ -80,7 +81,9 @@ class MetadataManager
         if (isset($this->index[$path])) {
             return $this->index[$path];
         } else {
-            return (new Metadata())->setPath($path);
+            $meta = new Metadata();
+            $meta->path = $path;
+            return $meta;
         }
     }
 
