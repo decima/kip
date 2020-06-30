@@ -4,6 +4,7 @@
 namespace App\Services\FileLoader;
 
 
+use App\Services\InternalSettings;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -24,7 +25,7 @@ class FileLoader
         $file = new File();
         $fileInfo = $this->getFile($path);
         if ($fileInfo->isDir()) {
-            return $this->loadFileByPath($fileInfo->getRelativePathname() . "/readme.md");
+            return $this->loadFileByPath($fileInfo->getRelativePathname() . "/" . InternalSettings::DEFAULT_INDEX_FILE . ".md");
         }
         if (!$fileInfo->isFile()) {
             $file = new EmptyFile();
@@ -40,7 +41,7 @@ class FileLoader
         return $file;
     }
 
-    private function getFile($path): SplFileInfo
+    public function getFile($path): SplFileInfo
     {
         $path = trim($path, "/");
         $dirname = dirname($path) == "." ? "" : dirname($path);

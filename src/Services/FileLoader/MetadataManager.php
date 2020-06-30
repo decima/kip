@@ -1,33 +1,30 @@
 <?php
 
 
-namespace App\Services\FileManipulation;
+namespace App\Services\FileLoader;
 
 
-use App\Services\FileLoader\Metadata;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class MetadataManager
 {
-    const FILE_INDEX_NAME = ".index";
+    const FILE_INDEX_NAME = "/.index";
 
-    private $storage;
     private $index = [];
     private SerializerInterface $serializer;
+    private FileLoader $fileLoader;
 
-    public function __construct(ParameterBagInterface $parameterBag, SerializerInterface $serializer)
+    public function __construct(SerializerInterface $serializer, FileLoader $fileLoader)
     {
-        $this->storage = $parameterBag->get("storage");
+        $this->fileLoader = $fileLoader;
         $this->serializer = $serializer;
         $this->loadIndex();
 
     }
 
-
-    private function getFilePath()
+    public function getFilePath()
     {
-        return $this->storage . self::FILE_INDEX_NAME;
+        return $this->fileLoader->getFile(self::FILE_INDEX_NAME)->getPathname();
     }
 
     private function loadIndex()
@@ -60,6 +57,8 @@ class MetadataManager
 
             }
             fclose($handle);
+        } else {
+            throw new \Exception("POOPY");
         }
     }
 

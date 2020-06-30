@@ -4,10 +4,11 @@ namespace App\Controller;
 
 use App\Annotations\RouteExposed;
 use App\Services\FileLoader\EmptyFile;
+use App\Services\FileLoader\File;
 use App\Services\FileLoader\FileLoader;
 use App\Services\FileLoader\MarkdownFile;
-use App\Services\FileManipulation\FileWriter;
-use App\Services\FileManipulation\MetadataManager;
+use App\Services\FileLoader\MetadataManager;
+use App\Services\InternalSettings;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,10 +29,10 @@ class KnowledgeController extends AbstractController
     public function index(\App\Services\FileLoader\File $file, Request $request)
     {
         if ($file->fileInfo->isDir()) {
-            return $this->redirectToRoute("knowledge_read_homepage", ["webpath" => $file->fileInfo->getRelativePathname() . "/readme.md"]);
+            return $this->redirectToRoute("knowledge_read_homepage", ["webpath" => $file->fileInfo->getRelativePathname() . "/" . InternalSettings::DEFAULT_INDEX_FILE . ".md"]);
         }
-        if (!($file instanceof MarkdownFile)) {
-                return new BinaryFileResponse($file->fileInfo->getPathname());
+        if (!($file instanceof MarkdownFile) && !($file instanceof EmptyFile)) {
+            return new BinaryFileResponse($file->fileInfo->getPathname());
         }
         if ($request->getPreferredFormat() === "html") {
             // this behavior is for vue
@@ -48,10 +49,9 @@ class KnowledgeController extends AbstractController
     /**
      * @Route("/{webpath}/_edit",requirements={"webpath"="[^_].*"}, methods={"GET"},name="_edit")
      * @Route("/_edit", methods={"GET"},name="_edit_home")
-     * @throws FileNotExistsException
      * @RouteExposed()
      */
-    public function edit(\App\Services\FileLoader\File $file)
+    public function edit(File $file)
     {
         if (!($file instanceof MarkdownFile)) {
             return $this->json($file, 200, [], [AbstractNormalizer::IGNORED_ATTRIBUTES => ['strippedContent', 'fileInfo']]);
@@ -65,7 +65,7 @@ class KnowledgeController extends AbstractController
      * @Route("/_slides", methods={"GET"},name="_slides_home")
      * @RouteExposed()
      */
-    public function slides(\App\Services\FileLoader\File $file)
+    public function slides(File $file)
     {
         if ($file instanceof MarkdownFile) {
             return $this->render("knowledge/slides.html.twig", ["file" => $file]);
@@ -78,7 +78,7 @@ class KnowledgeController extends AbstractController
      * @Route("/_edit", methods={"PUT"},name="_update_home")
      * @RouteExposed()
      */
-    public function update(\App\Services\FileLoader\File $file, Request $request, FileLoader $fileLoader, MetadataManager $metadataManager)
+    public function update(File $file, Request $request, FileLoader $fileLoader, MetadataManager $metadataManager)
     {
         if (!$file instanceof MarkdownFile && !$file instanceof EmptyFile) {
             return $this->json("unprocessable", Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -88,8 +88,9 @@ class KnowledgeController extends AbstractController
         $content = $request->getContent();
         file_put_contents($file->fileInfo->getPathname(), $content);
 
-        $savedFile = $fileLoader->loadFileByPath($file->fileInfo->getPathname());
+        $savedFile = $fileLoader->loadFileByPath($file->fileInfo->getRelativePathname());
         if ($savedFile instanceof MarkdownFile) {
+
             $metadataManager->setMetadataForDocument($file->fileInfo->getRelativePathname(), $savedFile->metadata);
         }
         return new Response(null, Response::HTTP_NO_CONTENT);
@@ -100,9 +101,11 @@ class KnowledgeController extends AbstractController
      * @Route("/_delete", methods={"GET"},name="_delete_home")
      * @RouteExposed()
      */
-    public function delete(FileResolver $fileResolver, FileWriter $fileWriter, MetadataManager $metadataManager, Request $request, $webpath = "/")
+    public function delete(MetadataManager $metadataManager, Request $request, File $file)
     {
-
-        return new Response(null, Response::HTTP_NOT_IMPLEMENTED);
+        if (!$file instanceof EmptyFile) {
+            @unlink($file->fileInfo->getPathname());
+        }
+        return new Response(null, Response::HTTP_NO_CONTENT);
     }
 }

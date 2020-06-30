@@ -6,8 +6,8 @@ namespace App\Services\TreeLoader;
 
 use App\Services\FileLoader\FileLoader;
 use App\Services\FileLoader\MarkdownFile;
-use App\Services\FileManipulation\IndexedFile;
-use App\Services\FileManipulation\MetadataManager;
+use App\Services\FileLoader\MetadataManager;
+use App\Services\InternalSettings;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -61,18 +61,13 @@ class TreeLoader
                 $indexedFile->content = $md->getStrippedContent();
                 $indexedFile->webpath = $file->getRelativePathname();
                 $this->indexedFiles[] = $indexedFile;
-            } elseif ($file->isDir()) {
-                $refs[$filePath]->path = $filePath . "/readme.md";
-
             }
             if ($file->getRelativePath() === "") {
-                $refs[$filePath]->webpath = "/readme.md";
-
                 $initial->subLinks[] = $refs[$filePath];
                 continue;
             }
 
-            if ($refs[$filePath]->name === "readme") {
+            if ($refs[$filePath]->name === InternalSettings::DEFAULT_INDEX_FILE) {
                 $refs[$file->getRelativePath()]->hasReadme = true;
             } else {
                 $refs[$file->getRelativePath()]->subLinks[] = $refs[$filePath];
