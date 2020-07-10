@@ -39,6 +39,7 @@ class MarkdownParser
 
     public function parse(MarkdownFile &$file)
     {
+
         $fileContent = YamlFrontMatter::parse($file->markdownContent);
 
         $environment = Environment::createCommonMarkEnvironment()
@@ -47,14 +48,19 @@ class MarkdownParser
             ->addExtension(new ExternalLinkExtension())
             ->addExtension(new TaskListExtension())
             ->addExtension(new TableExtension())
-            ->addInlineRenderer(Image::class, new ImageLinkWrapper())
-            ->addInlineRenderer(Link::class, new LinkWrapper() ,-100)
+            ->addInlineRenderer(Image::class, new ImageLinkWrapper(
+                $this->requestStack->getCurrentRequest()->get("webpath"),
+                $file->fileInfo->getRelativePath()
+            ))
+            ->addInlineRenderer(Link::class, new LinkWrapper(), -100)
             ->addInlineParser(new ImageSizeParser(), 100)
             ->addBlockRenderer(Heading::class, $headingWrapper = new HeadingWrapper())
-        ->addEventListener(DocumentParsedEvent::class, new CustomExternalLinkProcessor(
-            $this->requestStack->getCurrentRequest()->getBaseUrl(),
+            ->addEventListener(DocumentParsedEvent::class, new CustomExternalLinkProcessor(
+                $this->requestStack->getCurrentRequest()->getBaseUrl()
         ));
         $converter = new CommonMarkConverter([], $environment);
+
+
         $file->content = $converter->convertToHtml($fileContent->body());
         $file->tree = $headingWrapper->extractTOC();
         $file->metadata = $this->serializer->deserialize(json_encode($fileContent->matter()), Metadata::class, "json");

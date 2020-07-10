@@ -26,7 +26,6 @@ class HeadingWrapper implements BlockRendererInterface
     }
 
 
-
     public function extractTOC()
     {
 
@@ -79,9 +78,10 @@ class HeadingWrapper implements BlockRendererInterface
 
     private function slugify($string, $delimiter = '-')
     {
+
         $oldLocale = setlocale(LC_ALL, '0');
         setlocale(LC_ALL, 'en_US.UTF-8');
-        $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
+        $clean = iconv('UTF-8', 'ASCII//IGNORE', $string);
         $clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
         $clean = strtolower($clean);
         $clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);

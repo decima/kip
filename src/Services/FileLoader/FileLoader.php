@@ -31,6 +31,7 @@ class FileLoader
             $file = new EmptyFile();
         } elseif (strtolower($fileInfo->getExtension()) === "md") {
             $file = new MarkdownFile();
+            $file->fileInfo = $fileInfo;
             $file->markdownContent = $fileInfo->getContents();
             $file = $this->markdown->parse($file);
 

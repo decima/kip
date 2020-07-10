@@ -108,4 +108,25 @@ class KnowledgeController extends AbstractController
         }
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
+
+
+    /**
+     * @Route("/{webpath}/_upload",requirements={"webpath"="[^_].*"}, methods={"POST"},name="_upload")
+     * @Route("/_upload", methods={"POST"},name="_upload_home")
+     * @RouteExposed()
+     */
+    public function upload(MetadataManager $metadataManager, Request $request, File $file)
+    {
+        //@TODO clean this
+        $parentFullPath = substr($file->path, 0, strrpos($file->path, '/') + 1);
+        $parentWebpath = substr($file->webpath, 0, strrpos($file->webpath, '/') + 1);
+        $name = time() . "-" . $request->query->get("name");
+        $name = preg_replace("/[^a-zA-Z0-9-_.]/", "", $name);
+        $fileFullPath = $parentFullPath . $name;
+        file_put_contents($fileFullPath, $request->getContent());
+        return $this->json([
+            "name" => $request->query->get("name"),
+            "path" => "/" . $parentWebpath . $name,
+        ]);
+    }
 }

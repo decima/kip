@@ -20,7 +20,6 @@ class FileParamConverter implements ParamConverterInterface
         $path = $request->attributes->get("webpath", $request->attributes->get("path", ""));
         $file = $this->fileLoader->loadFileByPath($path);
         $request->attributes->set($configuration->getName(), $file);
-
     }
 
     public function supports(ParamConverter $configuration)

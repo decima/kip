@@ -5,7 +5,6 @@ namespace App\Controller;
 
 
 use App\Annotations\RouteExposed;
-use App\Services\FileManipulation\Page;
 use App\Services\TreeLoader\TreeLoader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;

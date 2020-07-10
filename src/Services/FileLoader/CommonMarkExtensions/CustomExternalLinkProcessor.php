@@ -62,7 +62,7 @@ class CustomExternalLinkProcessor
 
     /**
      * @param string $host
-     * @param mixed  $compareTo
+     * @param mixed $compareTo
      *
      * @return bool
      *

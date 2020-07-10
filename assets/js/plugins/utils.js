@@ -20,5 +20,9 @@ export default {
         Vue.prototype.$getArticleWebpath = function(){
             return this.$store.getters.getCurrentArticle?.file?.webpath;
         }
+
+        Vue.prototype.$getParentFolder = function(){
+            return this.$getArticleWebpath().substring(0, this.$getArticleWebpath().lastIndexOf("/"));
+        }
     }
 }

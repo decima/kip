@@ -29,10 +29,32 @@
                 return {
                     hideModeSwitch: true,
                     useCommandShortcut: false,
+                    hooks: {
+                        addImageBlobHook: (blob, callback) => {
+                            const reader = new FileReader();
+                            reader.addEventListener("load", () => {
+                                this.upload(this.$getParentFolder(), blob.name, reader.result, callback);
+                            }, false);
+                            if (blob) {
+                                reader.readAsArrayBuffer(blob);
+                            }
+                            return false;
+                        }
+                    }
                 }
             }
         },
         methods: {
+            async upload(parentFolder, filename, binaryContent, callback) {
+                const res = (await this.$store.dispatch("uploadMedia", {
+                    filepath : `${parentFolder}/${ filename }`,
+                    parentFolder,
+                    filename,
+                    binaryContent,
+                })).data;
+
+                callback(res.path, res.name);
+            },
             onEditorChange() {
                 const content = this.$refs.toastuiEditor.invoke('getMarkdown');
                 this.$store.commit("setCurrentArticleMarkdownContent", content)
