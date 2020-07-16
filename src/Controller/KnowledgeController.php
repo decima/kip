@@ -10,6 +10,7 @@ use App\Services\FileLoader\MarkdownFile;
 use App\Services\FileLoader\MetadataManager;
 use App\Services\InternalSettings;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -115,18 +116,17 @@ class KnowledgeController extends AbstractController
      * @Route("/_upload", methods={"POST"},name="_upload_home")
      * @RouteExposed()
      */
-    public function upload(MetadataManager $metadataManager, Request $request, File $file)
+    public function upload(MetadataManager $metadataManager, Request $request, File $file, ParameterBagInterface $parameterBag)
     {
-        //@TODO clean this
-        $parentFullPath = substr($file->path, 0, strrpos($file->path, '/') + 1);
-        $parentWebpath = substr($file->webpath, 0, strrpos($file->webpath, '/') + 1);
+        $relativePathName = "/" . $file->fileInfo->getRelativePath() . "/";
+        $parentFullPath = $parameterBag->get("env(FILE_STORAGE)") . $relativePathName;
         $name = time() . "-" . $request->query->get("name");
         $name = preg_replace("/[^a-zA-Z0-9-_.]/", "", $name);
         $fileFullPath = $parentFullPath . $name;
         file_put_contents($fileFullPath, $request->getContent());
         return $this->json([
             "name" => $request->query->get("name"),
-            "path" => "/" . $parentWebpath . $name,
+            "path" => $relativePathName . $name,
         ]);
     }
 }
