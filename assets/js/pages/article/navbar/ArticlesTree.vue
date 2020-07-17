@@ -127,6 +127,7 @@
 
     .ant-tree-node-content-wrapper {
         position:relative;
+        transition: none !important;
     }
 
 </style>
