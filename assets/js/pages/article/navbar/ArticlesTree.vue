@@ -44,7 +44,10 @@
                 return articlesTree.subLinks.filter(files => files.name.toLowerCase() !== "readme");
             },
             selectedKeys(){
-                return [this.$getArticleWebpath()?.substring(1) || this.$route.path.substring(1)]
+                return [this.$getArticleWebpath() || this.$route.path.substring(1)]
+            },
+            ah(){
+                return this.$getArticleWebpath()
             }
         },
         watch : {

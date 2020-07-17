@@ -75,7 +75,7 @@
             async loadCurrentArticleFromPath(){
                 this.notFound = false;
                 const currentArticle = await this.$store.dispatch("loadCurrentArticleFromPath", this.$readLink());
-                if(!currentArticle){
+                if(!currentArticle.exists){
                     this.notFound = true
                 }
             },
