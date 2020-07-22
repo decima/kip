@@ -48,7 +48,6 @@ const actions = {
         return await axios.put(Router.url("knowledge_update", {webpath: payload.webpath}), payload.content);
     },
     async uploadMedia({commit}, payload){
-        console.log(payload);
         return await axios.post(Router.url("knowledge_upload", {webpath: payload.filepath}), payload.binaryContent, {
             params : {
                 media : payload.media ? 1 : '',
