@@ -131,7 +131,7 @@ class KnowledgeController extends AbstractController
     {
 
         if (!$permissions->isGranted(Permissions::TYPE_DELETE)) {
-            return $this->json("cannot edit", 403);
+            return $this->json("cannot delete", 403);
         }
         if (!$file instanceof EmptyFile) {
             @unlink($file->fileInfo->getPathname());
