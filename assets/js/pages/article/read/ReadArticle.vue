@@ -52,7 +52,8 @@
         mixins: [changePageTitleMixin],
         data() {
             return {
-                notFound: false
+                notFound: false,
+                SETTINGS: null,
             }
         },
         computed: {
@@ -80,10 +81,8 @@
                 }
             },
             goToEditArticle(e) {
-                if (this.$store.getters.canEdit) {
-                    if (e.target.tagName !== "INPUT") {
-                        this.$router.push({path: this.$editLink()});
-                    }
+                if (this.SETTINGS.canEdit && e.target.tagName !== "INPUT") {
+                    this.$router.push({path: this.$editLink()});
                 }
             },
             goToPresentationMode(e) {
@@ -105,6 +104,7 @@
         async created() {
             await this.loadCurrentArticleFromPath();
             this.changePageTitle();
+            this.SETTINGS = SETTINGS;
         }
     }
 </script>

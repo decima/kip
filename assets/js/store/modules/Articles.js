@@ -3,19 +3,11 @@ import axios from "axios";
 const state = {
     articlesTree: null,
     currentArticle: null,
-    canEdit: false,
-    canDelete: false,
 };
 
 const mutations = {
     setArticlesTree(state, value) {
         state.articlesTree = value;
-    },
-    setCanEdit(state, value) {
-        state.canEdit = value;
-    },
-    setCanDelete(state, value) {
-        state.canDelete = value;
     },
     setCurrentArticle(state, value) {
         state.currentArticle = value;
@@ -45,18 +37,6 @@ const actions = {
             }
         }
     },
-    async loadSettings({commit}) {
-        const item = (await axios.get(Router.url("knowledge_settings"))).data;
-        console.log(item)
-        commit("setCanEdit", item.canEdit);
-        commit("setCanDelete", item.canDelete);
-        return item;
-    },
-
-    async canDelete() {
-        const item = (await axios.get(Router.url("knowledge_settings"))).data;
-        return item.canDelete;
-    },
     async deleteArticle({commit}, webpath) {
         return await axios.get(Router.url("knowledge_delete", {webpath}));
     },
@@ -81,9 +61,7 @@ const actions = {
 
 const getters = {
     getArticlesTree: state => state.articlesTree,
-    getCurrentArticle: state => state.currentArticle,
-    getCanEdit: state => state.canEdit,
-    getCanDelete: state => state.canDelete
+    getCurrentArticle: state => state.currentArticle
 };
 
 export default {

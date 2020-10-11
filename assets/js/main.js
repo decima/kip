@@ -19,9 +19,12 @@ App.router = routerManager;
 App.i18n = i18n;
 
 new Vue({
-  el: '#app',
-  template: '<App/>',
-  components: { App }
+    el: '#app',
+    template: '<App/>',
+    components: {App},
+    data: {
+        SETTINGS: SETTINGS
+    }
 });
 
 

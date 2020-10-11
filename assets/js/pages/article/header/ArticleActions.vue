@@ -12,7 +12,7 @@
                 </a-tooltip>
             </a-button>
 
-            <a-button v-if="$store.getters.getCanEdit"
+            <a-button v-if="this.SETTINGS.canEdit"
                       :type="$route.name === $routes.EDIT_ARTICLE ? 'primary' : 'default'">
                 <a-tooltip>
                     <template slot="title">{{ $t("edit.editTooltip")}}</template>
@@ -32,7 +32,7 @@
             </a-button>
         </a-button-group>
 
-        <delete-article-action v-if="$store.getters.getCanDelete"/>
+        <delete-article-action v-if="SETTINGS.canDelete"/>
     </div>
 </template>
 
@@ -43,13 +43,18 @@
     export default {
         name: "ArticleActions",
         components: {DeleteArticleAction, SaveArticleAction},
+        data() {
+            return {
+                SETTINGS: null
+            }
+        },
         computed: {
             slidesLink() {
                 return Router.url('knowledge_slides', {webpath: this.$getArticleWebpath()})
             }
         },
-        async created() {
-            await this.$store.dispatch("loadSettings");
+        created() {
+            this.SETTINGS = SETTINGS
         }
     }
 </script>

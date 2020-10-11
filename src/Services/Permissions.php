@@ -32,4 +32,14 @@ class Permissions
         return true;
 
     }
+
+    public function canDelete()
+    {
+        return $this->isGranted(self::TYPE_DELETE);
+    }
+
+public function canEdit()
+    {
+        return $this->isGranted(self::TYPE_EDIT);
+    }
 }
