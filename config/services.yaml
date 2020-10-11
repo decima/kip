@@ -14,6 +14,8 @@ parameters:
   env(S3_KEY): "minioadmin"
   env(S3_SECRET): "minioadmin"
   env(S3_ENDPOINT): "http://localhost:9000"
+  env(GLOBAL_PERMISSION): "rw"
+  global_permission: "%env(GLOBAL_PERMISSION)%"
   s3:
     version: "%env(S3_VERSION)%"
     region: "%env(S3_REGION)%"
@@ -41,7 +43,9 @@ services:
     resource: '../src/Controller'
     tags: ['controller.service_arguments']
 
-
+  App\Services\Permissions:
+    arguments:
+      $globalPermission: "%global_permission%"
   custom_extractor:
     class: Symfony\Component\PropertyInfo\PropertyInfoExtractor
     arguments:
