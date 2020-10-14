@@ -23,20 +23,6 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
  */
 class KnowledgeController extends AbstractController
 {
-    /**
-     * @param Permissions $permissions
-     * @RouteExposed()
-     * @Route("/_settings", name="_settings")
-     */
-    public function settings(Permissions $permissions)
-    {
-        return $this->json(
-            [
-                "canEdit"   => $permissions->isGranted(Permissions::TYPE_EDIT),
-                "canDelete" => $permissions->isGranted(Permissions::TYPE_DELETE),
-            ]
-        );
-    }
 
     /**
      * @Route("/",defaults={"webpath"="/"}, methods={"GET"},name="_read_homepage")
