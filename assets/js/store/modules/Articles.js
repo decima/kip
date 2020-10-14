@@ -12,9 +12,10 @@ const mutations = {
     setCurrentArticle(state, value) {
         state.currentArticle = value;
     },
-    setCurrentArticleMarkdownContent(state, value){
+    setCurrentArticleMarkdownContent(state, value) {
         state.currentArticle.file.markdownContent = value;
     }
+
 };
 
 const actions = {
@@ -28,9 +29,9 @@ const actions = {
             const currentArticle = (await axios.get(Router.url("knowledge_read", {webpath}))).data;
             commit("setCurrentArticle", currentArticle);
             return currentArticle;
-        } catch(e){
+        } catch (e) {
             //handle when the file doesn't exist
-            if(e.response.status === 404){
+            if (e.response.status === 404) {
                 commit("setCurrentArticle", null);
                 return null;
             }
@@ -44,14 +45,14 @@ const actions = {
         commit("setCurrentArticle", articleToEdit);
         return articleToEdit;
     },
-    async saveArticle({commit}, payload){
+    async saveArticle({commit}, payload) {
         return await axios.put(Router.url("knowledge_update", {webpath: payload.webpath}), payload.content);
     },
-    async uploadMedia({commit}, payload){
+    async uploadMedia({commit}, payload) {
         return await axios.post(Router.url("knowledge_upload", {webpath: payload.filepath}), payload.binaryContent, {
-            params : {
-                media : payload.media ? 1 : '',
-                name : payload.filename,
+            params: {
+                media: payload.media ? 1 : '',
+                name: payload.filename,
                 parentFolder: payload.parentFolder
             }
         });
@@ -60,7 +61,7 @@ const actions = {
 
 const getters = {
     getArticlesTree: state => state.articlesTree,
-    getCurrentArticle: state => state.currentArticle,
+    getCurrentArticle: state => state.currentArticle
 };
 
 export default {
