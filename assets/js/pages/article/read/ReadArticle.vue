@@ -52,8 +52,7 @@
         mixins: [changePageTitleMixin],
         data() {
             return {
-                notFound: false,
-                SETTINGS: null,
+                notFound: false
             }
         },
         computed: {
@@ -81,7 +80,7 @@
                 }
             },
             goToEditArticle(e) {
-                if (this.SETTINGS.canEdit && e.target.tagName !== "INPUT") {
+                if (this.$settings.canEdit && e.target.tagName !== "INPUT") {
                     this.$router.push({path: this.$editLink()});
                 }
             },
@@ -104,7 +103,6 @@
         async created() {
             await this.loadCurrentArticleFromPath();
             this.changePageTitle();
-            this.SETTINGS = SETTINGS;
         }
     }
 </script>

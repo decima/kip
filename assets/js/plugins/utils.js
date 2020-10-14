@@ -24,5 +24,7 @@ export default {
         Vue.prototype.$getParentFolder = function(){
             return this.$getArticleWebpath().substring(0, this.$getArticleWebpath().lastIndexOf("/"));
         }
+
+        Vue.prototype.$settings = SETTINGS;
     }
 }
