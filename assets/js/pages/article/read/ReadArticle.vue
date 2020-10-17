@@ -7,9 +7,9 @@
             <a-row type="flex">
                 <a-col class="article-content-col"
                        :style="{ width : $store.getters.getTocCollapsed ? '100%' : 'calc(100% - 250px)' }">
-                    <article-title v-if="$store.getters.getCurrentArticle.file.metadata.title">
-                        {{ $store.getters.getCurrentArticle.file.metadata.title }}
-                    </article-title>
+                    <div v-if="$store.getters.getCurrentArticle.file.metadata.title" class="hero">
+                        <h1>{{ $store.getters.getCurrentArticle.file.metadata.title }}</h1>
+                    </div>
                     <article-content/>
                 </a-col>
                 <a-layout-sider v-model="tocCollapsed"
@@ -47,11 +47,10 @@
     import ArticleContent from "pages/article/read/ArticleContent";
 
     import changePageTitleMixin from "mixins/changePageTitleMixin";
-    import ArticleTitle from "../header/ArticleTitle";
 
     export default {
         name: "ReadArticle",
-        components: {ArticleTitle, ArticleContent, ArticleNotFound, TableOfContent},
+        components: {ArticleContent, ArticleNotFound, TableOfContent},
         mixins: [changePageTitleMixin],
         data() {
             return {
