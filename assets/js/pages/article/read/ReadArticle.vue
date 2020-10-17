@@ -125,8 +125,5 @@
         background: none;
     }
 
-    .article-title {
-        color: red;
-    }
 
 </style>
