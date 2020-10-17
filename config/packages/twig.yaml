@@ -2,3 +2,4 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
         build_version: "%build_version%"
+        permissions: '@App\Services\Permissions'

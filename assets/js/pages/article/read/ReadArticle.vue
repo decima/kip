@@ -86,7 +86,7 @@
                 }
             },
             goToEditArticle(e) {
-                if (e.target.tagName !== "INPUT") {
+                if (this.$settings.canEdit && e.target.tagName !== "INPUT") {
                     this.$router.push({path: this.$editLink()});
                 }
             },

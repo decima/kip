@@ -12,9 +12,15 @@
 </head>
 <body>
 
-    <div id="app"></div>
+<div id="app"></div>
 
-    {% block javascripts %}{% endblock %}
-    {{ encore_entry_script_tags('app') }}
+{% block javascripts %}{% endblock %}
+<script type="application/javascript">
+    const SETTINGS = {
+        canEdit:{{ permissions.canEdit|json_encode }},
+        canDelete:{{ permissions.canDelete|json_encode }}
+    };
+</script>
+{{ encore_entry_script_tags('app') }}
 </body>
 </html>

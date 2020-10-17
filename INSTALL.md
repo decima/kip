@@ -47,3 +47,13 @@ S3_ENDPOINT=https://s3.eu-west-1.amazonaws.com/
 You can find more details about your region on [AWS documentation](https://docs.aws.amazon.com/general/latest/gr/rande.html).
 
 For other providers you can check [Scaleway Object Storage](https://www.scaleway.com/en/docs/object-storage-feature/) or [digitalOcean Spaces](https://www.digitalocean.com/docs/spaces/resources/s3-sdk-examples/)
+
+### ReadOnly/ReadWrite Mode
+
+You can enable/disable readonly mode by setting the following property/
+```dotenv
+GLOBAL_PERMISSION=ro
+GLOBAL_PERMISSION=rw
+```
+
+In Read-only (ro) mode, you cannot edit/delete any document.
