@@ -36,6 +36,7 @@ class FileLoader
             $file = $this->markdown->parse($file);
 
         }
+        $file->name = $fileInfo->getFilenameWithoutExtension();
         $file->webpath = $fileInfo->getRelativePathname();
         $file->path = $fileInfo->getPathname();
         $file->fileInfo = $fileInfo;
