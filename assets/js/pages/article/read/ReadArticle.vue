@@ -1,6 +1,5 @@
 <template>
     <div>
-        <article-title>{{ currentArticleMetadata.title }}</article-title>
         <div class="read-article"
              v-if="$store.getters.getCurrentArticle"
              :key="$store.getters.getCurrentArticle.file.path"
@@ -8,6 +7,7 @@
             <a-row type="flex">
                 <a-col class="article-content-col"
                        :style="{ width : $store.getters.getTocCollapsed ? '100%' : 'calc(100% - 250px)' }">
+                    <article-title v-if="currentArticleMetadata.title">{{ currentArticleMetadata.title }}</article-title>
                     <article-content/>
                 </a-col>
                 <a-layout-sider v-model="tocCollapsed"
