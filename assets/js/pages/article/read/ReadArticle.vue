@@ -1,10 +1,10 @@
 <template>
     <div>
+        <article-title>{{ currentArticleMetadata.title }}</article-title>
         <div class="read-article"
              v-if="$store.getters.getCurrentArticle"
              :key="$store.getters.getCurrentArticle.file.path"
              v-hotkey="keymap">
-
             <a-row type="flex">
                 <a-col class="article-content-col"
                        :style="{ width : $store.getters.getTocCollapsed ? '100%' : 'calc(100% - 250px)' }">
@@ -45,10 +45,11 @@
     import ArticleContent from "pages/article/read/ArticleContent";
 
     import changePageTitleMixin from "mixins/changePageTitleMixin";
+    import ArticleTitle from "../header/ArticleTitle";
 
     export default {
         name: "ReadArticle",
-        components: {ArticleContent, ArticleNotFound, TableOfContent},
+        components: {ArticleTitle, ArticleContent, ArticleNotFound, TableOfContent},
         mixins: [changePageTitleMixin],
         data() {
             return {
@@ -56,6 +57,11 @@
             }
         },
         computed: {
+            currentArticleMetadata() {
+                return {
+                    title: this.$store.getters.getCurrentArticle?.file?.metadata?.title
+                };
+            },
             keymap() {
                 return {
                     'e': e => this.goToEditArticle(e),
@@ -71,11 +77,11 @@
                 }
             },
         },
-        methods: {
-            async loadCurrentArticleFromPath() {
+        methods : {
+            async loadCurrentArticleFromPath(){
                 this.notFound = false;
                 const currentArticle = await this.$store.dispatch("loadCurrentArticleFromPath", this.$readLink());
-                if (!currentArticle.exists) {
+                if(!currentArticle.exists){
                     this.notFound = true
                 }
             },
@@ -84,23 +90,23 @@
                     this.$router.push({path: this.$editLink()});
                 }
             },
-            goToPresentationMode(e) {
-                if (e.target.tagName !== "INPUT") {
+            goToPresentationMode(e){
+                if(e.target.tagName !== "INPUT"){
                     window.location = Router.url('knowledge_slides', {webpath: this.$getArticleWebpath()})
                 }
             },
-            onBreakpointChanged(collapsed) {
+            onBreakpointChanged(collapsed){
                 this.$store.commit("setTocCollapsed", collapsed);
 
-                if (!collapsed && this.$store.getters.getTocCollapsed) {
+                if(!collapsed && this.$store.getters.getTocCollapsed){
                     this.$store.commit("setTocCollapsed", false)
                 }
             },
-            onTocDrawerClose() {
+            onTocDrawerClose(){
                 this.$store.commit("setTocDrawerOpened", false)
             }
         },
-        async created() {
+        async created(){
             await this.loadCurrentArticleFromPath();
             this.changePageTitle();
         }
@@ -112,7 +118,7 @@
     .toc {
         display: flex;
         justify-content: flex-end;
-        flex: 0 0 auto;
+        flex : 0 0 auto;
     }
 
     .toc-sider {
