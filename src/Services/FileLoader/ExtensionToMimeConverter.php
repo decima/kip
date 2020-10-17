@@ -4,17 +4,15 @@
 namespace App\Services\FileLoader;
 
 
-class ExtensionConverter
+class ExtensionToMimeConverter
 {
     private $availableExtensions = [
         "css"      => "text/css",
-        "txt"      => "text/plain",
         "_default" => "application/octet-stream",
     ];
 
-    function Apply($extension = "txt")
+    public function __invoke($extension = "txt")
     {
         return $this->availableExtensions[$extension] ?? $this->availableExtensions["_default"];
-
     }
 }

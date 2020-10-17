@@ -24,6 +24,9 @@ parameters:
       secret: "%env(S3_SECRET)%"
     endpoint: "%env(S3_ENDPOINT)%"
     use_path_style_endpoint: true
+  env(CUSTOM_META): |
+    <meta name="description" content="Knowledge is power">
+  custom_metadata: "%env(CUSTOM_META)%"
 
 services:
   # default configuration for services in *this* file

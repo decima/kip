@@ -48,6 +48,20 @@ You can find more details about your region on [AWS documentation](https://docs.
 
 For other providers you can check [Scaleway Object Storage](https://www.scaleway.com/en/docs/object-storage-feature/) or [digitalOcean Spaces](https://www.digitalocean.com/docs/spaces/resources/s3-sdk-examples/)
 
+
+### Custom metadata
+
+If you want to customize headers metadata (for google analytics or others), you can specify metadata as following
+```dotenv
+
+CUSTOM_META="
+    <meta name='description' content='My Knowledge website'>
+    <link rel='stylesheet' href='/custom.css'/>
+"
+
+```
+tooltip: This allows you to load custom css/js if needed
+
 ### ReadOnly/ReadWrite Mode
 
 You can enable/disable readonly mode by setting the following property/

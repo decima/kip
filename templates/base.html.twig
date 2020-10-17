@@ -9,10 +9,11 @@
     <script src="https://kit.fontawesome.com/63a539fbd1.js" crossorigin="anonymous"></script>
     {{ encore_entry_link_tags('app') }}
     {% block stylesheets %}{% endblock %}
+    {{ metadata|raw }}
 </head>
 <body>
 
-<div id="app"></div>
+    <div id="app"></div>
 
 {% block javascripts %}{% endblock %}
 <script type="application/javascript">
