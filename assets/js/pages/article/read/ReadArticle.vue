@@ -1,14 +1,14 @@
 <template>
     <div>
+        <article-title>{{ currentArticleMetadata.title }}</article-title>
         <div class="read-article"
              v-if="$store.getters.getCurrentArticle"
              :key="$store.getters.getCurrentArticle.file.path"
              v-hotkey="keymap">
-
             <a-row type="flex">
                 <a-col class="article-content-col"
                        :style="{ width : $store.getters.getTocCollapsed ? '100%' : 'calc(100% - 250px)' }">
-                    <article-content />
+                    <article-content/>
                 </a-col>
                 <a-layout-sider v-model="tocCollapsed"
                                 :collapsedWidth="0"
@@ -20,7 +20,7 @@
                     <a-col class="toc-col"
                            v-if="!$store.getters.getTocCollapsed"
                            :style="{ width : '250px', marginLeft : 'auto' }">
-                        <table-of-content class="toc" />
+                        <table-of-content class="toc"/>
                     </a-col>
                 </a-layout-sider>
             </a-row>
@@ -31,11 +31,11 @@
                       :visible="$store.getters.getTocDrawerOpened"
                       @close="onTocDrawerClose"
                       :width="300">
-                <table-of-content class="toc" />
+                <table-of-content class="toc"/>
             </a-drawer>
         </div>
 
-        <article-not-found v-if="notFound" />
+        <article-not-found v-if="notFound"/>
     </div>
 </template>
 
@@ -45,21 +45,27 @@
     import ArticleContent from "pages/article/read/ArticleContent";
 
     import changePageTitleMixin from "mixins/changePageTitleMixin";
+    import ArticleTitle from "../header/ArticleTitle";
 
     export default {
-        name : "ReadArticle",
-        components: {ArticleContent, ArticleNotFound, TableOfContent},
-        mixins : [changePageTitleMixin],
-        data(){
+        name: "ReadArticle",
+        components: {ArticleTitle, ArticleContent, ArticleNotFound, TableOfContent},
+        mixins: [changePageTitleMixin],
+        data() {
             return {
-                notFound : false
+                notFound: false
             }
         },
-        computed : {
-            keymap(){
+        computed: {
+            currentArticleMetadata() {
                 return {
-                    'e' : e => this.goToEditArticle(e),
-                    'p' : e => this.goToPresentationMode(e),
+                    title: this.$store.getters.getCurrentArticle?.file?.metadata?.title
+                };
+            },
+            keymap() {
+                return {
+                    'e': e => this.goToEditArticle(e),
+                    'p': e => this.goToPresentationMode(e),
                 }
             },
             tocCollapsed: {
@@ -71,36 +77,36 @@
                 }
             },
         },
-        methods : {
-            async loadCurrentArticleFromPath(){
+        methods: {
+            async loadCurrentArticleFromPath() {
                 this.notFound = false;
                 const currentArticle = await this.$store.dispatch("loadCurrentArticleFromPath", this.$readLink());
-                if(!currentArticle.exists){
+                if (!currentArticle.exists) {
                     this.notFound = true
                 }
             },
-            goToEditArticle(e){
-                if(e.target.tagName !== "INPUT"){
-                    this.$router.push({ path: this.$editLink() });
+            goToEditArticle(e) {
+                if (e.target.tagName !== "INPUT") {
+                    this.$router.push({path: this.$editLink()});
                 }
             },
-            goToPresentationMode(e){
-                if(e.target.tagName !== "INPUT"){
+            goToPresentationMode(e) {
+                if (e.target.tagName !== "INPUT") {
                     window.location = Router.url('knowledge_slides', {webpath: this.$getArticleWebpath()})
                 }
             },
-            onBreakpointChanged(collapsed){
+            onBreakpointChanged(collapsed) {
                 this.$store.commit("setTocCollapsed", collapsed);
 
-                if(!collapsed && this.$store.getters.getTocCollapsed){
+                if (!collapsed && this.$store.getters.getTocCollapsed) {
                     this.$store.commit("setTocCollapsed", false)
                 }
             },
-            onTocDrawerClose(){
+            onTocDrawerClose() {
                 this.$store.commit("setTocDrawerOpened", false)
             }
         },
-        async created(){
+        async created() {
             await this.loadCurrentArticleFromPath();
             this.changePageTitle();
         }
@@ -112,11 +118,15 @@
     .toc {
         display: flex;
         justify-content: flex-end;
-        flex : 0 0 auto;
+        flex: 0 0 auto;
     }
 
     .toc-sider {
         background: none;
+    }
+
+    .article-title {
+        color: red;
     }
 
 </style>

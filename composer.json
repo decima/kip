@@ -20,7 +20,8 @@
         "symfony/serializer-pack": "^1.0",
         "symfony/twig-pack": "^1.0",
         "symfony/webpack-encore-bundle": "^1.7",
-        "symfony/yaml": "5.1.*"
+        "symfony/yaml": "5.1.*",
+        "zoon/commonmark-ext-youtube-iframe": "^1.1"
     },
     "require-dev": {
         "symfony/debug-pack": "1.*",
