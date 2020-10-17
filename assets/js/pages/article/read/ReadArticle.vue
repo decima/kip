@@ -7,7 +7,9 @@
             <a-row type="flex">
                 <a-col class="article-content-col"
                        :style="{ width : $store.getters.getTocCollapsed ? '100%' : 'calc(100% - 250px)' }">
-                    <article-title v-if="currentArticleMetadata.title">{{ currentArticleMetadata.title }}</article-title>
+                    <article-title v-if="$store.getters.getCurrentArticle.file.metadata.title">
+                        {{ $store.getters.getCurrentArticle.file.metadata.title }}
+                    </article-title>
                     <article-content/>
                 </a-col>
                 <a-layout-sider v-model="tocCollapsed"
@@ -57,11 +59,6 @@
             }
         },
         computed: {
-            currentArticleMetadata() {
-                return {
-                    title: this.$store.getters.getCurrentArticle?.file?.metadata?.title
-                };
-            },
             keymap() {
                 return {
                     'e': e => this.goToEditArticle(e),
