@@ -4,10 +4,12 @@
              v-if="$store.getters.getCurrentArticle"
              :key="$store.getters.getCurrentArticle.file.path"
              v-hotkey="keymap">
-
             <a-row type="flex">
                 <a-col class="article-content-col"
                        :style="{ width : $store.getters.getTocCollapsed ? '100%' : 'calc(100% - 250px)' }">
+                    <div v-if="$store.getters.getCurrentArticle.file.metadata.title" class="hero">
+                        <h1>{{ $store.getters.getCurrentArticle.file.metadata.title }}</h1>
+                    </div>
                     <article-content/>
                 </a-col>
                 <a-layout-sider v-model="tocCollapsed"
@@ -118,5 +120,6 @@
     .toc-sider {
         background: none;
     }
+
 
 </style>

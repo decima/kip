@@ -15,7 +15,6 @@ use League\CommonMark\Environment;
 use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
-use League\CommonMark\Extension\ExternalLink\ExternalLinkProcessor;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\Extension\TaskList\TaskListExtension;
@@ -24,6 +23,7 @@ use League\CommonMark\Inline\Element\Link;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 class MarkdownParser
 {
@@ -39,8 +39,15 @@ class MarkdownParser
 
     public function parse(MarkdownFile &$file)
     {
-
-        $fileContent = YamlFrontMatter::parse($file->markdownContent);
+        $body = $file->markdownContent;
+        $metadata = [];
+        try {
+            $fileContent = YamlFrontMatter::parse($file->markdownContent);
+            $body = $fileContent->body();
+            $metadata = $fileContent->matter();
+        } catch (ParseException $exception) {
+            //do nothing
+        }
 
         $environment = Environment::createCommonMarkEnvironment()
             ->addExtension(new GithubFlavoredMarkdownExtension())
@@ -57,13 +64,18 @@ class MarkdownParser
             ->addBlockRenderer(Heading::class, $headingWrapper = new HeadingWrapper())
             ->addEventListener(DocumentParsedEvent::class, new CustomExternalLinkProcessor(
                 $this->requestStack->getCurrentRequest()->getBaseUrl()
-        ));
-        $converter = new CommonMarkConverter([], $environment);
+            ));
+        $environment->addExtension(new \Zoon\CommonMark\Ext\YouTubeIframe\YouTubeIframeExtension());
+        $converter = new CommonMarkConverter([
+            'youtube_iframe_width'           => 600,
+            'youtube_iframe_height'          => 300,
+            'youtube_iframe_allowfullscreen' => true,
+        ], $environment);
 
 
-        $file->content = $converter->convertToHtml($fileContent->body());
+        $file->content = $converter->convertToHtml($body);
         $file->tree = $headingWrapper->extractTOC();
-        $file->metadata = $this->serializer->deserialize(json_encode($fileContent->matter()), Metadata::class, "json");
+        $file->metadata = $this->serializer->deserialize(json_encode($metadata), Metadata::class, "json");
         return $file;
     }
 }
