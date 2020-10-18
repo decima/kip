@@ -4,6 +4,7 @@
 namespace App\Services\FileLoader;
 
 
+
 class ExtensionConverter
 {
     private $availableExtensions = [
@@ -15,6 +16,5 @@ class ExtensionConverter
     function Apply($extension = "txt")
     {
         return $this->availableExtensions[$extension] ?? $this->availableExtensions["_default"];
-
     }
 }

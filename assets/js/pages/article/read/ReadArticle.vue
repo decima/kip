@@ -45,9 +45,7 @@
     import TableOfContent from "pages/article/read/TableOfContent";
     import ArticleNotFound from "pages/article/read/ArticleNotFound";
     import ArticleContent from "pages/article/read/ArticleContent";
-
     import changePageTitleMixin from "mixins/changePageTitleMixin";
-
     export default {
         name: "ReadArticle",
         components: {ArticleContent, ArticleNotFound, TableOfContent},
@@ -93,7 +91,6 @@
             },
             onBreakpointChanged(collapsed) {
                 this.$store.commit("setTocCollapsed", collapsed);
-
                 if (!collapsed && this.$store.getters.getTocCollapsed) {
                     this.$store.commit("setTocCollapsed", false)
                 }
@@ -110,16 +107,12 @@
 </script>
 
 <style scoped>
-
     .toc {
         display: flex;
         justify-content: flex-end;
         flex: 0 0 auto;
     }
-
     .toc-sider {
         background: none;
     }
 
-
-</style>

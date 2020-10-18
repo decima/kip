@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Annotations\RouteExposed;
 use App\Services\FileLoader\EmptyFile;
+use App\Services\FileLoader\ExtensionToMimeConverter;
 use App\Services\FileLoader\File;
 use App\Services\FileLoader\FileLoader;
 use App\Services\FileLoader\MarkdownFile;
@@ -23,20 +24,22 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
  */
 class KnowledgeController extends AbstractController
 {
-
     /**
      * @Route("/",defaults={"webpath"="/"}, methods={"GET"},name="_read_homepage")
      * @Route("/{webpath}",requirements={"webpath"="[^_](?:(?!(?|_slides|_delete|/_edit|_routing_js)).)*"}, methods={"GET"},name="_read")
      * @RouteExposed()
      */
-    public function index(\App\Services\FileLoader\File $file, Request $request)
+    public function index(\App\Services\FileLoader\File $file, ExtensionToMimeConverter $extensionToMimeConverter, Request $request)
     {
         if ($file->fileInfo->isDir()) {
             return $this->redirectToRoute("knowledge_read_homepage", ["webpath" => $file->fileInfo->getRelativePathname() . "/" . InternalSettings::DEFAULT_INDEX_FILE . ".md"]);
         }
         if (!($file instanceof MarkdownFile) && !($file instanceof EmptyFile)) {
-
-            return new BinaryFileResponse($file->fileInfo->getPathname());
+            return new BinaryFileResponse(
+                $file->fileInfo->getPathname(),
+                200,
+                ["Content-Type" => $extensionToMimeConverter($file->fileInfo->getExtension())]
+            );
         }
         if ($request->getPreferredFormat() === "html") {
             // this behavior is for vue
@@ -131,8 +134,7 @@ class KnowledgeController extends AbstractController
      * @Route("/_upload", methods={"POST"},name="_upload_home")
      * @RouteExposed()
      */
-    public
-    function upload(MetadataManager $metadataManager, Request $request, File $file, ParameterBagInterface $parameterBag)
+    public function upload(MetadataManager $metadataManager, Request $request, File $file, ParameterBagInterface $parameterBag)
     {
         $relativePathName = "/" . $file->fileInfo->getRelativePath() . "/";
         $parentFullPath = $file->fileInfo->getPath() . "/";
