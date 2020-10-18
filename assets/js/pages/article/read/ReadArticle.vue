@@ -120,9 +120,4 @@
     .toc-sider {
         background: none;
     }
-
-<<<<<<< HEAD
-=======
-
->>>>>>> fix: style test
 </style>
