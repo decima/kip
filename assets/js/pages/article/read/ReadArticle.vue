@@ -45,9 +45,7 @@
     import TableOfContent from "pages/article/read/TableOfContent";
     import ArticleNotFound from "pages/article/read/ArticleNotFound";
     import ArticleContent from "pages/article/read/ArticleContent";
-
     import changePageTitleMixin from "mixins/changePageTitleMixin";
-
     export default {
         name: "ReadArticle",
         components: {ArticleContent, ArticleNotFound, TableOfContent},
@@ -73,11 +71,11 @@
                 }
             },
         },
-        methods : {
-            async loadCurrentArticleFromPath(){
+        methods: {
+            async loadCurrentArticleFromPath() {
                 this.notFound = false;
                 const currentArticle = await this.$store.dispatch("loadCurrentArticleFromPath", this.$readLink());
-                if(!currentArticle.exists){
+                if (!currentArticle.exists) {
                     this.notFound = true
                 }
             },
@@ -86,23 +84,22 @@
                     this.$router.push({path: this.$editLink()});
                 }
             },
-            goToPresentationMode(e){
-                if(e.target.tagName !== "INPUT"){
+            goToPresentationMode(e) {
+                if (e.target.tagName !== "INPUT") {
                     window.location = Router.url('knowledge_slides', {webpath: this.$getArticleWebpath()})
                 }
             },
-            onBreakpointChanged(collapsed){
+            onBreakpointChanged(collapsed) {
                 this.$store.commit("setTocCollapsed", collapsed);
-
-                if(!collapsed && this.$store.getters.getTocCollapsed){
+                if (!collapsed && this.$store.getters.getTocCollapsed) {
                     this.$store.commit("setTocCollapsed", false)
                 }
             },
-            onTocDrawerClose(){
+            onTocDrawerClose() {
                 this.$store.commit("setTocDrawerOpened", false)
             }
         },
-        async created(){
+        async created() {
             await this.loadCurrentArticleFromPath();
             this.changePageTitle();
         }
@@ -110,13 +107,11 @@
 </script>
 
 <style scoped>
-
     .toc {
         display: flex;
         justify-content: flex-end;
-        flex : 0 0 auto;
+        flex: 0 0 auto;
     }
-
     .toc-sider {
         background: none;
     }
