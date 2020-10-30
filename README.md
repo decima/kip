@@ -57,7 +57,7 @@ There already is a starter file for you to start writing !
 
 To run the project in development, you should run these commands in parallel :
 ```bash
-php -S 0.0.0.0:8000 public/index.php # this serves the specified folder as the root of the KB
+php -S 0.0.0.0:8000 -t public # this serves the specified folder as the root of the KB
 yarn dev-server # or `npm run dev-server` - builds style and script files to the `public` folder
 ```
 
