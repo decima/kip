@@ -30,7 +30,7 @@
     "dependencies": {
         "@toast-ui/vue-editor": "^2.1.2",
         "ant-design-vue": "^1.6.2",
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "babel-plugin-prismjs": "^2.0.1",
         "flexsearch": "github:nextapps-de/flexsearch",
         "prismjs": "^1.20.0",
