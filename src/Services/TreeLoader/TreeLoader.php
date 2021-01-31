@@ -1,47 +1,40 @@
 <?php
 
 
-namespace App\Services\FileManipulation;
+namespace App\Services\TreeLoader;
 
 
+use App\Services\FileLoader\FileLoader;
+use App\Services\FileLoader\MarkdownFile;
+use App\Services\FileLoader\MetadataManager;
+use App\Services\InternalSettings;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
 
-class FileLister
+class TreeLoader
 {
-    /**
-     * @var FileResolver
-     */
-    private $fileResolver;
-
-    /**
-     * @var MetadataManager
-     */
-    private $metadataManager;
-
-    /**
-     * @var FileReader
-     */
-    private $fileReader;
-
+    private $storage;
     public $indexedFiles = [];
 
     /**
-     * FileLister constructor.
-     * @param FileResolver    $fileResolver
-     * @param MetadataManager $metadataManager
+     * @required
      */
-    public function __construct(FileResolver $fileResolver, MetadataManager $metadataManager, FileReader $fileReader)
+    public MetadataManager $metadataManager;
+    /**
+     * @required
+     */
+    public FileLoader $fileLoader;
+
+    public function __construct(ParameterBagInterface $bag)
     {
-        $this->fileResolver = $fileResolver;
-        $this->metadataManager = $metadataManager;
-        $this->fileReader = $fileReader;
+        $this->storage = $bag->get("storage");
     }
 
-    public function listAllFiles($path = "")
+    public function listAllFiles()
     {
         $finder = new Finder();
         $finder->sortByType();
-        $finder->in($this->fileResolver->getBasePath() . $path);
+        $finder->in($this->storage);
         $refs = [];
         $initial = new Page();
         foreach ($finder as $file) {
@@ -54,13 +47,18 @@ class FileLister
             $refs[$filePath]->isFolder = $file->isDir();
             $refs[$filePath]->metadata = $this->metadataManager->getMetadataForDocument($file->getRelativePathname());
             $refs[$filePath]->name = $file->getFilenameWithoutExtension();
-            if (!$file->isDir() && $file->getExtension() === "md") {
-                $refs[$filePath]->content = $file->getContents();
+            if (
+                !$file->isDir()
+                && $file->getExtension() === "md"
+                && ($md = $this->fileLoader->loadFileByPath($file->getRelativePathname())) instanceof MarkdownFile
+            ) {
+                ;
+                $refs[$filePath]->content = $md->content;
                 $refs[$filePath]->mime = mime_content_type($file->getPathname());
-                $fileContentAsPlainText = preg_replace("/<[^>]+>/", " ",  $refs[$filePath]->content);
+
                 $indexedFile = new IndexedFile();
-                $indexedFile->title =  $refs[$filePath]->name;
-                $indexedFile->content = $fileContentAsPlainText;
+                $indexedFile->title = $refs[$filePath]->name;
+                $indexedFile->content = $md->getStrippedContent();
                 $indexedFile->webpath = $file->getRelativePathname();
                 $this->indexedFiles[] = $indexedFile;
             }
@@ -69,7 +67,7 @@ class FileLister
                 continue;
             }
 
-            if ($refs[$filePath]->name === "readme") {
+            if ($refs[$filePath]->name === InternalSettings::DEFAULT_INDEX_FILE) {
                 $refs[$file->getRelativePath()]->hasReadme = true;
             } else {
                 $refs[$file->getRelativePath()]->subLinks[] = $refs[$filePath];

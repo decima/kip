@@ -3,7 +3,7 @@
 
 namespace App\Twig;
 
-use App\Services\FileManipulation\File;
+use App\Services\FileLoader\File;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 

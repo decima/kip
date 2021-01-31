@@ -14,11 +14,6 @@ class S3Subscriber implements EventSubscriberInterface
     /** @required */
     public S3Client $s3Client;
 
-    public function __construct(S3Client $s3Client)
-    {
-        $this->s3Client = $s3Client;
-    }
-
     public static function getSubscribedEvents()
     {
         return [

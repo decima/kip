@@ -2,19 +2,22 @@
 
 namespace App\Controller;
 
-use App\Services\FileManipulation\File;
-use App\Services\FileManipulation\FileNotExistsException;
-use App\Services\FileManipulation\FileReader;
-use App\Services\FileManipulation\FileResolver;
-use App\Services\FileManipulation\FileWriter;
-use App\Services\FileManipulation\Metadata;
-use App\Services\FileManipulation\MetadataManager;
+use App\Annotations\RouteExposed;
+use App\Services\FileLoader\EmptyFile;
+use App\Services\FileLoader\ExtensionToMimeConverter;
+use App\Services\FileLoader\File;
+use App\Services\FileLoader\FileLoader;
+use App\Services\FileLoader\MarkdownFile;
+use App\Services\FileLoader\MetadataManager;
+use App\Services\InternalSettings;
+use App\Services\Permissions;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Annotations\RouteExposed;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 /**
  * @Route("", name="knowledge")
@@ -22,50 +25,45 @@ use App\Annotations\RouteExposed;
 class KnowledgeController extends AbstractController
 {
     /**
-     * @Route("/articles/{webpath}",requirements={"webpath"="[^_](?:(?!(?|_slides|_delete|/_edit|_routing_js)).)*"}, methods={"GET"},name="_read")
+     * @Route("/",defaults={"webpath"="/"}, methods={"GET"},name="_read_homepage")
+     * @Route("/{webpath}",requirements={"webpath"="[^_](?:(?!(?|_slides|_delete|/_edit|_routing_js)).)*"}, methods={"GET"},name="_read")
      * @RouteExposed()
      */
-    public function index(FileResolver $fileResolver, FileReader $fileReader, $webpath = "/")
+    public function index(\App\Services\FileLoader\File $file, ExtensionToMimeConverter $extensionToMimeConverter, Request $request)
     {
-        $fileExists = false;
-        try {
-            $path = $fileResolver->getFile($webpath);
-            $fileExists = true;
-            if (!$fileResolver->isMarkdownFile($path)) {
-                return new BinaryFileResponse($path);
-            }
-        } catch (FileNotExistsException $fileNotExistsException) {
-            return new Response(null, Response::HTTP_NOT_FOUND);
+        if ($file->fileInfo->isDir()) {
+            return $this->redirectToRoute("knowledge_read_homepage", ["webpath" => $file->fileInfo->getRelativePathname() . "/" . InternalSettings::DEFAULT_INDEX_FILE . ".md"]);
+        }
+        if (!($file instanceof MarkdownFile) && !($file instanceof EmptyFile)) {
+            return new BinaryFileResponse(
+                $file->fileInfo->getPathname(),
+                200,
+                ["Content-Type" => $extensionToMimeConverter($file->fileInfo->getExtension())]
+            );
+        }
+        if ($request->getPreferredFormat() === "html") {
+            // this behavior is for vue
+            return $this->redirectToRoute("home", ["_fragment" => $file->webpath]);
         }
 
-        $file = $fileReader->readFile($webpath, $path);
-        $fileReader->extractMetaData($file);
-        $fileReader->parseMarkdown($file);
-
         return $this->json([
-            'file' => $file,
-            'exists' => $fileExists,
-            'isMD' => $fileResolver->isMarkdownFile($path),
-        ]);
+            'file'   => $file,
+            'exists' => $file->fileInfo->isFile(),
+            'isMD'   => true,
+        ], 200, [], [AbstractNormalizer::IGNORED_ATTRIBUTES => ['strippedContent', 'fileInfo']]);
     }
 
     /**
      * @Route("/{webpath}/_edit",requirements={"webpath"="[^_].*"}, methods={"GET"},name="_edit")
      * @Route("/_edit", methods={"GET"},name="_edit_home")
-     * @throws FileNotExistsException
      * @RouteExposed()
      */
-    public function edit(FileResolver $fileResolver, FileReader $fileReader, $webpath = "/")
+    public function edit(File $file)
     {
-        $path = $fileResolver->getFile($webpath, false);
-
-        if (!$fileResolver->isMarkdownFile($path)) {
-            return $this->json(["path" => $path]);
+        if (!($file instanceof MarkdownFile)) {
+            return $this->json(["file" => $file], 200, [], [AbstractNormalizer::IGNORED_ATTRIBUTES => ['strippedContent', 'fileInfo']]);
         }
-
-        $file = $fileReader->readFile($webpath, $path);
-
-        return $this->json(['file' => $file]);
+        return $this->json(["file" => $file], 200, [], [AbstractNormalizer::IGNORED_ATTRIBUTES => ['strippedContent', 'fileInfo']]);
     }
 
 
@@ -74,19 +72,12 @@ class KnowledgeController extends AbstractController
      * @Route("/_slides", methods={"GET"},name="_slides_home")
      * @RouteExposed()
      */
-    public function slides(FileResolver $fileResolver, FileReader $fileReader, $webpath = "/")
+    public function slides(File $file)
     {
-
-        try {
-            $path = $fileResolver->getFile($webpath);
-            if (!$fileResolver->isMarkdownFile($path)) {
-                return $this->redirectToRoute("knowledge_read", ["webpath" => $webpath]);
-            }
-        } catch (FileNotExistsException $fileNotExistsException) {
-            return $this->redirectToRoute("knowledge_read", ["webpath" => $webpath]);
+        if ($file instanceof MarkdownFile) {
+            return $this->render("knowledge/slides.html.twig", ["file" => $file]);
         }
-        $file = $fileReader->readFile($webpath, $path);
-        return $this->render("knowledge/slides.html.twig", ["file" => $file]);
+        return $this->redirectToRoute("knowledge_read_homepage");
     }
 
     /**
@@ -94,31 +85,29 @@ class KnowledgeController extends AbstractController
      * @Route("/_edit", methods={"PUT"},name="_update_home")
      * @RouteExposed()
      */
-    public function update(FileResolver $fileResolver, FileWriter $fileWriter, FileReader $fileReader, MetadataManager $metadataManager, Request $request, $webpath = "/")
+    public function update(File $file,
+                           Request $request,
+                           FileLoader $fileLoader,
+                           MetadataManager $metadataManager,
+                           Permissions $permissions)
     {
-
-        try {
-            $path = $fileResolver->getFile($webpath);
-            if (!$fileResolver->isMarkdownFile($path)) {
-                return $this->json("unprocessable", Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
-        } catch (FileNotExistsException $fileNotExistsException) {
-            $path = $fileNotExistsException->filename;
-            $fileWriter->createParentFolder($path);
+        if (!$permissions->isGranted(Permissions::TYPE_EDIT)) {
+            return $this->json("cannot edit", 403);
         }
+        if (!$file instanceof MarkdownFile && !$file instanceof EmptyFile) {
+            return $this->json("unprocessable", Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $directory = dirname($file->fileInfo->getPath());
+        @mkdir($directory, 0777, true);
         $content = $request->getContent();
-        $fileWriter->writeFile($path, $content);
-        $file = new File();
-        $file->webpath = $webpath;
-        $file->markdownContent = $content;
-        $fileReader->extractMetaData($file);
-        $fileDeclaredMetadata = $file->getMetadata();
-        $metadata = new Metadata();
-        if (isset($fileDeclaredMetadata["title"])) {
-            $metadata->setName($fileDeclaredMetadata["title"]);
-        }
-        $metadataManager->setMetadataForDocument($webpath, $metadata);
+        file_put_contents($file->fileInfo->getPathname(), $content);
 
+        $savedFile = $fileLoader->loadFileByPath($file->fileInfo->getRelativePathname());
+        if ($savedFile instanceof MarkdownFile) {
+
+            $metadataManager->setMetadataForDocument($file->fileInfo->getRelativePathname(), $savedFile->metadata);
+        }
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
@@ -127,17 +116,36 @@ class KnowledgeController extends AbstractController
      * @Route("/_delete", methods={"GET"},name="_delete_home")
      * @RouteExposed()
      */
-    public function delete(FileResolver $fileResolver, FileWriter $fileWriter, MetadataManager $metadataManager, Request $request, $webpath = "/")
+    public function delete(Permissions $permissions, MetadataManager $metadataManager, Request $request, File $file)
     {
-        try {
-            $path = $fileResolver->getFile($webpath);
-            if ($fileResolver->isMarkdownFile($path)) {
-                $metadataManager->unsetMetadata($webpath);
-                unlink($path);
-            }
-        } catch (FileNotExistsException $fileNotExistsException) {
 
+        if (!$permissions->isGranted(Permissions::TYPE_DELETE)) {
+            return $this->json("cannot delete", 403);
+        }
+        if (!$file instanceof EmptyFile) {
+            @unlink($file->fileInfo->getPathname());
         }
         return new Response(null, Response::HTTP_NO_CONTENT);
+    }
+
+
+    /**
+     * @Route("/{webpath}/_upload",requirements={"webpath"="[^_].*"}, methods={"POST"},name="_upload")
+     * @Route("/_upload", methods={"POST"},name="_upload_home")
+     * @RouteExposed()
+     */
+    public function upload(MetadataManager $metadataManager, Request $request, File $file, ParameterBagInterface $parameterBag)
+    {
+        $relativePathName = "/" . $file->fileInfo->getRelativePath() . "/";
+        $parentFullPath = $file->fileInfo->getPath() . "/";
+        $name = time() . "-" . $request->query->get("name");
+        $name = preg_replace("/[^a-zA-Z0-9-_.]/", "", $name);
+        $fileFullPath = $parentFullPath . $name;
+
+        file_put_contents($fileFullPath, $request->getContent());
+        return $this->json([
+            "name" => $request->query->get("name"),
+            "path" => $relativePathName . $name,
+        ]);
     }
 }

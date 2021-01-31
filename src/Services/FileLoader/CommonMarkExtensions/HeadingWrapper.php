@@ -1,43 +1,37 @@
 <?php
 
 
-namespace App\Services\FileManipulation;
+namespace App\Services\FileLoader\CommonMarkExtensions;
 
 
-use App\Services\ParseDownImproved;
-use Symfony\Component\Yaml\Yaml;
+use League\CommonMark\Block\Element\AbstractBlock;
+use League\CommonMark\Block\Element\Heading;
+use League\CommonMark\Block\Renderer\BlockRendererInterface;
+use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\HtmlElement;
 
-class FileReader
+class HeadingWrapper implements BlockRendererInterface
 {
+    private $headers = [];
 
-    public function readFile($webpath, $path): File
+    public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, $inTightList = false)
     {
-        $fileExtracted = new File();
-        $fileExtracted->webpath = $webpath;
-        $fileExtracted->markdownContent = @file_get_contents($path);
-        $fileExtracted->name = basename($path);
-        $fileExtracted->path = $path;
-        return $fileExtracted;
+        $render = $htmlRenderer->renderInlines($block->children());
+        $pureTitle = strip_tags($render);
+
+        if ($block instanceof Heading) {
+            $this->headers[] = ["text" => $pureTitle, "level" => $level = $block->getLevel(), "id" => $id = "h$level-" . $this->slugify($pureTitle) . "-" . substr(md5($render), 0, 10)];
+        }
+        return new HtmlElement('h' . $level, ["id" => $id], [$render]);
     }
 
-    public function extractMetaData(File &$file)
-    {
-        $file->markdownContent = preg_replace_callback(
-            "/^\n*(?:\-\-\-)(.*?)(?:\-\-\-|\.\.\.)/s",
-            function ($matches) use ($file) {
-                $file->metadata = Yaml::parse($matches[1]);
-                return "";
-            },
-            $file->markdownContent,
-            1
-        );
-    }
 
-    private function buildTree($cs)
+    public function extractTOC()
     {
+
         $tree = [];
         $lastOfLevel = [];
-        foreach ($cs as &$c) {
+        foreach ($this->headers as &$c) {
             if (!isset($lastOfLevel[$c["level"]])) {
                 if (count($lastOfLevel) > 0) {
                     if (min(array_keys($lastOfLevel)) > $c["level"]) {
@@ -82,11 +76,17 @@ class FileReader
 
     }
 
-    public function parseMarkdown(File $file)
+    private function slugify($string, $delimiter = '-')
     {
-        $parseDown = new ParseDownImproved();
-        $file->content = $parseDown->text($file->markdownContent);
-        $tableOfContent = $parseDown->contentsList();
-        $file->tree = $this->buildTree($tableOfContent);
+
+        $oldLocale = setlocale(LC_ALL, '0');
+        setlocale(LC_ALL, 'en_US.UTF-8');
+        $clean = iconv('UTF-8', 'ASCII//IGNORE', $string);
+        $clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
+        $clean = strtolower($clean);
+        $clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);
+        $clean = trim($clean, $delimiter);
+        setlocale(LC_ALL, $oldLocale);
+        return $clean;
     }
 }

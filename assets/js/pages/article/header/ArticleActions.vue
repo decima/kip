@@ -12,7 +12,8 @@
                 </a-tooltip>
             </a-button>
 
-            <a-button :type="$route.name === $routes.EDIT_ARTICLE ? 'primary' : 'default'">
+            <a-button v-if="$settings.canEdit"
+                      :type="$route.name === $routes.EDIT_ARTICLE ? 'primary' : 'default'">
                 <a-tooltip>
                     <template slot="title">{{ $t("edit.editTooltip")}}</template>
                     <router-link :to="{ path: $editLink() }">
@@ -31,7 +32,7 @@
             </a-button>
         </a-button-group>
 
-        <delete-article-action/>
+        <delete-article-action v-if="$settings.canDelete"/>
     </div>
 </template>
 
@@ -40,9 +41,9 @@
     import DeleteArticleAction from "pages/article/header/DeleteArticleAction";
 
     export default {
-        name : "ArticleActions",
+        name: "ArticleActions",
         components: {DeleteArticleAction, SaveArticleAction},
-        computed : {
+        computed: {
             slidesLink() {
                 return Router.url('knowledge_slides', {webpath: this.$getArticleWebpath()})
             }
@@ -53,7 +54,7 @@
 <style scoped>
 
     .article-options {
-        display:flex;
+        display: flex;
         flex: 0 0 auto;
     }
 

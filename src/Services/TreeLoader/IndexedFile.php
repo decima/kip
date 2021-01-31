@@ -6,7 +6,7 @@
  * Time: 14:23
  */
 
-namespace App\Services\FileManipulation;
+namespace App\Services\TreeLoader;
 
 
 class IndexedFile

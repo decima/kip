@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\FileManipulation;
+namespace App\Services\TreeLoader;
 
 
 class Page

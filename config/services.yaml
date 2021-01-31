@@ -5,8 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
   env(FILE_STORAGE): "%kernel.project_dir%/var/storage"
-  admin_password: "%env(ADMIN_PASSWORD)%"
-  env(ADMIN_PASSWORD): password
+  storage: "%env(FILE_STORAGE)%"
   build_version: "%env(BUILD_VERSION)%"
   env(BUILD_VERSION): "dev"
 
@@ -15,6 +14,8 @@ parameters:
   env(S3_KEY): "minioadmin"
   env(S3_SECRET): "minioadmin"
   env(S3_ENDPOINT): "http://localhost:9000"
+  env(GLOBAL_PERMISSION): "rw"
+  global_permission: "%env(GLOBAL_PERMISSION)%"
   s3:
     version: "%env(S3_VERSION)%"
     region: "%env(S3_REGION)%"
@@ -23,6 +24,9 @@ parameters:
       secret: "%env(S3_SECRET)%"
     endpoint: "%env(S3_ENDPOINT)%"
     use_path_style_endpoint: true
+  env(CUSTOM_META): |
+    <meta name="description" content="Knowledge is power">
+  custom_metadata: "%env(CUSTOM_META)%"
 
 services:
   # default configuration for services in *this* file
@@ -41,12 +45,10 @@ services:
   App\Controller\:
     resource: '../src/Controller'
     tags: ['controller.service_arguments']
-  App\Services\FileManipulation\FileResolver:
-    arguments:
-      $basepath: "%env(FILE_STORAGE)%"
-  # add more service definitions when explicit configuration is needed
-  # please note that last definitions always *replace* previous ones
 
+  App\Services\Permissions:
+    arguments:
+      $globalPermission: "%global_permission%"
   custom_extractor:
     class: Symfony\Component\PropertyInfo\PropertyInfoExtractor
     arguments:
