@@ -33,7 +33,7 @@
         "axios": "^0.19.2",
         "babel-plugin-prismjs": "^2.0.1",
         "flexsearch": "github:nextapps-de/flexsearch",
-        "prismjs": "^1.20.0",
+        "prismjs": "^1.25.0",
         "v-hotkey": "^0.8.0",
         "vue": "^2.6.11",
         "vue-i18n": "^8.17.0",
