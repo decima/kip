@@ -1,10 +1,25 @@
 <script>
-    import {serverUptime} from "../../stores/serverUptime.js";
-    import {onMount} from "svelte";
 
-    export let navigate;
-    export let location;
+
+    import {file} from "../../stores/file.js";
+    import {onDestroy, onMount} from "svelte";
+
+    export let location, navigate, filepath;
+    onMount(() => {
+        file.load(filepath);
+        document.addEventListener('newPath', load)
+    })
+    onDestroy(() => {
+        document.removeEventListener('newPath', load)
+    })
+
+    const load=async (e) => {
+        file.load(e.detail.filePath);
+    }
+
 
 
 </script>
-Welcome to BOILERPLATE.
+<div class="prose mx-auto ">
+    {@html $file.content}
+</div>

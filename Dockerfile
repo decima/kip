@@ -12,15 +12,15 @@ WORKDIR /app
 ARG app_version=dev
 RUN go mod download
 COPY . /app
-RUN CGO_ENABLED=0 go build -o BOILERPLATE -ldflags "-X main.version=$app_version" .
+RUN CGO_ENABLED=0 go build -o kip -ldflags "-X main.version=$app_version" .
 
 
 FROM alpine as runner
 RUN mkdir -p /run
 WORKDIR /run
-COPY --from=backend /app/BOILERPLATE ./BOILERPLATE
-RUN chmod a+x BOILERPLATE
+COPY --from=backend /app/kip ./kip
+RUN chmod a+x kip
 COPY --from=frontend /dist ./dist
-ENV BOILERPLATE_ENV=prod
-ENTRYPOINT /run/BOILERPLATE
+ENV kip_ENV=prod
+ENTRYPOINT /run/kip
 

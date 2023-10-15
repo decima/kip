@@ -1,6 +1,3 @@
-const defaultColors = require('daisyui/src/colors/themes')
-
-
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -11,6 +8,9 @@ module.exports = {
     ],
     theme: {
         extend: {},
+    },
+    daisyui: {
+        themes: ["lofi","pastel"],
     },
     plugins: [require("daisyui"), require('@tailwindcss/typography')],
 }

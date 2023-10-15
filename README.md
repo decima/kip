@@ -1,41 +1,17 @@
-# Go+Svelte boilerplate
+Knowledge is Power (KIP)
+=================
 
-**early work in progress, some stuff are still not ok**
-
-_...and many more fun things_
-
-So. You want to create a fullstack project. good to go!
-This is a template, feel free to use for almost everything (except Nazi and Terrorist stuff this is not allowed sorry.).
-
-What is included in this boilerplate:
-
-- Go (obviously)
-- Svelte (still obvious)
-- Gin Gonic (my bestie http framework for go)
-- Vite (...fait,bien fait!)
-- Tailwind (utility first ✌️)
-- DaisyUI (awesome tailwind components and themes ❤️)
-- svelte-navigator (kiss 💋 principle)
-- viper for config
-- logrus for logs
-- Docker stuff for build and deploy
-
-What is **not** included: 
-- Sveltekit
-- Typescript (unless you wanna try, but I didn't)
-- Hate
-- Chocolate
-- Refunds if not what you expected
+KIP is a project for knowledge db editor. 
 
 # Getting started (FINALLY!)
 
 - Create a copy of this project
   - how?
-    - download a tarball of it ([let me do it for you](https://github.com/decima/svelte-go-boilerplate/archive/refs/heads/main.zip))
+    - download a tarball of it ([let me do it for you](https://github.com/decima/svelte-go-kip/archive/refs/heads/main.zip))
     - or...
-    - use the "templating" feature from github ([let me do it for you](https://github.com/decima/svelte-go-boilerplate/generate))
+    - use the "templating" feature from github ([let me do it for you](https://github.com/decima/svelte-go-kip/generate))
 - create a config.yaml file empty at root of the folder (it will be populated at first launch with defaults)
-- There is a script named `rename.sh` **not working**, it is used to replace "BOILERPLATE" in every strings by the name you decide. Be careful to name it well (there's no turning back)
+- There is a script named `rename.sh` **not working**, it is used to replace "kip" in every strings by the name you decide. Be careful to name it well (there's no turning back)
   - run `chmod a+x rename.sh && ./rename.sh`
   - you can either search and replace while the script is not working.
 

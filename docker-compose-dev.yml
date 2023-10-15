@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  backend:
+    image: golang:1.21-alpine
+    volumes:
+      - ./:/app
+    working_dir: /app
+    entrypoint: go run .
+    ports:
+      - 10000:10000
+    environment:
+      KIP_ENV: dev
+      KIP_DEV_FRONTEND_HOST: http://frontend:5713
+  frontend:
+    image: node:alpine
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    entrypoint: yarn && vite --host 0.0.0.0 --port 5713
+
+
